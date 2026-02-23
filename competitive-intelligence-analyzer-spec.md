@@ -1,4 +1,4 @@
-# Competitive Intelligence Analyzer — Skill Spec (MVP in 2 Days)
+# Competitive Intelligence Analyzer — Spec
 
 **Owner:** Amando  
 **Primary Users:** Ops & Data Analyst / Product Team / Strategy  
