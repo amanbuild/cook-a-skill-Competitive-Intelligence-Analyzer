@@ -1,376 +1,215 @@
-# Skill Spec: Competitive Intelligence Analyzer  
+# Competitive Intelligence Analyzer — Skill Spec (MVP in 2 Days)
+
+**Owner:** Amando  
+**Primary Users:** Ops & Data Analyst / Product Team / Strategy  
+**Goal:** Generate an auditable competitive landscape report from a single product spec.
 
 ---
 
-## 1. Problem Statement
+## 1) Objective
 
-Every time the product or strategy team needs to understand the competitive landscape, they must manually research each competitor across multiple scattered sources (websites, social media, review sites, analytics tools, funding databases).
+From one product specification (Markdown or plain text), the skill will:
 
-Consequences:
+- Extract **Domain / Category / ICP / JTBD / USP hypothesis / Key features**
+- Discover **5–10 competitors** (direct + optional adjacent, based on scope)
+- Collect **public, source-linked data** per competitor  
+  - **MVP Required:** **Similarweb monthly visits** + **X (Twitter) followers**
+  - **Crypto Optional:** TVL / volume / audits / chain support when publicly available
+- Output a **single Markdown report** containing:
+  - competitor list + rationale
+  - comparison matrix
+  - actionable insights (advantages/gaps/whitespace)
+  - sources appendix for auditing
 
-- 1–3 days wasted to assemble a basic competitor overview  
-- Data is fragmented (social, traffic, features, funding, reviews in different places)  
-- Hard to compare competitors in a single, trusted view → decisions rely on gut feeling  
-- Easy to miss emerging competitors or adjacent products  
-- No consistent framework for identifying white-space and differentiation opportunities  
-
----
-
-## 2. Skill Overview
-
-**Input:** product spec `.md` file → clarifying questions → Skill identifies a list of 5–10 closest competitors → collects structured data (positioning, features, pricing, marketing channels, reviews, traction, funding, company health) → builds a comparison matrix and strategic insights.
-
-**Output:**  
-1 complete markdown block including:
-
-- Competitor shortlist with rationale  
-- Comparison table (features, positioning, traction, pricing, marketing, reviews, company health)  
-- Highlighted competitive advantages and gaps vs. the market  
-- Recommended opportunities and risks for product/strategy teams  
+**Hard rules**
+- **No fabrication.** If you cannot verify, write `Unknown`.
+- Every important claim must be **evidence-linked** (URL + retrieved date).
+- Conflicting numbers must be marked as **CONFLICT** and shown side-by-side with sources.
 
 ---
 
-## 3. Target Users
+## 2) Problem Statement
 
-- Ops & Data Analysts  
-- Product Managers / Product Strategy  
-- Growth / Marketing Strategy  
-- Founders and BizOps  
-
-**Prerequisite:** User already has a product spec `.md` file or a clear product description.
+Competitive research is usually manual: teams check each competitor one-by-one (social followers, web traffic, TVL if crypto, traction, features). This is slow, scattered across sources, hard to compare, and easy to miss emerging competitors.
 
 ---
 
-## 4. Input Requirements
+## 3) Business Value
 
-### 4.1 `spec.md` — Required Fields
-
-These fields must exist in the product spec, or be explicitly provided via clarifying questions.
-
-| Field              | Description                                           | Usage in Skill                                           |
-|--------------------|-------------------------------------------------------|----------------------------------------------------------|
-| product_name       | Product / protocol / app name                        | Appears in all outputs and titles                       |
-| product_category   | Category / niche (e.g., CRM, DeFi DEX, HR SaaS)      | Basis for competitor search and comparison dimensions   |
-| target_customer    | ICP (who it’s for: segment, size, role)              | Guides competitor selection and positioning analysis    |
-| jobs_to_be_done    | 1–3 core problems / use cases                        | Determines functional overlap with competitors          |
-| key_features       | 3–10 core features / capabilities                    | Used to compare feature coverage and table stakes       |
-| market_region      | Geography (e.g., US, EU, global)                     | Filters competitors to relevant markets                 |
-
-### 4.2 Optional Fields
-
-These fields strongly improve output quality but are not mandatory.
-
-| Field                  | Description                                      | Impact When Missing                                      |
-|------------------------|--------------------------------------------------|----------------------------------------------------------|
-| pricing_model          | Pricing structure (e.g., per-seat, usage-based) | Pricing comparison becomes higher-level / approximate   |
-| pricing_range          | Price tiers or ranges                            | Cannot highlight under/over-pricing precisely           |
-| tech_stack             | Tech stack, chain (for crypto), infra           | Less accurate technical differentiation                 |
-| go_to_market_channels  | Existing channels (SEO, paid, partnerships)      | Limited marketing/channel gap analysis                  |
-| current_traction       | Any known KPIs (users, revenue, TVL)            | Harder to benchmark relative traction                   |
-| competitors_known      | Known competitors list from user                | Skill may miss niche incumbents the user cares about    |
-| constraints            | Regulatory / compliance / industry constraints   | Weaker risk & moat analysis                             |
-
-### 4.3 Clarifying Questions (Mandatory)
-
-Before generating any output, the skill MUST ask the following core questions (grouped in **one message**). If `spec.md` lacks key required fields, the skill may ask up to **3 additional questions** at the same time.
-
-**Q1 — Goal of the Analysis**
-
-> “What is the main goal of this competitive analysis?  
-> (A) Market landscaping (see who’s out there)  
-> (B) Positioning & messaging  
-> (C) Feature roadmap & gaps  
-> (D) Investor / fundraising materials  
-> (E) Other — please specify.”
-
-**Q2 — Market Scope**
-
-> “Which market scope should we focus on?  
-> (A) Global  
-> (B) Specific regions (please list)  
-> (C) Only English-speaking markets  
-> (D) Only Web3/crypto-native projects (if relevant).”
-
-**Q3 — Competitor Depth**
-
-> “How deep should we go per competitor?  
-> (A) Quick scan — more competitors (8–12) with lighter detail  
-> (B) Deep dive — fewer competitors (5–7) with more depth  
-> (C) Balanced default — 5–10 with standard depth (recommended).”
-
-**Q4 — Known Competitors**
-
-> “Do you already have competitors in mind that must be included?  
-> If yes, list their names/URLs. If no, answer ‘None’.”
-
-**→ Generation starts only after all Q1–Q4 are answered.**  
-If required fields are missing in `spec.md`, ask **up to 3 extra** questions (e.g., to confirm product_category, target_customer, or market_region) in the same clarification step.
+- A single, structured, auditable view of the competitive landscape
+- Decisions based on **real data**, not gut feel
+- Fast re-assessment whenever the market changes
 
 ---
 
-## 5. Processing Logic (Mandatory Sequence)
+## 4) Scope
 
-### Step 1: Spec Quality Check
+### 4.1 In Scope (MVP)
+- Input: **1 product spec** (Markdown or text)
+- Output: **1 Markdown competitive report**
+- Competitors: **5–10**
+- Required data fields per competitor:
+  - official website + short description
+  - **Similarweb monthly visits** (or `Unknown`)
+  - **X followers**
+  - evidence-linked feature summary (from product/docs pages)
+  - optional traction proxies (funding/users/TVL/volume) if publicly sourced
 
-Scan `spec.md` → compute **Readiness Score** to decide how far to proceed and how many assumptions to make.
-
-**Scoring Method:**
-
-- Each **required field (Section 4.1)**:
-  - Complete & clear: **+1.5 points**  
-  - Present but vague (“everyone”, “global” without context): **+0.5 points**  
-  - Missing: **0 points**
-- At least **2 useful optional fields (Section 4.2)**: **+1 point total** (not per field)
-
-Total scale: **10 points** (6 required × 1.5 = 9 + 1 bonus).
-
-**Actions by Score:**
-
-- **8–10:** Proceed with full workflow and deep analysis.  
-- **5–7:** Proceed, but:
-  - Mark all assumptions clearly in the output  
-  - Flag which fields were weak/missing  
-- **< 5:**  
-  - Stop.  
-  - Output a **Readiness Report** listing:
-    - Per-field scores  
-    - Missing/vague fields with suggested questions  
-  - Ask user to improve `spec.md` before continuing.
+### 4.2 Out of Scope (MVP)
+- Login-only / paywalled sources
+- Estimating MAU/revenue or “guessing” traction
+- Full market studies, legal/financial due diligence
 
 ---
 
-### Step 2: Product & Market Analysis
+## 5) Input Contract
 
-Determine:
+### 5.1 Required fields to extract (from spec)
+The skill must extract at minimum:
+- Product name
+- Category / narrative (e.g., on-chain analytics, perp DEX, infra, wallet)
+- Target user (ICP)
+- Core problem (JTBD)
+- Key features (3–10)
+- Differentiator hypothesis (USP)
+- Market scope if present (B2B/B2C, regions, chains)
 
-- **Segment:** B2B vs B2C vs prosumer  
-- **Complexity level:** simple tool / multi-product suite / full platform  
-- **Purchase context:** low-touch self-serve vs sales-led / enterprise  
-- **Risk & compliance sensitivity:** finance, health, infra, etc.  
-- **Crypto-specific (if applicable):**
-  - Chain (Solana/Ethereum/Base/other)  
-  - On-chain/off-chain components  
-  - TVL/volume relevance  
-
-This step defines the **comparison lens**: what truly matters in this category (e.g., TVL & fees in DeFi, integrations & workflows in B2B SaaS).
-
----
-
-### Step 3: Competitor Discovery
-
-Use product_category, target_customer, and jobs_to_be_done to:
-
-1. Generate **category keywords** and “alternatives to X” queries.  
-2. Identify:
-   - Direct competitors (same category & ICP)  
-   - Indirect / adjacent competitors (solve same JTBD differently)  
-3. Combine:
-   - User-specified competitors (from Q4 and `competitors_known`)  
-   - Discovered competitors.
-
-Then:
-
-- Rank the candidates by **relevance** to ICP, JTBD, and market_region.  
-- Select **5–10** competitors based on Q3 preference (quick scan vs deep dive vs balanced).
+### 5.2 Optional user controls
+- Competitor scope: `direct | adjacent | both`
+- Geo focus: `global | US | SEA | ...`
+- Chain focus (crypto): `ETH | SOL | BSC | ...`
+- Competitor count: `5..10`
+- Must-include competitor list (user provided)
 
 ---
 
-### Step 4: Data Collection Per Competitor
+## 6) Output Contract (Markdown)
 
-For each selected competitor, gather structured data across the **6 layers** (mirroring your original description):
-
-1. **Strategy & Positioning**  
-   - Mission/tagline, who they say they serve, problem statement  
-   - Core differentiator and what they clearly *do not* serve  
-
-2. **Product & Features**  
-   - Product description, complexity level (tool vs platform)  
-   - Key features & technical strengths  
-   - Integrations and ecosystem breadth  
-   - Obvious missing features (from reviews and docs)  
-
-3. **Pricing & Business Model**  
-   - Pricing tiers and inclusions  
-   - Free tier/trial presence and funnel shape  
-   - Model: per-seat, per-usage, flat-rate, freemium, token-based (crypto)  
-   - Relative pricing positioning (budget / mid-market / premium)  
-
-4. **Marketing & Distribution**  
-   - Acquisition channels: SEO, paid, content, social, referrals, partners  
-   - Channel strengths & weaknesses  
-   - Content strategy themes (what topics they emphasize)  
-
-5. **Customer Reviews (Critical Layer)**  
-   - Pull 20+ reviews where possible (G2, Capterra, Trustpilot, app stores, Reddit, X)  
-   - Categorize feedback into:
-     - Feature gaps  
-     - UX frustrations  
-     - Pricing complaints  
-     - Support/onboarding complaints  
-   - Track what customers praise as table stakes.
-
-6. **Company Health & Trajectory**  
-   - Founded year, funding (if any), investors (high-level)  
-   - Headcount trend (approx., via LinkedIn)  
-   - Product & company news direction (expansion vs consolidation)  
-
-When data is not available or unclear, **explicitly mark** “Not found (checked: [sources])”.
-
----
-
-### Step 5: Comparison Matrix Assembly
-
-Normalize data into a **standard schema** so multiple competitors can be compared at a glance. For each competitor:
-
-- **What is the product?**  
-  - Niche & JTBD  
-  - USP (speed, cost, UX, security, liquidity, compliance, integrations)  
-  - Product status (idea / beta / GA / revenue-generating)  
-  - Chain (for crypto)  
-
-- **Market fit & traction (easiest to check):**  
-  - Monthly website visits (approximate)  
-  - Social followers (Twitter/X, LinkedIn, etc.)  
-  - TVL / volume / fees (if relevant)  
-  - Revenue or proxy metrics (if publicly hinted)  
-  - Sustainability: incentives vs organic traction  
-
-- **Pricing:**  
-  - Fee/pricing model  
-  - Transparent vs opaque pricing  
-  - Value vs cost, with note if users feel it’s worth it (from reviews).
-
-Matrix is delivered as a markdown table plus brief notes per competitor for context.
-
----
-
-### Step 6: Advantage & Gap Analysis
-
-Using the matrix:
-
-- Identify where **your product leads**:
-  - Specific feature edges  
-  - Better pricing model for certain segments  
-  - Simpler/better UX for a given JTBD  
-  - Stronger focus on neglected ICP segments or regions  
-
-- Identify **where competitors lead**:
-  - Features or integrations you lack  
-  - Clearer messaging or tighter positioning  
-  - Stronger traction/funding or brand trust  
-
-- Distill **opportunities**:
-  - Underserved segments  
-  - Pricing gaps (no entry-tier, no mid-tier, etc.)  
-  - Channels no one is using strongly  
-  - Repeated user complaints across competitors (e.g., complexity, support)  
-
----
-
-### Step 7: Output Assembly
-
-Compile everything into **one markdown block** in this order:
-
+### 6.1 Required report sections
 1. **Executive Summary** (5–10 bullets)
-   - Product name and analysis goal (from Q1)  
-   - Number of competitors analyzed and type (direct/adjacent)  
-   - 3–5 key insights (e.g., “market crowded on feature X, weak on Y”)  
-   - Top 3 opportunities & top 3 risks  
-   - Readiness Score and any major assumptions  
+2. **Product Understanding** (ICP / JTBD / USP / Features)
+3. **Competitor Set (5–10)**  
+   - Name, URL, 1-line description  
+   - “Why included” rationale
+4. **Comparison Matrix** (side-by-side table)
+5. **Key Insights & Actions**
+   - competitive advantages (yours vs market)
+   - parity baseline (features everyone has)
+   - gaps (features you lack vs leaders)
+   - whitespace (underserved angles)
+   - research TODOs (missing data → explicit tasks)
+6. **Sources Appendix**
+   - per competitor: sources grouped by field (traffic, social, pricing, TVL, audits, features)
 
-2. **Competitor Shortlist**  
-   - Table with: Name, URL, Category, ICP, Why relevant  
+### 6.2 Comparison Matrix (normalized)
+**Columns:** Your product + each competitor  
+**Rows (recommended 10–12 for crypto-first, but works broadly):**
+- Positioning (1-liner)
+- Target users (ICP)
+- Primary chain(s) supported (crypto)
+- Core features (3–5 bullets)
+- Differentiator claim (evidence-linked)
+- Pricing model (Free/Freemium/Subscription/Fees/Token) + source
+- **X followers** + source
+- **Similarweb monthly visits** + source
+- Crypto traction (optional): TVL / volume / OI / integrations + source
+- Trust signals: audits/bug bounty + source
+- Integrations/ecosystem + source
+- Notable gaps (`Evidence` or `Unknown`)
 
-3. **Comparison Matrix**  
-   - Main matrix covering:
-     - Positioning highlights  
-     - Feature coverage (relative to your key_features)  
-     - Pricing model & relative level  
-     - Traction proxies (traffic, social, TVL, etc.)  
-     - Company health signals  
-
-4. **Layered Analysis (Layers 1–6)**  
-   - Section per layer, summarizing cross-competitor patterns  
-   - Explicitly call out repeated complaints and praises  
-
-5. **Your Product vs Market**  
-   - Advantage summary  
-   - Weakness/gap summary  
-   - Suggested strategic directions (positioning/roadmap/pricing/GTMs)  
-
-6. **Sources & Caveats**  
-   - List of main data sources used (categories, not raw URLs)  
-   - Note about approximate nature of public metrics  
-   - List all explicit assumptions used due to missing data  
-
----
-
-## 8. Business Rules
-
-**Always Do:**
-
-- Clearly mark assumptions and missing data (never silently guess).  
-- Keep competitor count within requested range (Q3) and justify inclusions.  
-- Treat user’s listed competitors as **must-include** unless clearly out-of-scope.  
-- Use recent and reputable sources for funding/headcount when available.  
-- State the **date context** for metrics (e.g., “as of Feb 2026”).  
-
-**Never Do:**
-
-- Do NOT fabricate metrics (revenue, TVL, funding) if not found. Summarize qualitatively instead.  
-- Do NOT claim exact market share unless backed by clear, cited data.  
-- Do NOT present estimates without a “rough/approximate” disclaimer when appropriate.  
-- Do NOT ignore user constraints on scope or region.  
-- Do NOT recommend strategic pivots without clearly stating trade-offs and uncertainties.  
-
-**Ask First:**
-
-- When product touches **regulated domains** (finance, health, children, personal data), ask if there are specific regulatory constraints to consider.  
-- When product is chain-specific, confirm if **multi-chain expansion** is in scope before recommending it.  
+**Data rules**
+- If no reliable source: write `Unknown`
+- If multiple reliable sources disagree: show both + mark `CONFLICT`
 
 ---
 
-## 9. Success Criteria
+## 7) Workflow (Deterministic)
 
-Output is considered successful when:
+### Step A — Parse & Normalize Product Spec
+- Extract: name, category, ICP, JTBD, USP hypothesis, features
+- Map into a **stable taxonomy** for better competitor discovery (crypto-first examples):
+  - Trading (Perps/Spot), Wallet, On-chain Analytics, Infra/RPC, Bridge,
+    Lending, Launchpad, Security, Data/Indexing, Copy Trading, Portfolio
 
-- Product / strategy team can use the report to:
-  - Understand the **current competitive landscape** in 1 reading  
-  - Clearly explain “how we differ” vs. top 5–10 competitors  
-  - Identify at least 3–5 **prioritized opportunities or risks**  
+### Step B — Competitor Discovery (5–10)
+**Discovery approach (no guessing):**
+- Build seed keywords from: category + ICP + top features + chains
+- Search candidates via:
+  - “alternatives”, “competitors”, “similar to”
+  - public directories/listings (where available)
+- Deduplicate by domain
+- Use a simple explainable fit score:
+  - +2 same direct category
+  - +1 same ICP
+  - +1 same chain/ecosystem
+  - +1 major feature overlap
+- Select top N, plus 1–2 adjacent if scope = `both`
 
-- PM / founder can:
-  - Feed the comparison directly into roadmap discussions (feature gaps)  
-  - Use sections of the report in investor decks / internal memos without heavy editing  
+### Step C — Data Collection (per competitor)
+Collect each field with:
+- `value`
+- `source_url`
+- `retrieved_at`
 
-- Analysts can:
-  - Re-run the skill later with an updated spec and get **consistent structure**, enabling time-based comparison.  
+**MVP required collectors**
+- X followers (from X profile or reliable API output)
+- Similarweb monthly visits (from Similarweb page/API output)
+
+**Optional crypto collectors**
+- TVL (e.g., DeFiLlama if available)
+- Volume/OI (public analytics sources)
+- Audits (audit report pages)
+- Pricing (pricing/docs pages)
+
+### Step D — Evidence-Linked Feature Mapping
+- Normalize features into a shared vocabulary by category
+- Each feature claim must cite a product/docs source
+
+### Step E — Report Generation + QA
+- Generate matrix and insights based on:
+  - USP vs competitor differentiator claims
+  - common features (parity baseline)
+  - missing features (gaps)
+  - traction signals (only if sourced; never infer)
+- Produce sources appendix for auditability
 
 ---
 
-## 10. MVP Boundary (Minimum Viable — 2 Days)
+## 8) Data Quality, Freshness & Conflicts
 
-**In Scope (MVP):**
+### 8.1 “No-source, no-number”
+Any metric without a verifiable source is `Unknown`.
 
-- Readiness Score and spec quality check with rubric (Section 5 Step 1)  
-- Automatic discovery and selection of **5–10** relevant competitors  
-- Standardized comparison matrix covering:
-  - Positioning & ICP  
-  - Key features & integrations (relative to product spec)  
-  - Pricing model and rough level  
-  - Basic traction proxies (traffic/social/TVL when relevant)  
-  - High-level company health (age, funding presence/absence, headcount trend approx.)  
-- Core layered analysis:
-  - Layers 1–5 required (Strategy, Product, Pricing, Marketing, Reviews)  
-  - Layer 6 (company health) at high level only (no deep financial modeling)  
-- Advantage/gap summary and clear list of opportunities/risks  
+### 8.2 Freshness guidance (MVP)
+- Social followers: ideally retrieved within **7 days** (include timestamp regardless)
+- Traffic: use the **most recent month available** in Similarweb output
 
-**Out of Scope (for later versions):**
-
-- Automated chart/graph generation (visual dashboards)  
-- Direct integrations with paid tools (Ahrefs, Similarweb, Crunchbase API, etc.)  
-- Ongoing monitoring / alerts for new competitors or major changes  
-- Deep financial modeling (LTV/CAC, runway estimates, full revenue projections)  
-- Multi-language source analysis and output  
+### 8.3 Conflict handling
+When two reliable sources disagree:
+- show both values
+- label `CONFLICT`
+- include both sources and retrieval timestamps
 
 ---
+
+## 9) Acceptance Criteria (Definition of Done)
+
+A run is considered successful if:
+
+- Produces **5–10 competitors** with inclusion rationale
+- Each competitor includes, at minimum:
+  - website + description
+  - **X followers + source**
+  - **Similarweb monthly visits + source** (or `Unknown` + reason)
+- Includes a **10–12 row comparison matrix**
+- Includes **≥5 actionable insights** + explicit **Research TODOs**
+- Includes a **Sources Appendix** that allows auditing each key claim
+
+---
+
+## 10) Failure Modes & Edge Cases
+
+- **Not enough competitors found:** return 3–5 and explain constraints; suggest widening scope/keywords
+- **No Similarweb data:** set `Unknown` and add TODO (consider Ahrefs/SEMrush as alternatives)
+- **Very new project:** rely on category + adjacent competitors; mark uncertainty explicitly
+- **Ambiguous brand/domain:** prioritize official site/docs; exclude lookalikes unless verified
