@@ -1,7 +1,4 @@
 # Skill Spec: Competitive Intelligence Analyzer  
-Version: 0.1 | Owner: Tiger  
-Platform: Web / Research Tools  
-Status: Draft — Pending Supervisor Review  
 
 ---
 
