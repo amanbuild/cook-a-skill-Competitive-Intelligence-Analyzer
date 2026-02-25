@@ -4,36 +4,36 @@
 
 ## 0. Core Philosophies
 
-Mọi quyết định thiết kế trong skill này phải tuân theo 8 triết lý sau. Khi có conflict giữa "thêm data" và "trả lời câu hỏi chiến lược" → luôn chọn câu hỏi chiến lược.
+Every design decision in this skill must follow these 8 philosophies. When there's a conflict between "add more data" and "answer the strategic question" → always choose the strategic question.
 
-| # | Philosophy | Một câu |
-|---|-----------|---------|
-| P1 | **Decision-first** | Report là công cụ ra quyết định, không phải bảng tổng hợp |
-| P2 | **Comparable > nhiều data** | Ít data nhưng so sánh được > nhiều data rời rạc |
-| P3 | **Evidence-first, no fabrication** | Không có nguồn → Unknown. Số mâu thuẫn → ghi range + note conflict |
-| P4 | **Freshness matters** | **Metrics/traction**: ưu tiên sources ≤3 tháng. Không có → fallback ≤12 tháng + flag "⚠️ Older". **Context/background**: cho phép ≤12 tháng, flag nếu >3 tháng. >12 tháng → drop hoàn toàn. Ghi "as of [date]" cho mọi metric |
-| P5 | **Positioning ≠ Execution** | Tách rõ "họ NÓI gì" vs "họ LÀM được gì" |
-| P6 | **Map the battlefield** | Vẽ cấu trúc thị trường, không chỉ list competitors |
-| P7 | **Find strategic whitespace** | Phải chỉ ra khoảng trống mình có thể đánh |
-| P8 | **Actionable > academic** | Mọi insight phải trả lời "so what?" |
+| # | Philosophy | One-liner |
+|---|-----------|-----------|
+| P1 | **Decision-first** | The report is a decision tool, not a data summary |
+| P2 | **Comparable > many data** | Less data that's comparable > lots of scattered data |
+| P3 | **Evidence-first, no fabrication** | No source → "Unknown". Conflicting numbers → write range + note conflict |
+| P4 | **Freshness matters** | **Metrics/traction**: prefer sources ≤3 months. If unavailable → fallback ≤12 months + flag "⚠️ Older". **Context/background**: allow ≤12 months, flag if >3 months. >12 months → drop entirely. Write "as of [date]" for every metric |
+| P5 | **Positioning ≠ Execution** | Clearly separate "what they SAY" vs "what they DO" |
+| P6 | **Map the battlefield** | Draw market structure, don't just list competitors |
+| P7 | **Find strategic whitespace** | Must identify gaps you can attack |
+| P8 | **Actionable > academic** | Every insight must answer "so what?" |
 
 ---
 
 ## 1. Problem Statement
 
-**Từ công việc hàng ngày:**
+**From daily work:**
 
-Mỗi lần team Product/Strategy cần nắm tình hình đối thủ:
-- Phải manually Google từng đối thủ, mở hàng chục tab, data rời rạc không nằm chung một chỗ
-- Mỗi đối thủ thu thập một kiểu data → đọc xong không so sánh được (vi phạm P2)
-- Report cuối cùng thường là data dump — nhiều thông tin nhưng không trả lời "nên làm gì" (vi phạm P1, P8)
-- Dễ nhầm branding mạnh với execution mạnh — chỉ đọc homepage copy (vi phạm P5)
-- Không vẽ được cấu trúc cạnh tranh, chỉ list từng đối thủ riêng lẻ (vi phạm P6)
-- Không chỉ ra khoảng trống nào mình có thể đánh (vi phạm P7)
-- Feedback từ community, experts, news nằm rải rác — không ai tổng hợp vào một chỗ
+Every time the Product/Strategy team needs competitive intel:
+- Must manually Google each competitor, open dozens of tabs, data scattered everywhere
+- Each competitor's data collected differently → can't compare after reading (violates P2)
+- Final report is usually a data dump — lots of info but doesn't answer "what should we do" (violates P1, P8)
+- Easy to confuse strong branding with strong execution — only reading homepage copy (violates P5)
+- Can't draw competitive structure, just listing competitors individually (violates P6)
+- Doesn't identify which gaps to attack (violates P7)
+- Feedback from community, experts, news scattered — nobody consolidates it
 
 **Scenario:**
-> Analyst nhận yêu cầu: "Board meeting tuần sau, cần competitive landscape cho pump.fun." Analyst mất 2 ngày. Output: bảng so sánh đẹp nhưng mỗi đối thủ data khác nhau, không ai trả lời được "pump.fun nên đánh đâu tiếp." Head of Product hỏi: "So what?" — không ai trả lời được.
+> Analyst receives request: "Board meeting next week, need competitive landscape for pump.fun." Analyst spends 2 days. Output: beautiful comparison table but different data per competitor, nobody can answer "where should pump.fun attack next." Head of Product asks: "So what?" — nobody can answer.
 
 ---
 
@@ -41,39 +41,39 @@ Mỗi lần team Product/Strategy cần nắm tình hình đối thủ:
 
 | Field | Value |
 |-------|-------|
-| **Giải quyết cái gì** | Biến competitive research từ data dump thành công cụ ra quyết định chiến lược |
-| **Cho ai** | Ops & Data Analyst, Product Team, Strategy Team |
-| **Output** | Report trả lời 4 câu hỏi chiến lược: Cạnh tranh với ai? Họ thắng nhờ gì? Khoảng trống ở đâu? Mình nên làm gì? |
-| **Thay thế gì** | 1–2 ngày manual research → ~30 phút AI research + user review |
+| **Solves what** | Transform competitive research from data dump into strategic decision tool |
+| **For whom** | Ops & Data Analyst, Product Team, Strategy Team |
+| **Output** | Report answering 4 strategic questions: Who do we compete with? Why are they winning? Where's the whitespace? What should we do? |
+| **Replaces what** | 1–2 days manual research → ~30 min AI research + user review |
 
 ---
 
 ## 3. Input Contract
 
 ### 3.1 Accepted Input Methods
-- File upload (Markdown, .txt, hoặc bất kỳ text file)
-- Chat message trực tiếp
-- Kết hợp cả hai
+- File upload (Markdown, .txt, or any text file)
+- Direct chat message
+- Combination of both
 
 ### 3.2 Required Fields
 
-| Field | Validation | Nếu thiếu |
+| Field | Validation | If missing |
 |-------|-----------|-----------|
-| **Product Name** | Non-empty, ≤100 ký tự | Hỏi user |
-| **Description** | 2–5 câu mô tả sản phẩm | Hỏi user |
-| **Key Features** | ≥3 items | Hỏi user nếu < 3 |
-| **Narrative / Positioning** | Phải chứa target audience + value prop | Hỏi user nếu thiếu |
+| **Product Name** | Non-empty, ≤100 characters | Ask user |
+| **Description** | 2–5 sentences describing the product | Ask user |
+| **Key Features** | ≥3 items | Ask user if < 3 |
+| **Narrative / Positioning** | Must contain target audience + value proposition | Ask user if missing |
 
 ### 3.3 Optional Fields
 
-| Field | Default nếu không có |
-|-------|---------------------|
-| **Comparison Criteria** | AI chọn 8–10 tiêu chí theo ngành |
-| **Known Competitors** | AI tìm từ scratch |
+| Field | Default if not provided |
+|-------|----------------------|
+| **Comparison Criteria** | AI selects 8–10 criteria based on industry |
+| **Known Competitors** | AI discovers from scratch |
 
 ### 3.4 Input Validation Rules
-- Thiếu required field → **STOP, hỏi, không đoán** (P3)
-- File rỗng hoặc non-text → thông báo lỗi, hỏi lại
+- Missing required field → **STOP, ask, don't guess** (P3)
+- Empty or non-text file → notify error, ask again
 
 ---
 
@@ -83,103 +83,103 @@ Mỗi lần team Product/Strategy cần nắm tình hình đối thủ:
 
 | File | Format | Naming |
 |------|--------|--------|
-| Report chính | Markdown (.md) | `[ProductName]_Competitive_Intel_[MonthYear].md` |
-| Report formal | Word (.docx) | `[ProductName]_Competitive_Intel_[MonthYear].docx` |
+| Main report | Markdown (.md) | `[ProductName]_Competitive_Intel_[MonthYear].md` |
+| Formal report | Word (.docx) | `[ProductName]_Competitive_Intel_[MonthYear].docx` |
 
-### 4.2 Report Structure — 8 Sections
+### 4.2 Report Structure — 8.5 Sections
 
-Sections được thiết kế để trả lời strategic questions, không phải collect data categories.
+Sections are designed to answer strategic questions, not to collect data categories.
 
 | # | Section | Strategic Question | Priority | Philosophy |
 |---|---------|-------------------|----------|-----------|
-| 1 | **Battlefield Map** | Mình đang cạnh tranh với AI, cấu trúc thị trường ra sao? | 🔴 Must | P6 |
-| 2 | **Standardized Comparison Matrix** | So sánh apple-to-apple trên cùng tiêu chí? | 🔴 Must | P2 |
-| 3 | **Deep Dive: Positioning vs Execution** | Họ nói gì vs họ làm được gì? | 🔴 Must | P5, P3, P4 |
-| 4 | **Who's Winning & Why** | Ai đang thắng, nhờ distribution/product/pricing/trust/speed? | 🔴 Must | P1 |
-| 5 | **Strategic Whitespace** | Khoảng trống nào mình có thể đánh? | 🔴 Must | P7 |
-| 6 | **Threats & Risk Signals** | Cần lo gì? Ai có thể bất ngờ? | 🟡 Should | P4 |
-| 7 | **Action Items & Watchlist** | Cụ thể nên làm gì? Theo dõi ai? | 🔴 Must | P8 |
-| 8 | **Sources, Freshness & Confidence** | Data từ đâu, mới cỡ nào, tin được không? | 🔴 Must | P3, P4 |
+| 1 | **Battlefield Map** | Who are we competing with, and what's the market structure? | 🔴 Must | P6 |
+| 2 | **Standardized Comparison Matrix** | Apple-to-apple comparison on same criteria? | 🔴 Must | P2 |
+| 3 | **Deep Dive: Positioning vs Execution** | What they say vs what they actually do? | 🔴 Must | P5, P3, P4 |
+| 4 | **Who's Winning & Why** | Who's winning — by distribution/product/pricing/trust/speed? | 🔴 Must | P1 |
+| 5 | **Strategic Whitespace** | Which gaps can we attack? | 🔴 Must | P7 |
+| 6 | **Threats & Risk Signals** | What should we worry about? Who could surprise us? | 🟡 Should | P4 |
+| 7 | **Action Items & Watchlist** | What exactly should we do? Who to monitor? | 🔴 Must | P8 |
+| 8 | **Sources, Freshness & Confidence** | Where is data from, how fresh, how reliable? | 🔴 Must | P3, P4 |
+| 8.5 | **Self-Assessment Score** | How good is this report? 5 dimensions × 20 points | 🟡 Should | P3 |
 
 ### 4.3 Language Rule
-Output language = input language. (P3 — respect context)
+Output language = input language.
 
 ---
 
 ## 5. Workflow (A → B → C → D → E → F)
 
 ### Step A: Parse & Validate Input
-- **Input**: File hoặc chat từ user
+- **Input**: File or chat from user
 - **Process**: Extract fields, validate (Section 3.4)
-- **Output**: Structured product brief hoặc câu hỏi nếu thiếu
-- **⚠️ Pitfall**: File format lạ → thông báo, hỏi lại
+- **Output**: Structured product brief or questions if incomplete
+- **⚠️ Pitfall**: Unusual file format → notify, ask again
 
 ### Step B: Confirm Understanding
-- **Input**: Product brief từ Step A
-- **Process**: Tóm tắt cho user confirm: tên, category, differentiators, criteria, known competitors
-- **Output**: Confirmation. User sửa → quay Step A. User OK → Step C
-- **⚠️ Pitfall**: AI suy sai category → luôn ghi rõ inferred category
+- **Input**: Product brief from Step A
+- **Process**: Summarize for user to confirm: name, category, differentiators, criteria, known competitors
+- **Output**: Confirmation. User corrects → return to Step A. User OK → Step C
+- **⚠️ Pitfall**: AI infers wrong category → always explicitly state inferred category
 
 ### Step C: Competitor Discovery & Battlefield Mapping (6–12 searches)
 - **Input**: Confirmed brief
-- **Process**: Search theo 8 patterns. Classify kết quả thành battlefield map:
+- **Process**: Search using 8 patterns. Classify results into battlefield map:
   - 🎯 Direct competitors
   - 🔄 Indirect / adjacent
   - 🌱 Emerging / new entrants
-  - 🔀 Substitute behaviors/tools (P6 — không chỉ list companies, map cả alternatives)
-  - Nếu crypto: tag decentralized vs centralized, retail vs pro focus
+  - 🔀 Substitute behaviors/tools (P6 — map alternatives too, not just companies)
+  - If crypto: tag decentralized vs centralized, retail vs pro focus
 - **Output**: Battlefield map + full competitor list
 - **⚠️ Pitfall**: 20+ results → list ALL, deep dive top 5 direct
-- **⚠️ Pitfall**: Known competitor không thấy → thêm manually, ghi chú
+- **⚠️ Pitfall**: Known competitor not found → add manually, note it
 
 ### Step D: Deep Dive Research (top 5 direct — 3–5 searches PER competitor)
-- **Input**: Competitor list từ Step C
-- **Process**: Cho mỗi competitor, search 4 nguồn:
+- **Input**: Competitor list from Step C
+- **Process**: For each competitor, search 4 source types:
 
-  | Nguồn | Search pattern | Thu thập |
+  | Source | Search Pattern | Collects |
   |-------|---------------|----------|
   | 🗣️ Community | `[competitor] reddit twitter opinions` | Sentiment, complaints, praised features |
   | 🧠 Expert | `[competitor] review analysis blog 2025 2026` | Expert assessment, technical analysis |
   | 📰 News | `[competitor] funding partnership news 2025 2026` | Funding, launches, incidents |
   | ⛓️ On-chain (crypto) | `[competitor] TVL volume wallets metrics` | TVL, volume, fees, active wallets |
 
-- **Output**: Per competitor, tách 2 layers (P5):
-  - **Positioning layer**: Họ nói gì? ICP, USP, narrative
+- **Output**: Per competitor, separate into 2 layers (P5):
+  - **Positioning layer**: What do they say? ICP, USP, narrative
   - **Execution layer**: Traction, product depth, shipping velocity, monetization, distribution channels
-  - Mỗi claim phải cite source + ghi "as of [date]" (P3, P4)
+  - Every claim must cite source + write "as of [date]" (P3, P4)
 
 - **Standardization rules (P2)**:
-  - Tiền tệ: quy về USD
+  - Currency: convert to USD
   - Traffic: monthly unique visitors
   - Social: X followers + engagement rate
   - Volume: daily average (crypto)
-  - Timeframe: ưu tiên 12 tháng gần nhất
   - **Freshness enforcement (P4)**:
-    - **Metrics/traction data** (volume, MAU, revenue, funding, traffic): ưu tiên sources ≤3 tháng. Nếu không tìm được → fallback ≤12 tháng + flag "⚠️ Older — [X] months". >12 tháng → drop.
-    - **Context/background** (product description, business model, founding story): cho phép ≤12 tháng, flag nếu >3 tháng "⚠️ Older — [X] months".
-    - **>12 tháng**: Drop hoàn toàn. Không cite. Ngoại lệ duy nhất: founding date, historical milestone.
-  - **Search query enforcement**: Mọi search query cho metrics/traction PHẢI include year filter (e.g. "2026", "2025 2026", "latest", "recent"). Xem Section 6.6.
-  - Nếu data mâu thuẫn giữa nguồn → ghi range + note conflict
+    - **Metrics/traction data** (volume, MAU, revenue, funding, traffic): prefer sources ≤3 months. If unavailable → fallback ≤12 months + flag "⚠️ Older — [X] months". >12 months → drop.
+    - **Context/background** (product description, business model, founding story): allow ≤12 months, flag if >3 months "⚠️ Older — [X] months".
+    - **>12 months**: Drop entirely. Do not cite. Only exception: founding date, historical milestone.
+  - **Search query enforcement**: All metric/traction search queries MUST include year filter (e.g. "2026", "2025 2026", "latest", "recent"). See Section 6.6.
+  - Conflicting data between sources → write range + note conflict
 
-- **⚠️ Pitfall**: Không có data → "Unknown". Community bias negative → note, balance bằng expert + metrics
-- **⚠️ Pitfall**: On-chain chỉ cho crypto → skip nếu không relevant
+- **⚠️ Pitfall**: No data → "Unknown". Community bias negative → note, balance with expert + metrics
+- **⚠️ Pitfall**: On-chain only for crypto → skip if not relevant
 
 ### Step E: Synthesize Strategic Analysis
-- **Input**: Enriched profiles từ Step D + comparison criteria
+- **Input**: Enriched profiles from Step D + comparison criteria
 - **Process**:
-  1. Build standardized comparison matrix (user criteria first, AI thêm 3–5) (P2)
+  1. Build standardized comparison matrix (user criteria first, AI adds 3–5) (P2)
   2. Analyze "who's winning and why" — distribution, product, pricing, trust, speed (P1)
-  3. Find whitespace — user segments underserved, features commoditized, differentiations winnable (P7)
+  3. Find whitespace — underserved user segments, commoditized features, winnable differentiations (P7)
   4. Assess threats + risk signals (P4)
   5. Generate action items + watchlist (P8)
 - **Output**: Sections 2, 4, 5, 6, 7 content
-- **⚠️ Pitfall**: All-green cho user → bias. Phải có gaps. Nếu không tìm ra → chưa đủ honest
+- **⚠️ Pitfall**: All-green for user → bias. Must find gaps. If none found → not honest enough
 
 ### Step F: Generate & Deliver
-- **Input**: All data từ Steps C–E
-- **Process**: Write 8-section report → .md → .docx → save both
+- **Input**: All data from Steps C–E
+- **Process**: Write 8.5-section report → .md → .docx → save both
 - **Output**: 2 files in `/mnt/user-data/outputs/`
-- **⚠️ Pitfall**: .docx fails → deliver .md, thông báo lỗi
+- **⚠️ Pitfall**: .docx fails → deliver .md, notify error
 
 ---
 
@@ -187,90 +187,54 @@ Output language = input language. (P3 — respect context)
 
 | # | Rule | Philosophy |
 |---|------|-----------|
-| HR-1 | **Không bịa competitor.** Mọi competitor có URL thật. | P3 |
-| HR-2 | **Không bịa metrics.** Không tìm được → "Unknown". | P3 |
-| HR-3 | **Không đoán pricing.** Không public → ghi rõ. | P3 |
-| HR-4 | **Số mâu thuẫn → ghi range + note conflict.** Không cherry-pick. | P3 |
-| HR-5 | **Phân biệt Fact vs Inference.** Fact có nguồn. Inference phải label rõ "Inference:". | P3 |
-| HR-6 | **Mọi metric ghi "as of [date]".** Metric không có date → giảm confidence. | P4 |
-| HR-7 | **Chuẩn hóa đơn vị.** USD, monthly, daily average. Không mix. | P2 |
-| HR-8 | **User product = cột 1** trong comparison matrix. | P1 |
-| HR-9 | **User-specified criteria PHẢI xuất hiện** trong matrix. | P1 |
-| HR-10 | **Tách Positioning vs Execution** cho mỗi deep dive. Không trộn lẫn. | P5 |
-| HR-11 | **Strengths/weaknesses từ external sources** — không phải AI tự nhận xét. | P3 |
-| HR-12 | **Mỗi deep dive cover ≥2/4 nguồn.** Thiếu nguồn → ghi "No [source] found." | P3 |
-| HR-13 | **Mọi insight phải có "so what?"** — không dừng ở observation. | P8 |
-| HR-14 | **Whitespace phải actionable** — trả lời "đánh ở đâu", không chỉ "gap ở đây". | P7 |
-| HR-15 | **Ít nhất 1 threat 🔴 Critical.** All-green = chưa nghĩ kỹ. | P1 |
+| HR-1 | **No fake competitors.** Every competitor has a real URL. | P3 |
+| HR-2 | **No fake metrics.** Not found → "Unknown". | P3 |
+| HR-3 | **No guessed pricing.** Not public → state so. | P3 |
+| HR-4 | **Conflicting numbers → write range + note conflict.** Never cherry-pick. | P3 |
+| HR-5 | **Label Fact vs Inference.** Fact has source. Inference must be labeled "Inference:". | P3 |
+| HR-6 | **Every metric has "as of [date]".** Metric without date → lower confidence. | P4 |
+| HR-7 | **Standardize units.** USD, monthly, daily average. No mixing. | P2 |
+| HR-8 | **User product = column 1** in comparison matrix. | P1 |
+| HR-9 | **User-specified criteria MUST appear** in matrix. | P1 |
+| HR-10 | **Separate Positioning vs Execution** in every deep dive. Never mix. | P5 |
+| HR-11 | **Strengths/weaknesses from external sources** — not AI's own assessment. | P3 |
+| HR-12 | **Each deep dive covers ≥2 of 4 sources.** Missing source → write "No [source] found." | P3 |
+| HR-13 | **Every insight has "so what?"** — don't stop at observation. | P8 |
+| HR-14 | **Whitespace must be actionable** — answer "attack where", not just "gap here". | P7 |
+| HR-15 | **≥1 threat rated High or Critical.** All-green = not thorough enough. | P1 |
 | HR-16 | **Output language = input language.** | — |
-| HR-17 | **Thiếu required input → STOP và hỏi.** | P3 |
-| HR-18 | **Source confidence tier required.** Mọi source gắn label [A]–[D]. D-source claims phải flag ⚠️. | P3 |
-| HR-19 | **Freshness gate.** Metrics: ưu tiên ≤3 tháng, fallback ≤12 tháng + flag "⚠️ Older". Context: ≤12 tháng OK, flag nếu >3 tháng. >12 tháng → DROP. Search queries cho metrics PHẢI có date filter. | P4 |
-
----
-
-## 7. Acceptance Criteria
-
-### Report completeness
-- [ ] 8 sections present, không rỗng
-- [ ] ≥3 direct competitors deep-dived
-- [ ] Battlefield map có ≥2 categories (không chỉ "direct")
-- [ ] Whitespace section có ≥2 actionable opportunities
-
-### Data quality (P2, P3, P4)
-- [ ] Mọi competitor có URL thật
-- [ ] Không metric nào bị bịa
-- [ ] Đơn vị chuẩn hóa (USD, monthly, daily)
-- [ ] Mọi metric có "as of [date]"
-- [ ] Số mâu thuẫn ghi range + note
-- [ ] Fact vs Inference phân biệt rõ
-
-### Strategic depth (P1, P5, P7, P8)
-- [ ] Deep dives tách Positioning vs Execution
-- [ ] "Who's winning & why" trả lời winning factor cụ thể
-- [ ] Whitespace chỉ ra ≥2 khoảng trống đánh được
-- [ ] Action Items cụ thể — PM có thể tạo ticket từ đây
-- [ ] Watchlist có competitor + metric + frequency
-
-### Evidence quality (P3, P11, P12)
-- [ ] Mỗi deep dive cover ≥2/4 nguồn feedback
-- [ ] Strengths/weaknesses cite external sources
-- [ ] Sources section có URL + date + confidence notes
-- [ ] Limitations paragraph honest
-
-### Deliverables
-- [ ] .md + .docx (hoặc .docx error noted)
-- [ ] Naming convention đúng
-- [ ] Language match input
+| HR-17 | **Missing required input → STOP and ask.** | P3 |
+| HR-18 | **Source confidence tier required.** Every source labeled [A]–[D]. D-source claims must flag ⚠️. | P3 |
+| HR-19 | **Freshness gate.** Metrics: prefer ≤3 months, fallback ≤12 months + flag "⚠️ Older". Context: ≤12 months OK, flag if >3 months. >12 months → DROP. Metric search queries MUST include date filter. | P4 |
 
 ---
 
 ## 6.6 Search Freshness Enforcement (P4)
 
-Vấn đề: Web search trả về kết quả theo relevance, không theo freshness. Nếu không enforce, report sẽ cite source 6–9 tháng tuổi cho metrics liên tục thay đổi.
+**Problem**: Web search returns results by relevance, not recency. Without enforcement, reports will cite 6–9 month old sources for rapidly changing metrics.
 
 ### Rules
 
-**1. Date filter trong search queries:**
-- Mọi search cho **metrics/traction** (volume, MAU, revenue, funding, traffic, users) → PHẢI thêm date term vào query
-- Ví dụ:
-  - ✅ `"Kalshi volume February 2026"` hoặc `"Kalshi volume 2026"`
+**1. Date filter in search queries:**
+- All searches for **metrics/traction** (volume, MAU, revenue, funding, traffic, users) → MUST add date term to query
+- Examples:
+  - ✅ `"Kalshi volume February 2026"` or `"Kalshi volume 2026"`
   - ✅ `"Polymarket MAU latest 2026"`
-  - ❌ `"Kalshi volume"` (không có date → có thể trả về 2024 article)
-- Date terms chấp nhận: năm hiện tại, "latest", "recent", "2025 2026", tháng cụ thể
+  - ❌ `"Kalshi volume"` (no date → may return 2024 article)
+- Accepted date terms: current year, "latest", "recent", "2025 2026", specific month
 
 **2. Post-search freshness check:**
-- Sau khi nhận kết quả, kiểm tra tuổi mỗi source TRƯỚC khi cite:
-  - **≤3 tháng**: ✅ Dùng cho metrics + context (preferred)
-  - **3–12 tháng**: ⚠️ Dùng cho context. Cho metrics CHỈ khi không có source ≤3 tháng (fallback) — flag "⚠️ Older — [X] months".
-  - **>12 tháng**: ❌ Drop hoàn toàn. Ngoại lệ: founding date, historical milestone.
-- Nếu KHÔNG tìm được source ≤12 tháng cho metric → ghi "Unknown — no source within 12 months found".
+- After receiving results, check each source's age BEFORE citing:
+  - **≤3 months**: ✅ Use for metrics + context (preferred)
+  - **3–12 months**: ⚠️ Use for context. For metrics ONLY if no ≤3 month source exists (fallback) — flag "⚠️ Older — [X] months".
+  - **>12 months**: ❌ Drop entirely. Exception: founding date, historical milestone.
+- If NO source ≤12 months found for a metric → write "Unknown — no source within 12 months found".
 
 **3. Source table enforcement:**
-- Section 8 (Sources) PHẢI có cột "Age" cho mỗi source
-- Report tự kiểm tra: nếu >30% sources thuộc nhóm 3–12 tháng → flag warning trong Section 8.5
+- Section 8 (Sources) MUST include "Age" column for every source
+- Report self-check: if >30% of sources are in the 3–12 month range → flag warning in Section 8.5
 
-### Ví dụ
+### Examples
 
 | Search purpose | Bad query | Good query |
 |---------------|-----------|------------|
@@ -281,21 +245,59 @@ Vấn đề: Web search trả về kết quả theo relevance, không theo fresh
 
 ---
 
+## 7. Acceptance Criteria
+
+### Report completeness
+- [ ] 8.5 sections present, none empty
+- [ ] ≥3 direct competitors deep-dived
+- [ ] Battlefield map has ≥2 categories (not just "direct")
+- [ ] Whitespace section has ≥2 actionable opportunities
+
+### Data quality (P2, P3, P4)
+- [ ] Every competitor has a real URL
+- [ ] No metrics fabricated
+- [ ] Units standardized (USD, monthly, daily)
+- [ ] Every metric has "as of [date]"
+- [ ] Conflicting numbers show range + note
+- [ ] Fact vs Inference clearly distinguished
+- [ ] Source tiers [A]–[D] labeled
+- [ ] Freshness flags applied per HR-19
+
+### Strategic depth (P1, P5, P7, P8)
+- [ ] Deep dives separate Positioning vs Execution
+- [ ] "Who's winning & why" answers with specific winning factors
+- [ ] Whitespace identifies ≥2 attackable gaps
+- [ ] Action Items specific enough to create tickets
+- [ ] Watchlist includes competitor + metric + frequency
+
+### Evidence quality (P3)
+- [ ] Each deep dive covers ≥2 of 4 source types
+- [ ] Strengths/weaknesses cite external sources
+- [ ] Sources section has URL + date + tier + age
+- [ ] Limitations paragraph is honest
+
+### Deliverables
+- [ ] .md + .docx (or .docx error noted)
+- [ ] Naming convention correct
+- [ ] Language matches input
+
+---
+
 ## 8. Failure Modes & Handling
 
-| # | Failure Mode | Xử lý |
-|---|-------------|--------|
-| FM-1 | Thiếu required input | STOP. Hỏi. Không tiếp cho đến khi đủ. |
-| FM-2 | Niche market, ít đối thủ | Vẫn complete. Mở rộng indirect + substitutes (P6). Ghi trong limitations. |
-| FM-3 | Crowded market 20+ | List ALL. Deep dive top 5. Ghi selection criteria. |
-| FM-4 | Private company, no data | "Unknown". Dùng proxy signals. KHÔNG bịa. (P3) |
-| FM-5 | Data conflict giữa sources | Ghi range + note conflict. KHÔNG cherry-pick. (P3) |
-| FM-6 | Community feedback quá negative | Note bias. Balance bằng expert + metrics. (P3) |
-| FM-7 | Known competitor không tìm thấy | Thêm manually. Research riêng. Ghi "limited public info". |
-| FM-8 | AI hiểu sai sản phẩm user | Step B bắt. User sửa → restart. |
-| FM-9 | .docx generation fails | Deliver .md. Thông báo lỗi. |
-| FM-10 | On-chain data cho non-crypto product | Skip on-chain source. Không ép. |
-| FM-11 | **Search chỉ trả source cũ (>3 tháng) cho metric** | Thử ≥2 query variations với date filter. Vẫn cũ → fallback dùng source ≤12 tháng + flag "⚠️ Older — [X] months". Không có ≤12 tháng → ghi "Unknown". (P4, HR-19) |
+| # | Failure Mode | Handling |
+|---|-------------|---------|
+| FM-1 | Missing required input | STOP. Ask. Don't proceed until complete. |
+| FM-2 | Niche market, few competitors | Still complete. Expand indirect + substitutes (P6). Note in limitations. |
+| FM-3 | Crowded market 20+ | List ALL. Deep dive top 5. Document selection criteria. |
+| FM-4 | Private company, no data | "Unknown". Use proxy signals. NEVER fabricate. (P3) |
+| FM-5 | Data conflict between sources | Write range + note conflict. NEVER cherry-pick. (P3) |
+| FM-6 | Community feedback overwhelmingly negative | Note bias. Balance with expert + metrics. (P3) |
+| FM-7 | Known competitor not found in search | Add manually. Research separately. Write "limited public info". |
+| FM-8 | AI misunderstands user's product | Step B catches this. User corrects → restart. |
+| FM-9 | .docx generation fails | Deliver .md. Notify error. |
+| FM-10 | On-chain data for non-crypto product | Skip on-chain source. Don't force it. |
+| FM-11 | **Search only returns stale sources (>3 months) for a metric** | Try ≥2 query variations with date filter. Still stale → fallback to best ≤12 month source + flag "⚠️ Older — [X] months". No ≤12 month source → write "Unknown". (P4, HR-19) |
 
 ---
 
