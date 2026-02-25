@@ -9,7 +9,7 @@ Built for Ops & Data Analysts, Product Teams, and Strategy Teams. Replaces 1–2
 ## Quick Start
 
 ### 1. Prepare input
-Copy `input-template.md` → fill in your product details (name, description, features, narrative).
+Copy `skill/input-template.md` → fill in your product details (name, description, features, narrative).
 
 ### 2. Run in Claude chat
 New conversation → paste the **Prompt Template** below → attach your filled input.
@@ -18,7 +18,7 @@ New conversation → paste the **Prompt Template** below → attach your filled 
 Download the `.md` report → commit to `reports/`.
 
 ### 4. Iterate
-Note feedback after each use. Every 3–5 notes → update `SPEC.md` + `SKILL.md`.
+Note feedback in `changelog.md`. Every 3–5 notes → update `skill/spec.md` + `skill/SKILL.md`.
 
 ---
 
@@ -67,11 +67,18 @@ Here is my product spec:
 ## File Structure
 
 ```
-cook-a-skill-Competitive-Intelligence-Analyzer/
+competitive-intelligence/
 ├── README.md                          ← You are here
-├── SPEC.md                            ← Source of truth (v3.1)
-├── SKILL.md                           ← Claude instructions (v3.1)
-└── input-template.md                  ← Template for product brief
+├── changelog.md                       ← Feedback log for iterations
+├── skill/
+│   ├── spec.md                        ← Source of truth (v3)
+│   ├── SKILL.md                       ← Claude instructions (v3)
+│   └── input-template.md              ← Template for product brief
+└── reports/
+    ├── pumpfun_Feb2026.md             ← v1 (archived)
+    ├── pumpfun_v2_Feb2026.md          ← v2 (source tiers + selection rubric)
+    ├── pumpfun_v3_Feb2026.md          ← v3 (freshness enforced) ✅ latest
+    └── Polymarket_Feb2026.md          ← v2 (pre-freshness)
 ```
 
 ---
@@ -114,7 +121,7 @@ Every source labeled [A]–[D]. D-source claims flagged ⚠️.
 
 | Tier | Examples |
 |------|---------|
-| [A] | Official docs, on-chain indexers (DefiLlama, Dune), SEC filings, company blog |
+| [A] | Official docs, on-chain indexers (DefiLlama, Dune), SEC filings, Wikipedia |
 | [B] | Reputable media (The Block, Messari, CoinDesk), Sacra, Crunchbase, G2 |
 | [C] | Community (Reddit, X threads, opinion blogs) |
 | [D] | Unsourced aggregators, content farms |
@@ -197,16 +204,14 @@ Auto-detected at Step B based on product description:
 
 ---
 
-## Sample Reports
+## Reports
 
-Reports generated during development (not included in this repo):
-
-| # | Product | Version | Date | Score |
-|---|---------|---------|------|-------|
-| 1 | pump.fun | v1 | Feb 2026 | — |
-| 2 | pump.fun | v2 | Feb 2026 | 81/100 |
-| 3 | pump.fun | v3 | Feb 2026 | 84/100 |
-| 4 | Polymarket | v2 | Feb 2026 | 87/100 |
+| # | Product | Version | Date | Score | File |
+|---|---------|---------|------|-------|------|
+| 1 | pump.fun | v1 | Feb 2026 | — | [pumpfun_Feb2026.md](reports/pumpfun_Feb2026.md) |
+| 2 | pump.fun | v2 | Feb 2026 | 81/100 | [pumpfun_v2_Feb2026.md](reports/pumpfun_v2_Feb2026.md) |
+| 3 | pump.fun | v3 | Feb 2026 | 84/100 | [pumpfun_v3_Feb2026.md](reports/pumpfun_v3_Feb2026.md) |
+| 4 | Polymarket | v2 | Feb 2026 | 87/100 | [Polymarket_Feb2026.md](reports/Polymarket_Feb2026.md) |
 
 ---
 
@@ -222,4 +227,4 @@ Reports generated during development (not included in this repo):
 
 ## Changelog
 
-See Version History above for changes per iteration.
+See [changelog.md](changelog.md) for detailed feedback notes per iteration.
