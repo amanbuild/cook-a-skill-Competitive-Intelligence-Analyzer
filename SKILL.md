@@ -1,380 +1,318 @@
 ---
-name: competitive-analysis
-description: Perform a deep competitive analysis for a solopreneur business. Use when mapping competitors in detail, finding exploitable gaps, understanding competitor strategy, benchmarking your own offering, or deciding how to position against the field. Goes deeper than the broad landscape mapping in market-research — this is focused dissection of specific competitors. Trigger on "analyze my competitors", "competitive analysis", "who are my competitors", "competitor deep-dive", "how do I beat the competition", "competitive landscape", "benchmark against competitors".
+name: competitive-intelligence
+description: "Use this skill when the user wants to analyze competitors around THEIR product — not just collect data, but answer strategic questions: Who are we really competing with? Why are they winning? Where's the whitespace? What should we do? Triggers: 'analyze my competitors', 'competitive analysis', 'competitive landscape', 'who are my competitors', 'benchmark against competitors'. User provides product brief (name, description, features, narrative). Output: decision-oriented report in .md + .docx with battlefield map, standardized comparison, positioning vs execution deep dives, whitespace analysis, and actionable items. Do NOT use for: general market research without a specific product (use narrative-research), product planning (use business-idea-plan), financial modeling, investment advice."
 ---
 
-# Competitive Analysis
+# Competitive Intelligence Report — Skill Instructions
 
-## Overview
-Shallow competitive research (checking a few websites) is not enough. This playbook gives you a systematic way to dissect competitors across strategy, product, pricing, marketing, digital presence, and reviews — then synthesise findings into exploitable gaps and a positioning wedge.
+## Core Philosophies (govern every decision)
 
-When running this skill, Claude should work through each step sequentially, using web search and web_fetch to gather real data for each competitor before synthesizing results.
-
----
-
-## Step 1: Identify and Tier Competitors
-
-Not all competitors are equal. Categorize them before diving in.
-
-**Direct competitors:** Solve the exact same problem for the exact same customer. Primary benchmarks.
-
-**Indirect competitors:** Solve a related problem or serve the same customer differently. These matter because the customer is choosing between ALL options (including doing nothing).
-
-**Aspirational competitors:** Not in the niche yet, but could be. Larger players who might expand into the space. Reveal what "winning at scale" looks like.
-
-**Target:** Identify 3–5 direct, 2–3 indirect, 1–2 aspirational. Focus the deepest analysis on the top 3 direct competitors.
-
-> **Claude instruction:** If the user hasn't specified competitors, use web search to identify the most prominent players in the space before proceeding. Search for "[product category] competitors", "[product category] alternatives", and "[product category] top tools".
+1. **Decision-first** — Report answers strategic questions, not collects data
+2. **Comparable > many data** — Standardized units, fields, timeframe across all competitors
+3. **Evidence-first, no fabrication** — No source → "Unknown". Conflicts → range + note
+4. **Freshness matters** — **Metrics/traction**: prefer sources ≤3 months. If unavailable → fallback ≤12 months + flag "⚠️ Older". **Context/background**: allow ≤12 months, flag if >3 months. >12 months → drop entirely. Always write "as of [date]"
+5. **Positioning ≠ Execution** — Separate what they SAY vs what they DO
+6. **Map the battlefield** — Structure of competition, not just a list
+7. **Find strategic whitespace** — Point to gaps you can attack
+8. **Actionable > academic** — Every insight answers "so what?"
 
 ---
 
-## Step 2: Intelligence Gathering
+## Hard Rules
 
-For each top 3 direct competitor, collect data across these seven layers in order.
-
----
-
-### Layer 1: Strategy & Positioning
-
-Visit the competitor's homepage and about page. Extract:
-
-- Stated mission or tagline
-- Who they say they're for (target customer)
-- Problem they claim to solve
-- Core differentiator — the one angle they lean hardest on
-- Who they do NOT serve (gaps in their positioning = opportunity)
-
----
-
-### Layer 2: Product & Features
-
-Visit their product page, features page, and documentation. Extract:
-
-- What the product actually does (functional summary)
-- Complexity level: simple tool / mid-complexity / full platform
-- Key technical strengths
-- Integration ecosystem (what tools it connects with)
-- Anything visibly absent that users would expect
+1. **No fake competitors.** Real URL required.
+2. **No fake metrics.** Not found → "Unknown".
+3. **No guessed pricing.** Not public → state so.
+4. **Conflicting data → range + note conflict.** Never cherry-pick.
+5. **Label Fact vs Inference.** Fact = has source. Inference = must be labeled "Inference:".
+6. **Every metric has "as of [date]".** No date → lower confidence.
+7. **Standardize units.** USD for money, monthly for traffic, daily average for volume. No mixing.
+8. **User product = column 1** in comparison matrix.
+9. **User-specified criteria must appear** in matrix. Never drop.
+10. **Separate Positioning vs Execution** in every deep dive.
+11. **Strengths/weaknesses from external sources** — not AI opinion.
+12. **Each deep dive ≥2 of 4 sources** (community, expert, news, on-chain). Missing → "No [source] found."
+13. **Every insight has "so what?"** — don't stop at observation.
+14. **Whitespace must be actionable** — "attack where" not just "gap here".
+15. **≥1 threat 🔴 Critical.** All-green = dishonest.
+16. **Output language = input language.**
+17. **Missing required input → STOP and ask.**
 
 ---
 
-### Layer 3: Pricing & Business Model
+## Step A: Parse & Validate Input
 
-Visit their pricing page. Extract:
+**Required fields** (all 4):
 
-- All pricing tiers and what's included
-- Free tier or free trial — yes/no, and what's gated
-- Pricing model: per-user / per-usage / flat-rate / freemium
-- Pricing gaps: too expensive for small users? No mid-tier? Sudden price jump?
+| Field | Validation |
+|-------|-----------|
+| Product Name | Non-empty, ≤100 chars |
+| Description | 2–5 sentences |
+| Key Features | ≥3 items |
+| Narrative / Positioning | Must contain target audience + value proposition |
 
----
+**Optional**: Comparison Criteria, Known Competitors.
 
-### Layer 4: Digital Presence & Traffic
-
-This layer tracks quantitative signals of market traction. Collect both website traffic and Twitter/X presence.
-
-#### 4a. Website Traffic
-
-> **API Note:** Website traffic will be fetched via integrated API (e.g. Similarweb, Semrush) in a future version. Until then, Claude should navigate to `similarweb.com/website/[competitor-domain]` or search for "[competitor name] traffic similarweb" to retrieve estimates.
-
-For each competitor, record:
-
-| Metric | What to Record |
-|--------|---------------|
-| Monthly visits (est.) | e.g. "~45K/mo" |
-| Traffic trend (3-month) | ↑ Growing / → Stable / ↓ Declining |
-| Top traffic source | Organic / Direct / Referral / Paid |
-| Top organic keywords | Top 3–5 keywords driving search traffic |
-| Domain Authority (DA) | Score 1–100 from Moz or Ahrefs free lookup |
-
-**Interpretation signals:**
-- High traffic + declining trend → vulnerable incumbent, possibly losing relevance
-- Low traffic + high DA → old brand, low current content investment (your opening)
-- Heavy paid traffic → they're buying customers; organic may be weak
-
-#### 4b. Twitter/X Followers
-
-> **API Note:** Follower count will be auto-fetched via Twitter/X API in a future version. Until then, Claude should search for "[competitor name] twitter" to find their handle, then navigate to their profile to retrieve current data.
-
-For each competitor, record:
-
-| Metric | What to Record |
-|--------|---------------|
-| Twitter/X handle | e.g. "@competitorname" |
-| Follower count | e.g. "8.2K" |
-| Post frequency | Daily / Weekly / Rarely / Inactive |
-| Engagement level | High (>3%) / Medium (1–3%) / Low (<1%) |
-| Account tone | Educational / Promotional / Community / Mixed |
-
-> **Claude instruction for engagement estimate:** Look at likes + replies on their last 5 posts. Sum them, divide by follower count, divide by 5. That's an approximate engagement rate.
-
-**What to look for:**
-- Large following + low engagement → audience has gone cold; real reach is weaker than it appears
-- Small following + high engagement → active niche community, a genuine competitive asset
-- Absent or inactive account → Twitter/X is an open distribution channel to own
-- Follower growth trajectory matters more than raw count
+**Missing field → STOP.** Tell user what's missing. Don't proceed.
 
 ---
 
-### Layer 5: Marketing & Distribution
-
-Search for the competitor's blog, YouTube channel, and active social channels. Also check the Google Ads Transparency Center and Facebook Ad Library for paid activity.
-
-- Primary customer acquisition channels
-- Channels they're strongest on
-- Channels they're ignoring (your opening)
-- Content strategy: what topics they publish on (signals what they think customers care about)
-- Referral or affiliate program: yes/no
-
----
-
-### Layer 6: Customer Reviews
-
-> **Claude instruction:** Search for "[competitor name] reviews", "[competitor name] reddit", "[competitor name] G2", and "[competitor name] Capterra". Read and synthesize at least 15–20 reviews per competitor. Categorize every complaint before writing the summary.
-
-Complaint categories to watch for:
-
-- **Feature gaps** — things users want but don't have
-- **UX frustrations** — things that are clunky or confusing
-- **Pricing complaints** — overpriced, unfair limits, sudden price hikes
-- **Support failures** — slow, unhelpful, or absent support
-- **Onboarding friction** — hard to get started, poor documentation
-
-Also note the most praised aspects — these are table stakes you must match.
-
----
-
-### Layer 7: Company Health & Trajectory
-
-- Founded: year
-- Funding: amount, stage, investors (Crunchbase)
-- Headcount trend on LinkedIn: growing / stable / shrinking
-- Recent news or product announcements: what direction are they moving?
-- Geographic focus: local / global / niche vertical?
-
----
-
-## Step 3: Build the Comparison Tables
-
-After gathering data, present two side-by-side tables. These are the analytical centerpiece — make them scannable.
-
-### Table A: Feature & Pricing Matrix
-
-Columns = Your planned offering + each direct competitor. Rows = decision-relevant dimensions. Use ✅ / ❌ / ⚠️ for binary features, 1–5 scores for rated dimensions. Leave cells blank where data is unknown — unknown = a research task, not a guess.
+## Step B: Confirm Understanding
 
 ```
-| Dimension              | You (planned) | Competitor A | Competitor B | Competitor C |
-|------------------------|:-------------:|:------------:|:------------:|:------------:|
-| Price (monthly)        |               |              |              |              |
-| Free tier?             |               |              |              |              |
-| Ease of setup (1–5)    |               |              |              |              |
-| [Key feature A]        |               |              |              |              |
-| [Key feature B]        |               |              |              |              |
-| Support quality (1–5)  |               |              |              |              |
-| Key integrations       |               |              |              |              |
+📋 I understood your product as follows:
+• Name: [name]
+• Category: [inferred — EXPLICIT so user can correct]
+• Core value: [1 sentence]
+• Key differentiators: [top 2–3]
+• Comparison criteria: [list or "I'll select based on industry"]
+• Known competitors: [list or "I'll discover from scratch"]
+
+Does this look right?
 ```
 
-### Table B: Digital Presence Scorecard
-
-```
-| Metric                  | Competitor A | Competitor B | Competitor C |
-|-------------------------|:------------:|:------------:|:------------:|
-| Est. monthly traffic    |              |              |              |
-| Traffic trend (3-mo)    |              |              |              |
-| Domain Authority        |              |              |              |
-| Twitter/X handle        |              |              |              |
-| Twitter/X followers     |              |              |              |
-| Twitter/X engagement    |              |              |              |
-| Twitter/X activity      |              |              |              |
-| Strongest channel       |              |              |              |
-| Biggest channel gap     |              |              |              |
-```
-
-> 📡 *Traffic: Similarweb estimate — API integration pending*
-> 📡 *Twitter/X: Manual profile lookup — API integration pending*
+User corrects → update, re-confirm. User OK → Step C.
 
 ---
 
-## Step 4: Synthesize Exploitable Gaps
+## Step C: Competitor Discovery & Battlefield Mapping (6–12 searches)
 
-From the matrix and review analysis, identify the top 3 exploitable gaps. A gap is exploitable when ALL of these are true:
+**Goal**: Not just find competitors — **map the structure of competition** (P6).
 
-1. Multiple competitors share the weakness — it's structural, not one player being sloppy
-2. Customers complain about it — there is review evidence that real people care
-3. It's solvable solo — within your skills, budget, and timeline
-4. It's not table stakes — doing what everyone does doesn't create advantage
+**Search 6–12 queries** across: category-based, feature-based, user-based, emerging, open-source, substitute behaviors.
 
-**For each gap, write a structured block:**
+**Classify into battlefield map:**
+
+| Category | Definition |
+|----------|-----------|
+| 🎯 **Direct** | Same problem, same user, same approach |
+| 🔄 **Indirect / Adjacent** | Same problem different approach, or expanding into your space |
+| 🌱 **Emerging** | New entrants, forks, pre-launch |
+| 🔀 **Substitutes** | Different tools/behaviors users use instead (e.g., "just launch manually on Raydium") |
+
+For crypto projects, additionally tag: decentralized vs centralized, retail vs pro focus.
+
+**Edge cases**: 20+ found → list ALL, deep dive top 5. Known competitor not in search → add manually, note it.
+
+**Output**: Battlefield map + full competitor list with URL, one-liner, tier.
+
+---
+
+## Step D: Deep Dive (top 5 direct — 3–5 searches PER competitor)
+
+**For EACH competitor, collect from 4 sources:**
+
+| Source | Search Pattern | Collects |
+|--------|---------------|----------|
+| 🗣️ Community | `[competitor] reddit twitter opinions` | Sentiment, praise, complaints |
+| 🧠 Expert | `[competitor] review analysis blog 2025 2026` | Expert assessments, technical analysis |
+| 📰 News | `[competitor] funding partnership news 2025 2026` | Funding, launches, incidents, pivots |
+| ⛓️ On-chain (crypto) | `[competitor] TVL volume wallets metrics` | TVL, volume, fees, active wallets |
+
+**Structure each profile in 2 layers (P5):**
+
+**Layer A — Positioning (what they SAY):**
+- Who do they say they serve? (their stated ICP)
+- What's their USP / messaging?
+- What narrative are they playing?
+
+**Layer B — Execution (what they DO):**
+- Traction: users, volume, traffic, social following (with "as of [date]")
+- Product depth: feature breadth, shipping velocity, technical quality
+- Monetization: revenue model clarity, fee structure, profitability signals
+- Distribution: which channels drive growth, partnerships, viral mechanics
+
+**Standardization rules (P2, P4):**
+- Currency → USD
+- Traffic → monthly uniques
+- Social → followers + engagement rate
+- Volume → daily average
+- Timeframe → **Freshness gate (HR-19)**:
+  - **Metrics/traction** (volume, MAU, revenue, funding, traffic): prefer sources ≤3 months. If unavailable → fallback ≤12 months + flag "⚠️ Older — [X] months". >12 months → drop.
+  - **Context/background** (product model, founding, architecture): allow ≤12 months, flag if >3 months "⚠️ Older — [X] months"
+  - **>12 months**: Drop entirely. Exception only: founding date, historical milestone.
+- **Search query rule**: ALL metric searches MUST include date filter (year, "latest", "recent", month). E.g. `"Kalshi volume 2026"` not `"Kalshi volume"`. See Search Freshness section below.
+- Conflicting numbers → range + note both sources
+- No date → mark "date unknown, lower confidence"
+
+**Strengths & weaknesses** must come from external sources (HR-11), structured as:
+```
+🗣️ Community says: "[finding]" — source: [URL], as of [date]
+🧠 Expert says: "[finding]" — source: [URL], as of [date]
+📰 News: "[development]" — source: [URL], as of [date]
+⛓️ On-chain: [metric] — source: [platform], as of [date]
+```
+
+**Output**: Enriched profiles with positioning + execution layers, multi-source evidence.
+
+---
+
+## Search Freshness Enforcement (HR-19)
+
+**Problem**: Web search returns results by relevance, not recency. Without enforcement, reports cite 6–9 month old sources for fast-changing metrics.
+
+**Rule 1 — Date filter in search queries:**
+- ALL searches for metrics/traction MUST include date terms in the query
+- ✅ Good: `"Kalshi volume February 2026"`, `"Polymarket MAU latest 2026"`, `"Limitless funding 2025 2026"`
+- ❌ Bad: `"Kalshi volume"`, `"Polymarket active users"` (no date → may return 2024 articles)
+- Accepted date terms: current year, "latest", "recent", "2025 2026", specific month
+
+**Rule 2 — Post-search freshness check (BEFORE citing):**
+
+| Source age | Metrics/traction | Context/background |
+|-----------|-----------------|-------------------|
+| ≤3 months | ✅ Use (preferred) | ✅ Use |
+| 3–12 months | ⚠️ Fallback only — use if no ≤3 month source exists. Flag "⚠️ Older — [X] months" | ⚠️ Use but flag "⚠️ Older — [X] months" |
+| >12 months | ❌ Drop entirely | ❌ Drop entirely (exception: founding dates) |
+
+- If NO source ≤12 months found for a metric → write `"Unknown — no source within 12 months found"`
+
+**Rule 3 — Source table must include "Age" column:**
+- Section 8 source table: add column showing source age in months
+- Section 8.5 self-check: if >30% sources are 3–12 months → flag warning
+
+**Rule 4 — Retry on stale results:**
+- If first search returns only >3 month sources for metrics → try ≥2 more query variations with date filters
+- If still no ≤3 month source → use best ≤12 month source as fallback + flag "⚠️ Older"
+- If no ≤12 month source exists → write "Unknown"
+
+---
+
+## Step E: Strategic Synthesis
+
+**This is the core intellectual work.** Steps C–D collect evidence. Step E answers the strategic questions.
+
+### E1: Build Standardized Comparison Matrix (P2)
+- User criteria first (HR-9), then AI adds 3–5
+- User product = column 1 (HR-8)
+- Each cell: 🟢🟡🔴 + text + source hint
+- Same units, same timeframe across all columns
+- Unknown data → "Unknown" (not blank, not guessed)
+- Last row: "Overall Threat Level"
+
+### E2: Who's Winning & Why (P1)
+Answer: what factor is each top competitor winning on?
+- Distribution advantage? (partnerships, viral mechanics, app store)
+- Product advantage? (features, UX, technical depth)
+- Pricing advantage? (cheaper, freemium, fee structure)
+- Trust advantage? (brand, track record, regulatory compliance)
+- Speed advantage? (shipping velocity, first-mover)
+
+Not "Competitor A is strong" but "Competitor A is winning on distribution because [evidence]."
+
+### E3: Strategic Whitespace (P7)
+Must answer:
+- What user segments are underserved by current players?
+- What features has everyone copied → no longer a differentiator?
+- What differentiation is still "winnable"?
+- What positioning gap exists? (e.g., "no one owns the pro-user segment")
+
+Each whitespace opportunity must be **actionable** (HR-14): what to build, who to target, why winnable.
+
+### E4: Threats & Risk Signals (P4)
+- ≥1 threat 🔴 Critical (HR-15)
+- Include competitive threats (competitor moves) + structural threats (regulation, tech shifts)
+- Each threat: severity + source + concrete mitigation (not "monitor")
+- Fresh signals only — last 3 months for metrics, 12 months for context (HR-19)
+
+### E5: Action Items & Watchlist (P8)
+Every insight must produce "so what?":
+- **Build**: Which feature/product to prioritize based on whitespace?
+- **Message**: What positioning change based on competitive gaps?
+- **Target**: Which segment to focus first?
+- **Watch**: Which competitor + which metric + how often?
+- **Benchmark**: Which KPIs to track against competitors regularly?
+
+---
+
+## Step F: Generate & Deliver
+
+### F1: Generate Markdown (.md)
+
+8 sections, each answers a strategic question:
+
+| # | Section | Content |
+|---|---------|---------|
+| 1 | **Battlefield Map** | Visual structure: direct/indirect/emerging/substitutes. Not just a list — show relationships, dynamics. |
+| 2 | **Standardized Comparison Matrix** | User product col 1, standardized units, 🟢🟡🔴 + text, threat levels. |
+| 3 | **Deep Dive: Positioning vs Execution** | Per competitor: Layer A (say) + Layer B (do) + multi-source evidence + strengths/weaknesses from external sources. |
+| 4 | **Who's Winning & Why** | Per top competitor: winning factor (distribution/product/pricing/trust/speed) + evidence. |
+| 5 | **Strategic Whitespace** | ≥2 actionable gaps: underserved segments, commoditized features, winnable differentiations. |
+| 6 | **Threats & Risk Signals** | Threat table: severity 🔴🟡🟢 + source + mitigation. ≥1 Critical. |
+| 7 | **Action Items & Watchlist** | Build / Message / Target / Watch / Benchmark — specific enough to create tickets. |
+| 8 | **Sources, Freshness & Confidence** | All URLs + dates. Confidence rating per section. Limitations paragraph. |
+
+### F2: Generate Word (.docx)
+Follow docx creation skill. US Letter, Arial, professional tables, TOC, page numbers.
+
+### F3: Deliver
+Save both to `/mnt/user-data/outputs/`. Present files + 3–4 sentence summary of key strategic findings.
+
+---
+
+## Example Input
 
 ```
-### Gap #N: [Short descriptive name]
+Product Name: pump.fun
+Description: Solana-native token launch platform. No-code meme token creation,
+bonding curve trading, fair-launch mechanics, graduation to PumpSwap.
 
-**What it is:** [1–2 sentences describing the gap]
+Key Features:
+- No-code token creation on Solana
+- Bonding curve trading from day one
+- Fair-launch (no presales / no VC allocations)
+- Fixed 1B supply template
+- Auto graduation to PumpSwap
+- Built-in discovery + viral social loop
 
-**Evidence:** [Specific complaints, review quotes, or data — cite source]
+Narrative: Target retail crypto on Solana — meme creators, speculators.
+Value prop: "Launch and trade a meme coin instantly."
+Differentiation: standardized fair-launch + bonding curve in one UX.
 
-**Your solution:** [How you would specifically address this]
+Comparison criteria: Launch friction, Token creation model, Trading mechanism,
+Fair-launch policy, Graduation/DEX migration, Creator monetization, Trading fees,
+Chain support, Discovery UX, Abuse/moderation controls
 
-**Why competitors don't fix it:** [Too niche? Wrong business model? Conflicts with their strategy?]
-
-**Effort to build:** Low / Medium / High
-**Impact if solved:** Low / Medium / High
+Known competitors: Moonshot, SunPump, Four.meme, Meteora, Raydium LaunchLab, Clanker
 ```
 
----
-
-## Step 5: Define the Competitive Wedge
-
-The wedge is the single sharp angle to enter the market on. Not "better at everything." It's "the only option that does X for Y."
-
-**Formula:**
-> "The only [product category] that [specific capability] for [specific customer type]."
-
-**Examples:**
-- "The only project management tool built specifically for solo consultants managing client work."
-- "The only email marketing platform with AI-generated subject line A/B testing built into the free tier."
-
-**Test the wedge against these three questions:**
-1. Would a target customer immediately understand why this is different?
-2. Is it defensible for at least 6–12 months before a competitor copies it?
-3. Can it be built and delivered solo?
-
-If any answer is no, sharpen further.
-
----
-
-## Step 6: Output Format
-
-When presenting a completed competitive analysis, use exactly this structure. Every section must be present. If data is unavailable, write `[data unavailable — research task]` rather than skipping the section.
-
----
+## Example Output Excerpt — Section 4: Who's Winning & Why
 
 ```markdown
-# Competitive Analysis: [Business / Product Name]
-**Date:** YYYY-MM-DD
+## 4. Who's Winning & Why
 
----
+### pump.fun — Winning on: Speed + Distribution
+pump.fun dominates through launch friction (<30 seconds, wallet-only) and viral 
+social mechanics. Community feedback on Twitter/X consistently highlights the 
+"instant gratification" loop. On-chain: ~2M tokens created as of Feb 2025 [DeFiLlama].
+**So what?** Speed is pump.fun's moat today. Competitors copying the bonding curve 
+won't catch up unless they match the distribution + social loop.
 
-## 1. Competitor Overview
+### Raydium LaunchLab — Winning on: Liquidity Infrastructure
+Raydium's advantage isn't the launchpad — it's being the default AMM. Tokens 
+graduating from Raydium stay in-ecosystem with deeper liquidity pools.
+**So what?** This is a structural advantage pump.fun addressed with PumpSwap. 
+Monitor whether PumpSwap liquidity reaches Raydium parity.
 
-### Direct Competitors
-| Name | Founded | Funding | Employees | One-line Summary |
-|------|---------|---------|-----------|-----------------|
-|      |         |         |           |                 |
-
-### Indirect & Aspirational
-[Brief paragraph — no table needed]
-
----
-
-## 2. Digital Presence Scorecard
-
-| Metric                  | [Competitor A] | [Competitor B] | [Competitor C] |
-|-------------------------|:--------------:|:--------------:|:--------------:|
-| Est. monthly traffic    |                |                |                |
-| Traffic trend (3-mo)    |                |                |                |
-| Domain Authority        |                |                |                |
-| Twitter/X handle        |                |                |                |
-| Twitter/X followers     |                |                |                |
-| Twitter/X engagement    |                |                |                |
-| Twitter/X activity      |                |                |                |
-| Strongest channel       |                |                |                |
-| Biggest channel gap     |                |                |                |
-
-> 📡 Traffic: Similarweb estimate (API integration pending)
-> 📡 Twitter/X: Manual profile lookup (API integration pending)
-
----
-
-## 3. Feature & Pricing Matrix
-
-| Dimension              | You (planned) | [Comp A] | [Comp B] | [Comp C] |
-|------------------------|:-------------:|:--------:|:--------:|:--------:|
-| Price (monthly)        |               |          |          |          |
-| Free tier?             |               |          |          |          |
-| Ease of setup (1–5)    |               |          |          |          |
-| [Feature A]            |               |          |          |          |
-| [Feature B]            |               |          |          |          |
-| Support quality (1–5)  |               |          |          |          |
-| Key integrations       |               |          |          |          |
-
----
-
-## 4. Review Intelligence Summary
-
-### [Competitor A]
-**Most praised:** [...]
-
-**Top complaints:**
-- **[Category]:** [Specific example or quote]
-- **[Category]:** [Specific example or quote]
-
-### [Competitor B]
-[Same format]
-
-### [Competitor C]
-[Same format]
-
----
-
-## 5. Exploitable Gaps
-
-### Gap #1: [Name]
-**What it is:** [...]
-**Evidence:** [...]
-**Your solution:** [...]
-**Why competitors don't fix it:** [...]
-**Effort:** Low / Medium / High | **Impact:** Low / Medium / High
-
-### Gap #2: [Name]
-[Same format]
-
-### Gap #3: [Name]
-[Same format]
-
----
-
-## 6. Competitive Wedge
-
-> **"The only [category] that [does X] for [audience Y]."**
-
-**Why this wedge works:**
-- [Reason tied to a specific gap]
-- [Reason tied to competitor weakness]
-- [Reason tied to target customer need]
-
-**Defensibility window:** [e.g. "12–18 months before a funded player copies this"]
-
----
-
-## 7. Strategic Recommendations
-
-[3–5 prioritized actions based on the analysis. Each must reference a specific gap, weakness, or insight found above.]
-
-1. **[Action]** — [Why, referencing what was found]
-2. **[Action]** — [Why, referencing what was found]
-3. **[Action]** — [Why, referencing what was found]
-
----
-
-## 8. Monitoring Calendar
-
-| Cadence | Task | Time |
-|---------|------|------|
-| Weekly | Google Alerts for top 2–3 competitor names | 5 min |
-| Monthly | Read 5–10 new reviews on G2 / Capterra | 30 min |
-| Monthly | Check Twitter/X follower delta for top competitors | 10 min |
-| Quarterly | Refresh traffic data and re-run comparison matrix | 2 hrs |
-| Quarterly | Re-evaluate competitive wedge — has anything closed or opened? | 30 min |
+### Four.meme — Winning on: Chain Diversification
+Only major player on BNB Chain. Captures users who won't bridge to Solana.
+Expert analysis [The Block, Jan 2025] notes BNB meme volume grew 340% in Q4 2024.
+**So what?** Chain lock-in is real. pump.fun's Solana-only bet is a deliberate 
+trade-off. If BNB/Base meme volume exceeds Solana → reassess.
 ```
 
 ---
 
-## Common Pitfalls
+## Acceptance Criteria
 
-- **Copying instead of gap-finding.** Copying a competitor's strategy loses on price and polish. Find the holes, don't mirror the playbook.
-- **Over-indexing on the well-funded player.** The small, focused competitor who actually serves your niche is often more dangerous and more instructive.
-- **Reading only positive reviews.** Negative reviews are 10x more valuable. That's where real product-market gaps live.
-- **Confusing follower count with reach.** A 5K engaged Twitter/X audience beats a 50K ghost audience. Always check engagement rate, not just the number.
-- **Ignoring traffic trends.** A declining competitor with high current traffic is a window — their audience is already looking for alternatives.
-- **Forgetting "do nothing" is a competitor.** Some customers will stick with a spreadsheet. The wedge must be compelling enough to justify switching cost.
+All must be true:
+
+**Completeness**: 8 sections, ≥3 deep dives, battlefield map has ≥2 categories, ≥2 whitespace opportunities.
+
+**Data quality**: Real URLs, no fabricated metrics, standardized units, "as of [date]" on metrics, conflicts noted, Fact vs Inference labeled.
+
+**Strategic depth**: Positioning vs Execution separated, "winning on what" answered per competitor, whitespace actionable, action items ticket-ready, watchlist has competitor + metric + frequency.
+
+**Evidence**: ≥2/4 sources per deep dive, strengths/weaknesses cite external, limitations honest.
+
+**Delivery**: .md + .docx, naming correct, language matches input.
