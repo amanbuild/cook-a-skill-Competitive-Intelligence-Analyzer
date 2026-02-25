@@ -462,5 +462,6 @@ cook-a-skill-Competitive-Intelligence-Analyzer/
 ├── SPEC.md                     # This file — source of truth
 ├── input-template.md           # Template for user's product brief
 └── test-results/               # Sample reports from test runs
-    └── pumpfun_Competitive_Intel_Feb2026.md
+    ├── pumpfun_Competitive_Intel_Feb2026.md
+    └── Hyperliquid_Competitive_Intel_Feb2026.md
 ```

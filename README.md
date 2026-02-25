@@ -73,7 +73,8 @@ cook-a-skill-Competitive-Intelligence-Analyzer/
 ├── SKILL.md                           ← Claude instructions (v3.1)
 ├── input-template.md                  ← Template for product brief
 └── test-results/                      ← Sample reports from test runs
-    └── pumpfun_Competitive_Intel_Feb2026.md
+    ├── pumpfun_Competitive_Intel_Feb2026.md
+    └── Hyperliquid_Competitive_Intel_Feb2026.md
 ```
 
 ---
