@@ -1,6 +1,19 @@
 ---
 name: competitive-intelligence
-description: "Use this skill when the user wants to analyze competitors around THEIR product — not just collect data, but answer strategic questions: Who are we really competing with? Why are they winning? Where's the whitespace? What should we do? Triggers: 'analyze my competitors', 'competitive analysis', 'competitive landscape', 'who are my competitors', 'benchmark against competitors'. User provides product brief (name, description, features, narrative). Output: decision-oriented report in .md + .docx with battlefield map, standardized comparison, positioning vs execution deep dives, whitespace analysis, and actionable items. Do NOT use for: general market research without a specific product (use narrative-research), product planning (use business-idea-plan), financial modeling, investment advice."
+version: "3.1"
+description: "Analyze competitors around the user's product and produce a decision-oriented report answering: Who are we competing with? Why are they winning? Where's the whitespace? What should we do?"
+triggers:
+  - "analyze my competitors"
+  - "competitive analysis"
+  - "competitive landscape"
+  - "who are my competitors"
+  - "benchmark against competitors"
+input: "Product brief (name, description, features, narrative)"
+output: "Markdown report with battlefield map, comparison matrix, deep dives, whitespace analysis, and action items"
+do_not_use_for:
+  - "General market research without a specific product (use narrative-research)"
+  - "Product planning (use business-idea-plan)"
+  - "Financial modeling or investment advice"
 ---
 
 # Competitive Intelligence Report — Skill Instructions
@@ -73,6 +86,11 @@ Does this look right?
 
 User corrects → update, re-confirm. User OK → Step C.
 
+**Industry Branch Detection**: Auto-detect at this step based on product description:
+- 🔗 **Crypto** (keywords: token, chain, TVL, DeFi, wallet) → focus on TVL, volume, wallets, on-chain fees. Sources: DefiLlama, Dune, protocol dashboards.
+- 🏢 **Non-Crypto** (keywords: SaaS, pricing tiers, ARR, enterprise) → focus on MRR/ARR, pricing, G2 rating, team size. Sources: G2, Capterra, SimilarWeb, Crunchbase.
+- **Hybrid** → use both branches, note the hybrid approach.
+
 ---
 
 ## Step C: Competitor Discovery & Battlefield Mapping (6–12 searches)
@@ -92,9 +110,21 @@ User corrects → update, re-confirm. User OK → Step C.
 
 For crypto projects, additionally tag: decentralized vs centralized, retail vs pro focus.
 
+**Deep Dive Selection Rubric (HR-20)** — Score ALL direct competitors on 5 criteria to determine deep dive priority:
+
+| Criteria | Weight |
+|----------|--------|
+| ICP Overlap | 30 |
+| Feature Overlap | 25 |
+| Business Model Overlap | 20 |
+| Traction Relevance | 15 |
+| Recent Activity | 10 |
+
+Rank by total score → deep dive top 3–5 → show scores in Battlefield Map.
+
 **Edge cases**: 20+ found → list ALL, deep dive top 5. Known competitor not in search → add manually, note it.
 
-**Output**: Battlefield map + full competitor list with URL, one-liner, tier.
+**Output**: Battlefield map + full competitor list with URL, one-liner, tier, selection score.
 
 ---
 
@@ -142,6 +172,23 @@ For crypto projects, additionally tag: decentralized vs centralized, retail vs p
 📰 News: "[development]" — source: [URL], as of [date]
 ⛓️ On-chain: [metric] — source: [platform], as of [date]
 ```
+
+**Source Priority Ladder** — Per metric type, always use the highest-priority source available:
+
+| Metric Type | P1 (best) | P2 | P3 | Fallback |
+|------------|-----------|----|----|----------|
+| Traffic | SimilarWeb | Semrush | Ahrefs | "Unknown" |
+| Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
+| On-chain (crypto) | DefiLlama | Dune | Protocol docs | Media recap |
+| Reviews (non-crypto) | G2 | Capterra | TrustRadius | "No review data" |
+
+**Fallback Proxy Policy** — When a primary metric is unavailable, use a proxy but ALWAYS label it:
+
+| Missing Metric | Proxy | Label |
+|---------------|-------|-------|
+| Traffic | App downloads / Google Trends / on-chain wallets | `"Proxy: [X] used because traffic data unavailable"` |
+| Revenue | Funding stage / team size | `"Proxy: [X] used because revenue not disclosed"` |
+| Engagement rate | Follower count only | `"Proxy: follower count only — engagement data unavailable"` |
 
 **Output**: Enriched profiles with positioning + execution layers, multi-source evidence.
 
@@ -242,11 +289,24 @@ Every insight must produce "so what?":
 | 7 | **Action Items & Watchlist** | Build / Message / Target / Watch / Benchmark — specific enough to create tickets. |
 | 8 | **Sources, Freshness & Confidence** | All URLs + dates. Confidence rating per section. Limitations paragraph. |
 
-### F2: Generate Word (.docx)
-Follow docx creation skill. US Letter, Arial, professional tables, TOC, page numbers.
+### F2: Generate Word (.docx) — Optional
+If a docx creation skill is available, generate .docx version (US Letter, Arial, professional tables, TOC, page numbers). If .docx generation fails or is unavailable → deliver .md only and notify user.
 
-### F3: Deliver
-Save both to `/mnt/user-data/outputs/`. Present files + 3–4 sentence summary of key strategic findings.
+### F3: Self-Assessment Score
+Append Section 8.5 — score the report on 5 dimensions × 20 points:
+
+| Dimension | Max | Measures |
+|-----------|-----|---------|
+| Evidence Quality | 20 | Source count, tier distribution, coverage gaps |
+| Comparability | 20 | Standardized units, fair comparison across competitors |
+| Strategic Usefulness | 20 | Answers all 4 strategic questions clearly |
+| Freshness | 20 | % sources ≤3 months, flags applied correctly |
+| Actionability | 20 | Build tickets with timelines, specificity |
+
+If total <70 → add warning banner at top. If >30% sources are 3–12 months old → flag. Include a user override field.
+
+### F4: Deliver
+Save to the current working directory or user-specified output path. Naming: `[ProductName]_Competitive_Intel_[MonthYear].md`. Present files + 3–4 sentence summary of key strategic findings.
 
 ---
 
@@ -300,6 +360,24 @@ Expert analysis [The Block, Jan 2025] notes BNB meme volume grew 340% in Q4 2024
 **So what?** Chain lock-in is real. pump.fun's Solana-only bet is a deliberate 
 trade-off. If BNB/Base meme volume exceeds Solana → reassess.
 ```
+
+---
+
+## Failure Modes
+
+| # | Failure | Handling |
+|---|---------|---------|
+| FM-1 | Missing required input | STOP. Ask. Don't proceed. |
+| FM-2 | Niche market, few competitors | Expand indirect + substitutes (P6). Note in limitations. |
+| FM-3 | Crowded market 20+ | List ALL. Deep dive top 5 by rubric score. |
+| FM-4 | Private company, no data | "Unknown". Use proxy signals. NEVER fabricate. |
+| FM-5 | Data conflict | Write range + note conflict. NEVER cherry-pick. |
+| FM-6 | Community overwhelmingly negative | Note bias. Balance with expert + metrics. |
+| FM-7 | Known competitor not found | Add manually. Research separately. Write "limited public info". |
+| FM-8 | AI misunderstands product | Step B catches this. User corrects → restart. |
+| FM-9 | .docx generation fails | Deliver .md. Notify error. |
+| FM-10 | On-chain data for non-crypto | Skip on-chain source. Don't force it. |
+| FM-11 | Only stale sources (>3mo) for metric | Try ≥2 query variations with date filter. Still stale → fallback ≤12mo + flag. No ≤12mo → "Unknown". |
 
 ---
 
