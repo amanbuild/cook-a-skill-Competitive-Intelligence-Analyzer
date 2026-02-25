@@ -71,7 +71,9 @@ cook-a-skill-Competitive-Intelligence-Analyzer/
 ├── README.md                          ← You are here
 ├── SPEC.md                            ← Source of truth (v3.1)
 ├── SKILL.md                           ← Claude instructions (v3.1)
-└── input-template.md                  ← Template for product brief
+├── input-template.md                  ← Template for product brief
+└── test-results/                      ← Sample reports from test runs
+    └── pumpfun_Competitive_Intel_Feb2026.md
 ```
 
 ---

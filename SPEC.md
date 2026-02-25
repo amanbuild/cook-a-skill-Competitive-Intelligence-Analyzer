@@ -460,5 +460,7 @@ cook-a-skill-Competitive-Intelligence-Analyzer/
 ├── README.md                   # User-facing summary + quick start
 ├── SKILL.md                    # Claude instructions (must match spec)
 ├── SPEC.md                     # This file — source of truth
-└── input-template.md           # Template for user's product brief
+├── input-template.md           # Template for user's product brief
+└── test-results/               # Sample reports from test runs
+    └── pumpfun_Competitive_Intel_Feb2026.md
 ```
