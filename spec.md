@@ -1,6 +1,6 @@
 # Competitive Intelligence Report — Spec
 
-> **Version**: v3.1 | **Last updated**: Feb 2026 | **Status**: Active — source of truth for this skill
+> **Version**: v3.2 | **Last updated**: Feb 26, 2026 | **Status**: Active — source of truth for this skill
 
 ---
 
@@ -96,6 +96,8 @@ Sections are designed to answer strategic questions, not to collect data categor
 |---|---------|-------------------|----------|-----------|
 | 1 | **Battlefield Map** | Who are we competing with, and what's the market structure? | 🔴 Must | P6 |
 | 2 | **Standardized Comparison Matrix** | Apple-to-apple comparison on same criteria? | 🔴 Must | P2 |
+| 2.5 | **Web Traffic Analysis** | How much web presence does each competitor have? | 🔴 Must | P2, P3 |
+| 2.6 | **Live Market Data** 🔗 | Real-time token price, TVL, fees, revenue — from APIs? | 🔴 Must (Crypto) | P3, P4 |
 | 3 | **Deep Dive: Positioning vs Execution** | What they say vs what they actually do? | 🔴 Must | P5, P3, P4 |
 | 4 | **Who's Winning & Why** | Who's winning — by distribution/product/pricing/trust/speed? | 🔴 Must | P1 |
 | 5 | **Strategic Whitespace** | Which gaps can we attack? | 🔴 Must | P7 |
@@ -165,8 +167,36 @@ Output language = input language.
 - **⚠️ Pitfall**: No data → "Unknown". Community bias negative → note, balance with expert + metrics
 - **⚠️ Pitfall**: On-chain only for crypto → skip if not relevant
 
+### Step D.5: Live Market Data 🔗 (Crypto branch only)
+- **Input**: Competitor list from Step D
+- **Skip entirely for Non-Crypto products.**
+- **Process**: For each competitor (including user's product), execute the Universal Flow:
+
+  | Step | Action | API / Method |
+  |------|--------|-------------|
+  | 1 | Resolve CoinGecko ID | `GET /api/v3/coins/list` — exact name match → symbol → contains |
+  | 2 | Fetch price + market cap | `GET /simple/price?ids={id}&include_market_cap=true&include_24hr_change=true` |
+  | 3 | Fetch FDV + ATH | `GET /coins/markets?ids={id}&vs_currency=usd` → `fully_diluted_valuation`, `ath`, `ath_change_percentage` |
+  | 4 | Resolve DefiLlama slug | `GET api.llama.fi/protocols` — name match. Multiple slugs → sum all sub-slugs. |
+  | 5 | Fetch TVL (aggregate) | `GET api.llama.fi/tvl/{slug}` — sum all sub-slugs, show breakdown (e.g. Bridge $X + Pool $Y = $Z) |
+  | 6 | Fetch protocol fees | `GET api.llama.fi/summary/fees/{slug}` → `total24h`, `total7d`, `total30d` |
+  | 7 | Derived metrics | `MC/TVL`, `MC/Ann.Revenue` (total30d × 12), `FDV/Revenue` |
+  | 8 | Recent developments | WebSearch `"{name}" 2026 latest news` — last 30 days for HIGH/MEDIUM-HIGH threats |
+  | 9 | Output per competitor | Token, price, MC, FDV, 24h%, vs ATH, TVL breakdown, fees 24h/7d/30d, annualized rev, derived ratios, key 30d development |
+
+- **Rules**:
+  - No token → `Token = N/A` (not error). TVL = N/A if not DeFi. Fees = N/A if not indexed.
+  - API fails → write `[API error: {slug}]` and continue. Do NOT fabricate.
+  - Use Bash curl + python3 for API calls (WebFetch fails on raw JSON endpoints).
+  - Multiple sub-slugs for same protocol → sum all and show breakdown.
+
+- **Output**: Section 2.6 in report — Live Market Data table + Derived Metrics + Recent Developments
+- **⚠️ Pitfall**: Reported TVL may be inflated by incentive programs — cross-check sub-slug breakdown vs single reported value
+
+---
+
 ### Step E: Synthesize Strategic Analysis
-- **Input**: Enriched profiles from Step D + comparison criteria
+- **Input**: Enriched profiles from Step D + Step D.5 + comparison criteria
 - **Process**:
   1. Build standardized comparison matrix (user criteria first, AI adds 3–5) (P2)
   2. Analyze "who's winning and why" — distribution, product, pricing, trust, speed (P1)
@@ -248,9 +278,13 @@ Per metric type, always attempt the highest-priority source first. Fall through 
 |------------|-----------|----|----|----------|
 | Traffic | SimilarWeb | Semrush | Ahrefs | "Unknown" |
 | Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
-| On-chain (crypto) | DefiLlama | Dune | Protocol docs | Media recap |
+| On-chain TVL (crypto) | DefiLlama API `/tvl/{slug}` [A] | Dune | Protocol docs | Media recap |
+| Token price / FDV | CoinGecko API v3 `/coins/markets` [A] | CoinMarketCap | Exchange data | "Unknown" |
+| Protocol fees / revenue | DefiLlama API `/summary/fees/{slug}` [A] | Token Terminal | Media estimate | "Unknown" |
 | Reviews (non-crypto) | G2 | Capterra | TrustRadius | "No review data" |
 | Social metrics | Platform native (X, Discord) | Social Blade | Media mentions | "Unknown" |
+
+> **API access pattern** (crypto): Use `Bash curl + python3` for CoinGecko and DefiLlama API calls. WebFetch fails on raw JSON endpoints. Rate limits: CoinGecko ~30 req/min (no key needed for basic tier).
 
 ---
 
@@ -377,6 +411,17 @@ Every report ends with a self-assessment. 5 dimensions × 20 points = 100 max.
 - [ ] Naming convention correct
 - [ ] Language matches input
 
+### Live Market Data (🔗 Crypto branch only)
+- [ ] §2.5 Web Traffic Analysis present — SimilarWeb/Semrush method, "Unknown" where not indexed
+- [ ] §2.6 Live Market Data present — token prices from CoinGecko API (not web-scraped)
+- [ ] TVL sourced from DefiLlama API, aggregated across all relevant sub-slugs with breakdown shown
+- [ ] Fees 30d + annualized revenue computed for each indexed protocol
+- [ ] MC/TVL and MC/Revenue ratios calculated where data available
+- [ ] Recent 30-day developments for HIGH/MEDIUM-HIGH threat competitors
+- [ ] API errors documented as `[API error: {slug}]`, not silently dropped
+- [ ] No-token protocols marked "N/A" (not "Unknown" — different meaning)
+- [ ] Inflated/reported TVL discrepancy flagged if sub-slug total ≠ reported total
+
 ---
 
 ## 8. Failure Modes & Handling
@@ -394,6 +439,8 @@ Every report ends with a self-assessment. 5 dimensions × 20 points = 100 max.
 | FM-9 | .docx generation fails | Deliver .md. Notify error. |
 | FM-10 | On-chain data for non-crypto product | Skip on-chain source. Don't force it. |
 | FM-11 | **Search only returns stale sources (>3 months) for a metric** | Try ≥2 query variations with date filter. Still stale → fallback to best ≤12 month source + flag "⚠️ Older — [X] months". No ≤12 month source → write "Unknown". (P4, HR-19) |
+| FM-12 | **CoinGecko / DefiLlama API returns error or empty** | Write `[API error: {slug}]` in §2.6, note in limitations, continue with remaining protocols. Do NOT fabricate. Do NOT use web article prices as substitute for API data. |
+| FM-13 | **Reported TVL differs massively from sub-slug sum** | Flag discrepancy explicitly (e.g. "$10.4B reported vs $991M verified"). Use sub-slug sum as conservative figure. Explain likely cause (rehypothecation, double-counting, incentive inflation). |
 
 ---
 
@@ -435,6 +482,48 @@ pump.fun is a Solana-native token launch platform that lets anyone create and tr
 
 ---
 
+## 9.2 Example Input — Hyperliquid (🔗 Crypto branch, Orderbook Perp DEX)
+
+### Product Name ✅ Required
+Hyperliquid
+
+### Description ✅ Required
+Hyperliquid is a decentralized perpetual futures exchange built on its own custom L1 blockchain (HyperBFT consensus), designed specifically for high-performance derivatives trading. It delivers CEX-like speed (200K TPS, 0.07-second block times), zero gas fees on trades, and a fully on-chain order book — without compromising decentralization. The platform launched its native HYPE token in November 2024 via a fair airdrop (no VCs, no pre-sale), and has since expanded into spot trading and the HyperEVM ecosystem.
+
+### Key Features ✅ Required
+- Fully on-chain central limit order book (CLOB) with 200K TPS throughput
+- Zero gas fees for all perpetual trades
+- Custom L1 blockchain (HyperBFT consensus, 0.07s block time)
+- Up to 40–50× leverage across 150+ perpetual markets
+- Native HYPE token: governance, staking, protocol fee buybacks
+- HyperEVM: full EVM compatibility for DeFi composability on Hyperliquid L1
+- Fair launch (no VC allocation, 31.5% airdrop to community)
+- Spot orderbook + HLP vault (liquidity provider yield)
+
+### Narrative / Positioning ✅ Required
+- **Target audience**: Active crypto derivatives traders (retail pro + semi-institutional) who want CEX execution speed with DEX self-custody
+- **Value proposition**: "Trade perpetuals with zero fees, CEX speed, and full on-chain transparency — no KYC, no custody risk"
+- **Differentiation**: Only perp DEX with its own purpose-built L1 that achieves real-time orderbook performance on-chain
+
+### Comparison Criteria 🟡 Optional
+- Architecture (L1/L2/Cosmos)
+- Order book model (CLOB vs AMM)
+- Gas fees
+- Trading fees
+- Max leverage
+- Throughput / latency
+- Daily volume
+- TVL
+- Open interest
+- Token utility
+- UX / mobile experience
+- Composability / developer tools
+
+### Known Competitors 🟡 Optional
+- Aster (ApolloX + Astherus merger), dYdX v4, GMX v2, Lighter, Drift v3, Vertex Protocol
+
+---
+
 ## 10. Output Density Guidelines
 
 Keep reports dense and scannable. Avoid padding.
@@ -442,14 +531,16 @@ Keep reports dense and scannable. Avoid padding.
 | Section | Target Length | Format Notes |
 |---------|-------------|--------------|
 | Battlefield Map | 300–500 words + tables + diagram | ASCII diagram preferred |
-| Comparison Matrix | Table only | No prose between rows |
+| Comparison Matrix | Table only | No prose between rows. Include Web traffic row + X followers row. |
+| §2.5 Web Traffic Analysis | Table only + 3–5 key insight bullets | rows = metrics, columns = competitors. Mark "Unknown" if not indexed — do not fabricate. |
+| §2.6 Live Market Data | 3 tables (token overview, revenue/TVL, derived metrics) + recent developments table | Crypto-only. API-sourced only. Label API errors explicitly. |
 | Deep Dive (per competitor) | 400–600 words | Layer A ~100w, Layer B ~200w + table, Evidence ~100–200w, Threat ~50–100w |
 | Who's Winning (per factor) | 150–250 words | Lead with factor + evidence, end with "So what?" |
 | Whitespace (per opportunity) | 200–300 words | Gap → Evidence → Actionable → Why winnable → Build ticket |
 | Threats | Table + 1–2 sentence mitigation | No long narrative |
 | Action Items | Bullet, ≤2 sentences per item | Tables for Build / Watch / Benchmark |
 | Sources | Table only | URL + date + tier + age |
-| Self-Assessment | Table + 1 sentence per dimension | No long justification |
+| Self-Assessment | Table + 1 sentence per dimension + compliance banner | No long justification |
 
 ---
 
