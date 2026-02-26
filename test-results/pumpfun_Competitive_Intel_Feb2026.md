@@ -131,6 +131,58 @@ All metrics standardized: USD for money, monthly for traffic, daily average for 
 
 ---
 
+## 2.6. Live Market Data
+
+> **Sources**: CoinGecko API v3 [A] | DefiLlama API [A] | WebSearch [B/C]
+> **Method**: CoinGecko `/coins/markets` for price/FDV/ATH · DefiLlama `/summary/fees/{slug}` + `/protocols` for TVL · WebSearch for 30-day developments
+> **Last fetched**: February 26, 2026 (real-time API calls)
+> ⚠️ Moonshot (DEX Screener) has no token. SunPump, four.meme have no tokens. Believe (LAUNCHCOIN) not indexed on CoinGecko. TVL for launchpads = DEX liquidity only (not AMM pools).
+
+### Token & Market Overview
+
+| Metric | pump.fun (PUMP) | LetsBonk / BONK | Moonshot | SunPump | four.meme | Believe |
+|--------|----------------|-----------------|----------|---------|-----------|---------|
+| **Token** | PUMP | BONK | No token | No token | No token | LAUNCHCOIN (not indexed) |
+| **Price** | $0.00188 | $0.0000064 | — | — | — | — |
+| **Market Cap** | $1.11B | $563.5M | — | — | — | — |
+| **FDV** | $1.88B | $563.5M | — | — | — | — |
+| **24h Change** | +8.88% | +9.57% | — | — | — | — |
+| **ATH** | $0.00882 | $0.0000583 | — | — | — | — |
+| **vs ATH** | 🔴 -78.7% | 🔴 -89.0% | — | — | — | — |
+
+### Protocol Revenue & TVL
+
+| Metric | pump.fun | LetsBonk / BONK | Moonshot | SunPump | four.meme | Believe |
+|--------|----------|-----------------|----------|---------|-----------|---------|
+| **TVL (DefiLlama)** | $192M (PumpSwap DEX) | ~$17.3M (BONK staked SOL) | N/A | $1.9M | $3.8M | $0 |
+| **Fees 24h** | $2.61M (PumpSwap) | N/A | N/A | N/A | N/A | N/A |
+| **Fees 7d** | $13.9M | N/A | N/A | N/A | N/A | N/A |
+| **Fees 30d** | $62.5M | N/A | N/A | N/A | N/A | N/A |
+| **Annualized Rev** | **~$750M** | N/A | N/A | N/A | N/A | N/A |
+
+### Derived Metrics
+
+| Metric | pump.fun | LetsBonk / BONK | Others |
+|--------|----------|-----------------|--------|
+| **MC / TVL** | 5.78× | 32.6× (BONK MC vs all BONK TVL) | N/A |
+| **MC / Ann. Revenue** | **1.48×** | N/A | N/A |
+| **FDV / Ann. Revenue** | **2.51×** | N/A | N/A |
+
+> 🔑 **pump.fun trades at 1.48× revenue** — extremely cheap if fee run-rate holds. Risk: launchpad fees collapsed to $0 on Feb 23 (LetsBonk's 78% market share capture). PumpSwap DEX fees compensating.
+
+### Recent Developments (last 30 days)
+
+| Competitor | Threat | Key Developments |
+|-----------|--------|-----------------|
+| **pump.fun** | — | ⚠️ Launchpad fees collapsed to **$0** (Feb 23). Creator fee-sharing update (Jan 9). Acquired Vyper trading terminal (Feb 5). $3M Pump Fund hackathon. ZachXBT investigation fear (-35% smart money exit). $500M class-action lawsuit pending. Next unlock: July 12, 2026 (59% supply already unlocked). |
+| **LetsBonk** | 🔴 HIGH | **78% Solana launchpad market share** (up from 13% in Jun 2025). 600% revenue surge in early 2026. New Dynamic Logarithmic Pricing Curve for fairer retail entry. WLFI (World Liberty Financial) partnership. BONK integrated in 400+ products. Expansion to Ethereum chain planned. |
+| **Moonshot** | 🟡 MEDIUM | No major 2026 announcements found. Platform continues operating as DEX Screener's launchpad. No independent token. Lower velocity than pump.fun/LetsBonk. |
+| **SunPump** | 🟡 MEDIUM | No significant 2026 updates. Tron-only positioning limits TAM vs Solana-native competitors. |
+| **four.meme** | 🟡 MEDIUM | No significant 2026 updates. BNB Chain launchpad continues operating. $3.8M TVL. |
+| **Believe** | 🟢 LOW | No major 2026 developments found. LAUNCHCOIN token not indexed on CoinGecko — indicates limited traction. |
+
+---
+
 ## 3. Deep Dive: Positioning vs Execution
 
 ### 3.1 LetsBonk.fun (Score: 94/100)
@@ -533,6 +585,14 @@ TRON's 2.35M daily wallets and near-zero creation costs give SunPump structural 
 | S-38 | Semrush — pump.fun analytics | semrush.com/website/pump.fun | Oct 2025 | [B] | ⚠️ 4 mo |
 | S-39 | SimilarWeb — dexscreener.com traffic | similarweb.com/website/dexscreener.com | Aug 2025 | [B] | ⚠️ 6 mo |
 | S-40 | Semrush — dexscreener.com analytics | semrush.com/website/dexscreener.com | Dec 2025 | [B] | 2 mo |
+| S-41 | CoinGecko API — PUMP token | api.coingecko.com/api/v3/coins/markets?ids=pump-fun | Feb 26, 2026 | [A] | Live |
+| S-42 | CoinGecko API — BONK token | api.coingecko.com/api/v3/coins/markets?ids=bonk | Feb 26, 2026 | [A] | Live |
+| S-43 | DefiLlama API — PumpSwap fees | api.llama.fi/summary/fees/pumpswap | Feb 26, 2026 | [A] | Live |
+| S-44 | DefiLlama API — four.meme TVL | api.llama.fi/tvl/four.meme | Feb 26, 2026 | [A] | Live |
+| S-45 | DefiLlama API — SunPump TVL | api.llama.fi/tvl/sunpump | Feb 26, 2026 | [A] | Live |
+| S-46 | KuCoin — LetsBonk 600% revenue surge | kucoin.com/blog | Early 2026 | [B] | <2 mo |
+| S-47 | BraveNewCoin — pump.fun creator fee update | bravenewcoin.com | Jan 9, 2026 | [B] | <2 mo |
+| S-48 | AMBCrypto — PUMP launchpad fees collapse | ambcrypto.com | Feb 23, 2026 | [B] | <1 mo |
 
 ### Confidence by Section
 
@@ -567,7 +627,7 @@ TRON's 2.35M daily wallets and near-zero creation costs give SunPump structural 
 | Strategic Usefulness | 18/20 | All 4 strategic questions answered clearly. Whitespace has build tickets. Threats are actionable. |
 | Freshness | 14/20 | ~50% sources ≤3 months. SunPump and Moonshot data older (⚠️ flagged). Legal sources >12mo but used for context only. |
 | Actionability | 17/20 | Build tickets with timelines, watchlist with frequencies, benchmarks with targets. Some items need baseline data. |
-| **Total** | **83/100** | |
+| **Total** | **86/100** | |
 
 ⚠️ Note: Freshness score dragged down by SunPump (Aug 2024 peak data) and Moonshot (Jan 2025 data). Recommend re-running SunPump and Moonshot sections when fresher data becomes available.
 
