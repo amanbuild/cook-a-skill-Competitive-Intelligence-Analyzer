@@ -95,6 +95,8 @@ All metrics standardized: USD for money, daily average for volume. Sources: Defi
 | **Token utility** | 🟢 HYPE: governance, staking, fees, buybacks | 🟡 ASTER: staking Q2 2026 | 🟡 DYDX: staking, governance, 8.8% APR | 🟡 GMX: fee-sharing (30% V1 / 27% V2) | 🟡 LIT: buybacks, governance | 🟡 DRIFT: governance, insurance fund |
 | **UX / Mobile** | 🟢 CEX-like, one-click, no approvals | 🟡 Clean UI, multi-chain | 🟡 Pro interface, TWAP/scaled orders | 🟡 Simple swap-like UX | 🟡 Clean, institutional-grade | 🟡 Good UI, sub-accounts |
 | **Composability / Dev tools** | 🟢 HyperEVM + HyperCore, full composability | 🟡 BNB EVM, planned own chain | 🟡 Cosmos SDK, permissionless markets | 🟡 Arbitrum EVM, vault integrations | 🟡 Ethereum settlement, ZK stack | 🟡 Solana programs, Drift Earn |
+| **Web traffic (monthly)** | 🟢 3.29M (Jan 2026, +11.6% MoM) | Unknown | 🔴 79.1K (Jun 2025 ⚠️ Older) | Unknown (SimilarWeb gated) | Unknown | Unknown |
+| **X followers** | 🟢 359.2K (@HyperliquidX) | 🟡 276.2K (@Aster_DEX) | 🟢 296K (@dYdX) | 🟡 225.3K (@GMX_IO) | 🔴 103.2K (@Lighter_xyz) | 🟡 130.1K (@DriftProtocol) |
 | **Overall Threat Level** | — | 🔴 **High** | 🟡 Medium | 🟡 Medium | 🟡 Medium-High | 🟡 Medium |
 
 ---
@@ -495,6 +497,14 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 | S-28 | TradingView/CoinTelegraph — Delphi outlook | tradingview.com | 2026 | [B] | <3 mo |
 | S-29 | Tokenomist — HYPE unlock schedule | tokenomist.ai/hyperliquid | Feb 2026 | [A] | <1 mo |
 | S-30 | HokaNews — Hyperliquid $6B TVL | hokanews.com | Jan 2026 | [C] | 1 mo |
+| S-31 | Cryip — DEX web traffic Jan 2026 | cryip.co | Jan 2026 | [B] | <1 mo |
+| S-32 | SimilarWeb — dydx.exchange | similarweb.com/website/dydx.exchange | Jun 2025 | [B] | ⚠️ 8 mo |
+| S-33 | X profile — @HyperliquidX | x.com/HyperliquidX | Feb 2026 | [A] | <1 mo |
+| S-34 | X profile — @Aster_DEX | x.com/Aster_DEX | Feb 2026 | [A] | <1 mo |
+| S-35 | X profile — @dYdX | x.com/dYdX | Feb 2026 | [A] | <1 mo |
+| S-36 | X profile — @GMX_IO | x.com/GMX_IO | Feb 2026 | [A] | <1 mo |
+| S-37 | X profile — @Lighter_xyz | x.com/Lighter_xyz | Feb 2026 | [A] | <1 mo |
+| S-38 | X profile — @DriftProtocol | x.com/DriftProtocol | Feb 2026 | [A] | <1 mo |
 
 ### Confidence by Section
 
@@ -516,6 +526,8 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 - **GMX daily volume estimates**: Based on fee extrapolation ($140K/day at ~0.05% fees ≈ $280M/day), not direct volume reporting. Actual figure may differ.
 - **Hyperliquid revenue decline**: Weekly revenue dropping 55% is a significant trend that may continue. Report metrics reflect a platform in revenue transition.
 - **Wash trading disclaimer**: All DEX volume figures industry-wide are affected by wash trading. Organic volume for all platforms is likely 30-70% of reported figures.
+- **Web traffic data gaps**: SimilarWeb paywalled for most competitors. Only Hyperliquid (3.29M/mo) and dydx.exchange (79.1K, ⚠️ Jun 2025) have verified traffic. Others marked "Unknown".
+- **X follower counts**: Scraped from Google-indexed X profile snippets (Feb 2026). Counts are approximate and may fluctuate daily.
 
 ---
 

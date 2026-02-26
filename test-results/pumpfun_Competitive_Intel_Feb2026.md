@@ -97,6 +97,8 @@ All metrics standardized: USD for money, monthly for traffic, daily average for 
 | **Abuse/moderation** | 🔴 98.6% scam rate, minimal moderation | 🟡 Better graduation rate (est.), BONK community oversight | 🟡 Audited contracts claimed, deflationary burns | 🟡 1.98% graduation rate (vs pump.fun 1.26%) | 🟡 Binance curation option adds filter layer | 🔴 Open to spam, no content filter |
 | **Cumulative revenue** | 🟢 $935M+ | 🟡 ~$10M+ est. | 🟡 $400M+ volume (Jupiter era) | 🟡 $10M+ | 🟡 $2.6B+ DEX volume | 🔴 ~$14M peak week, collapsed |
 | **Tokens created** | 🟢 11.9M+ | 🟡 Hundreds of thousands | 🟡 7,000+ (early data) | 🟡 98,000+ | 🟡 Unknown (high activity) | 🟡 4,000+/day at peak |
+| **Web traffic (monthly)** | 🟢 3.29M (Jan 2026) | Unknown | Unknown | Unknown | Unknown | Unknown |
+| **X followers** | 🟢 641.3K (@Pumpfun) | 🟡 106.4K (@bonk_fun) | 🟡 185.3K (@moonshot) | 🟡 329.2K (@sunpumpmeme) | 🟡 242.3K (@four_meme_) | 🔴 86.1K (@believeapp) |
 | **Overall Threat Level** | — | 🔴 High | 🟡 Medium | 🟡 Medium | 🟡 Medium | 🟢 Low (fading) |
 
 ---
@@ -491,6 +493,14 @@ TRON's 2.35M daily wallets and near-zero creation costs give SunPump structural 
 | S-26 | Gate.com — Clanker overview | gate.com | Jan 2026 | [B] | 1 mo |
 | S-27 | The Defiant — Farcaster/Clanker | thedefiant.io | Oct 2025 | [B] | 4 mo |
 | S-28 | The Block — Heaven 15% share | theblock.co/post/368668 | Aug 2025 | [B] | ⚠️ 6 mo |
+| S-29 | Cryip — DEX web traffic Jan 2026 | cryip.co | Jan 2026 | [B] | <1 mo |
+| S-30 | Semrush — pump.fun traffic | semrush.com/website/pump.fun | Oct 2025 | [B] | ⚠️ 4 mo |
+| S-31 | X profile — @Pumpfun | x.com/Pumpfun | Feb 2026 | [A] | <1 mo |
+| S-32 | X profile — @bonk_fun | x.com/bonk_fun | Feb 2026 | [A] | <1 mo |
+| S-33 | X profile — @moonshot | x.com/moonshot | Feb 2026 | [A] | <1 mo |
+| S-34 | X profile — @sunpumpmeme | x.com/sunpumpmeme | Feb 2026 | [A] | <1 mo |
+| S-35 | X profile — @four_meme_ | x.com/four_meme_ | Feb 2026 | [A] | <1 mo |
+| S-36 | X profile — @believeapp | x.com/believeapp | Feb 2026 | [A] | <1 mo |
 
 ### Confidence by Section
 
@@ -510,6 +520,8 @@ TRON's 2.35M daily wallets and near-zero creation costs give SunPump structural 
 - **Moonshot user data is 13 months old**: The 20M user figure is from Jan 2025 TRUMP launch. Post-acquisition current DAU unknown.
 - **Bot activity distorts metrics**: Market share percentages for all Solana launchpads are heavily influenced by bot-driven token creation. Organic metrics are not available separately.
 - **pump.fun's current revenue is declining rapidly**: The ~$1M/day figure is from Feb 2026, but the trend may continue downward.
+- **Web traffic data gaps**: SimilarWeb data is paywalled for most competitors. Only pump.fun (3.29M/mo) has verified traffic. Competitors marked "Unknown" — SimilarWeb Pro required for full data.
+- **X follower counts**: Scraped from Google-indexed X profile snippets (Feb 2026). Counts are approximate and may fluctuate daily.
 - **PUMP token metrics**: Insider trading investigation (ZachXBT, Feb 26) pending — could materially change outlook.
 
 ---
