@@ -68,13 +68,27 @@ Here is my product spec:
 
 ```
 cook-a-skill-Competitive-Intelligence-Analyzer/
-├── README.md                          ← You are here
-├── SPEC.md                            ← Source of truth (v3.1)
-├── SKILL.md                           ← Claude instructions (v3.1)
-├── input-template.md                  ← Template for product brief
-└── test-results/                      ← Sample reports from test runs
-    ├── pumpfun_Competitive_Intel_Feb2026.md
-    └── Hyperliquid_Competitive_Intel_Feb2026.md
+├── README.md                               ← You are here
+├── SPEC.md                                 ← Source of truth (v3.3)
+├── SKILL.md                                ← Claude skill instructions (v3.3)
+├── skill-card.md                           ← One-page skill card summary
+├── input-template.md                       ← Template for product brief
+├── sk-template                             ← Sample input brief (SkillMarket AI)
+│
+├── scripts/                                ← Data pipeline tools (Step D.3)
+│   ├── fetch_similarweb.py                 ← SimilarWeb API fetcher (POST /v1/visitsInfo)
+│   ├── traffic.db                          ← SQLite: all SimilarWeb API run history
+│   ├── section_2_5_pumpfun.md              ← Generated §2.5 output (pump.fun v3.2)
+│   ├── section_2_5_pumpfun_v33.md          ← Generated §2.5 output (pump.fun v3.3)
+│   ├── section_2_5_hyperliquid_v33.md      ← Generated §2.5 output (Hyperliquid v3.3)
+│   ├── section_2_5_skillmarket_v33.md      ← Generated §2.5 output (SkillMarket AI v3.3)
+│   └── section_2_5_aster_fix.md            ← Generated §2.5 output (Aster domain fix)
+│
+└── test-results/                           ← Reports from test runs
+    ├── pumpfun_Competitive_Intel_Feb2026.md        ← 🔗 Crypto · Score: 89/100
+    ├── Hyperliquid_Competitive_Intel_Feb2026.md    ← 🔗 Crypto · Score: 91/100
+    ├── SkillMarketAI_Competitive_Intel_Feb2026.md  ← 🏢 Non-Crypto · Score: 88/100
+    └── LiveData_Methodology_Test_Feb2026.md        ← Live API methodology test
 ```
 
 ---
@@ -202,14 +216,13 @@ Auto-detected at Step B based on product description:
 
 ## Sample Reports
 
-Reports generated during development (not included in this repo):
+Reports in `test-results/`:
 
-| # | Product | Version | Date | Score |
-|---|---------|---------|------|-------|
-| 1 | pump.fun | v1 | Feb 2026 | — |
-| 2 | pump.fun | v2 | Feb 2026 | 81/100 |
-| 3 | pump.fun | v3 | Feb 2026 | 84/100 |
-| 4 | Polymarket | v2 | Feb 2026 | 87/100 |
+| # | Product | Branch | Version | Date | Score | File |
+|---|---------|--------|---------|------|-------|------|
+| 1 | pump.fun | 🔗 Crypto | v3.3 | Feb 2026 | 89/100 | `pumpfun_Competitive_Intel_Feb2026.md` |
+| 2 | Hyperliquid | 🔗 Crypto | v3.3 | Feb 2026 | 91/100 | `Hyperliquid_Competitive_Intel_Feb2026.md` |
+| 3 | SkillMarket AI | 🏢 Non-Crypto | v3.3 | Feb 2026 | 88/100 | `SkillMarketAI_Competitive_Intel_Feb2026.md` |
 
 ---
 
@@ -220,4 +233,6 @@ Reports generated during development (not included in this repo):
 | v1 | Feb 2026 | Initial 8-section report structure, 8 philosophies, pump.fun test |
 | v2 | Feb 2026 | +Source tiers [A]–[D], +Selection rubric (100-pt scoring), +Priority ladder, +Fallback proxies, +Self-assessment scoring (5×20), +Output density guidelines, +Crypto / Non-crypto branch detection, +Deep dive micro-example |
 | v3 | Feb 2026 | +Freshness enforcement (HR-19): metrics prefer ≤3mo / fallback ≤12mo / >12mo drop. +Date filter required in search queries. +Age column in source table. +FM-11 stale source handling |
-| v3.1 | Feb 2026 | +SPEC now source of truth (moved 7 features from README into SPEC Sections 6.1–6.6). +HR-20 (selection rubric). +SKILL aligned HR numbering with SPEC. +SKILL gained Failure Modes, Source Taxonomy, Priority Ladder, Proxy Policy, Branch Detection, Self-Assessment, Output Density. +Fixed file structure refs. +.docx now optional. |
+| v3.1 | Feb 2026 | +SPEC now source of truth. +HR-20 (selection rubric). +SKILL aligned HR numbering. +Failure Modes, Source Taxonomy, Priority Ladder, Proxy Policy, Branch Detection, Self-Assessment, Output Density. +.docx optional. |
+| v3.2 | Feb 2026 | +§2.5 Web Traffic section (SimilarWeb API [A], `scripts/fetch_similarweb.py`). +§2.6 Live Market Data (CoinGecko + DefiLlama APIs). +Conflict Resolution Rule (DefiLlama authoritative for on-chain). +Source priority ladder updated for API-first. +Step D.3 + D.5 Universal Flow. |
+| v3.3 | Feb 2026 | +Non-Crypto §2.6 branch (Ecosystem Metrics: GitHub stars, funding, skill counts, security benchmarks). +FM-12–15 (multi-slug TVL, CoinGecko ambiguity, SimilarWeb stale/not-indexed). +`--domains` comma-separated warning. +Acceptance Criteria for non-crypto. +3 sample reports in `test-results/`. |
