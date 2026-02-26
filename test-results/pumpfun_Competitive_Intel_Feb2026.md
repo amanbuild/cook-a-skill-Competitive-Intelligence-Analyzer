@@ -178,7 +178,7 @@ All metrics standardized: USD for money, monthly for traffic, daily average for 
 
 | Competitor | Threat | Key Developments |
 |-----------|--------|-----------------|
-| **pump.fun** | — | ⚠️ Launchpad fees collapsed to **$0** (Feb 23). Creator fee-sharing update (Jan 9). Acquired Vyper trading terminal (Feb 5). $3M Pump Fund hackathon. ZachXBT investigation fear (-35% smart money exit). $500M class-action lawsuit pending. Next unlock: July 12, 2026 (59% supply already unlocked). |
+| **pump.fun** | — | Creator fee-sharing update (Jan 9). Acquired Vyper trading terminal (Feb 5). $3M Pump Fund hackathon. ZachXBT investigation fear (-35% smart money exit). $500M class-action lawsuit pending. Next unlock: July 12, 2026 (59% supply already unlocked). |
 | **LetsBonk** | 🔴 HIGH | **78% Solana launchpad market share** (up from 13% in Jun 2025). 600% revenue surge in early 2026. New Dynamic Logarithmic Pricing Curve for fairer retail entry. WLFI (World Liberty Financial) partnership. BONK integrated in 400+ products. Expansion to Ethereum chain planned. |
 | **Moonshot** | 🟡 MEDIUM | No major 2026 announcements found. Platform continues operating as DEX Screener's launchpad. No independent token. Lower velocity than pump.fun/LetsBonk. |
 | **SunPump** | 🟡 MEDIUM | No significant 2026 updates. Tron-only positioning limits TAM vs Solana-native competitors. |
