@@ -158,11 +158,11 @@ All metrics standardized: USD for money, monthly for traffic, daily average for 
 
 | Metric | pump.fun (PumpSwap) | Raydium | four.meme | SunPump | LetsBonk |
 |--------|---------------------|---------|-----------|---------|----------|
-| **TVL (DefiLlama)** | $191.8M | $1,053.7M | $3.8M | $1.9M | N/A |
-| **Fees 24h** | $2.61M | $419.3K | $89.6K | $162 | N/A |
-| **Fees 7d** | $13.87M | $4.50M | $615.8K | $11.9K | N/A |
-| **Fees 30d** | $62.53M | $14.33M | $3.29M | $29.9K | N/A |
-| **Annualized Rev** | **$750.4M** | **$171.9M** | **$39.5M** | **$0.36M** | N/A |
+| **TVL (DefiLlama)** | $191.8M | $1,053.7M | $3.8M | $1.9M | Unknow |
+| **Fees 24h** | $2.61M | $419.3K | $89.6K | $162 | $28K |
+| **Fees 7d** | $13.87M | $4.50M | $615.8K | $11.9K | $254k |
+| **Fees 30d** | $62.53M | $14.33M | $3.29M | $29.9K | $1.6M |
+| **Annualized Rev** | **$750.4M** | **$171.9M** | **$39.5M** | **$0.36M** | $19.53M |
 
 ### Derived Metrics
 
