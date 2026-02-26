@@ -303,11 +303,14 @@ Per metric type, always attempt the highest-priority source first. Fall through 
 |------------|-----------|----|----|----------|
 | Traffic | SimilarWeb API [A] (`scripts/fetch_similarweb.py`) | SimilarWeb.com (manual) | Semrush | "Unknown" |
 | Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
-| On-chain TVL (crypto) | DefiLlama API `/tvl/{slug}` [A] | Dune | Protocol docs | Media recap |
-| Token price / FDV | CoinGecko API v3 `/coins/markets` [A] | CoinMarketCap | Exchange data | "Unknown" |
+| TVL | DefiLlama API `/tvl/{slug}` [A] | Dune | Protocol docs | Media recap |
+| Volume (on-chain) | DefiLlama API `/summary/dexs/{slug}` [A] | Dune | CoinGecko | "Unknown" |
 | Protocol fees / revenue | DefiLlama API `/summary/fees/{slug}` [A] | Token Terminal | Media estimate | "Unknown" |
+| Token price / FDV | CoinGecko API v3 `/coins/markets` [A] | CoinMarketCap | Exchange data | "Unknown" |
 | Reviews (non-crypto) | G2 | Capterra | TrustRadius | "No review data" |
 | Social metrics | Platform native (X, Discord) | Social Blade | Media mentions | "Unknown" |
+
+> **Conflict Resolution Rule**: When the same on-chain metric (TVL, fees, revenue, volume) is available from both DefiLlama and CoinGecko → **always use DefiLlama API**. CoinGecko is authoritative only for token price, market cap, and FDV. DefiLlama is authoritative for all protocol-level on-chain metrics.
 
 > **API access pattern** (crypto): Use `Bash curl + python3` for CoinGecko and DefiLlama API calls. WebFetch fails on raw JSON endpoints. Rate limits: CoinGecko ~30 req/min (no key needed for basic tier).
 

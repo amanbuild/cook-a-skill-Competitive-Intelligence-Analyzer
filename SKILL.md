@@ -179,11 +179,14 @@ Rank by total score → deep dive top 3–5 → show scores in Battlefield Map.
 |------------|-----------|----|----|----------|
 | Traffic | SimilarWeb API [A] (`scripts/fetch_similarweb.py`) | SimilarWeb.com (manual) | Semrush | "Unknown" |
 | Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
-| On-chain (crypto) | DefiLlama API [A] | Dune | Protocol docs | Media recap |
+| TVL | DefiLlama API `/tvl/{slug}` [A] | Dune | Protocol docs | Media recap |
+| Volume (on-chain) | DefiLlama API `/summary/dexs/{slug}` [A] | Dune | CoinGecko | "Unknown" |
+| Protocol fees / revenue | DefiLlama API `/summary/fees/{slug}` [A] | Token Terminal | Media estimate | "Unknown" |
 | Token price / FDV | CoinGecko API v3 [A] | CoinMarketCap | Exchange data | "Unknown" |
-| Protocol fees / revenue | DefiLlama `/summary/fees` [A] | Token Terminal | Media estimate | "Unknown" |
 | Reviews (non-crypto) | G2 | Capterra | TrustRadius | "No review data" |
 | Social metrics | Platform native (X, Discord) | Social Blade | Media mentions | "Unknown" |
+
+> **Conflict Resolution Rule**: When the same on-chain metric (TVL, fees, revenue, volume) is available from both DefiLlama and CoinGecko → **always use DefiLlama API**. CoinGecko is authoritative only for token price, market cap, and FDV. DefiLlama is authoritative for all protocol-level on-chain metrics.
 
 **Fallback Proxy Policy** — When a primary metric is unavailable, use a proxy but ALWAYS label it:
 
