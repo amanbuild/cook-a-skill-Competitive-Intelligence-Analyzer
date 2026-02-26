@@ -1,0 +1,275 @@
+# SkillMarket AI — Research Product Brief
+
+> Status: Pre-launch (Research Phase Only)  
+> Purpose: Competitive landscape analysis & strategic validation
+
+---
+
+## 1. Product Name
+
+SkillMarket AI (Working Title)
+
+---
+
+## 2. Concept Overview
+
+SkillMarket AI is a research-stage concept exploring the creation of a structured marketplace for AI “skills” — reusable AI workflows, prompt systems, and toolchains that automate operational tasks.
+
+The core hypothesis:
+
+AI workflows can become deployable, versioned, and monetizable digital assets — similar to npm packages, SaaS modules, or an app store layer for AI agents.
+
+This document is for market research purposes only.  
+No product has been launched.
+
+---
+
+## 3. Problem Hypothesis
+
+Current AI workflow ecosystems show structural gaps:
+
+- Prompt marketplaces lack execution structure
+- Skill directories lack monetization standards
+- Security validation is inconsistent
+- Version control is weak
+- No unified input/output contract standard
+- Limited analytics for creators
+- Poor discoverability in large ecosystems
+
+Research Question:
+Can a structured skill layer become foundational infrastructure for the agent economy?
+
+---
+
+## 4. Proposed Capabilities (Conceptual Only)
+
+These are exploratory hypotheses — not a confirmed roadmap.
+
+- Structured Skill Listings (defined input/output schema)
+- Version control & change logs
+- Execution sandbox environment
+- API / SDK export layer
+- Flexible monetization (free, subscription, usage-based)
+- Validation & QA framework
+- Creator analytics dashboard
+- Permission controls & audit logs
+- Discovery, ranking & curation engine
+
+---
+
+## 5. Target User Hypothesis
+
+Potential user segments being evaluated:
+
+- Operators
+- Data Analysts
+- Product Managers
+- Growth teams
+- Founders
+- AI builders
+- Automation consultants
+- Workflow creators
+
+Open Question:
+Do these users prefer building workflows internally, or adopting external reusable skills?
+
+---
+
+## 6. Positioning Hypotheses Under Evaluation
+
+We are exploring three potential positioning directions:
+
+1. Infrastructure layer for agent skills
+2. Monetization layer for AI workflow creators
+3. Enterprise-grade secure skill registry
+
+Final positioning will depend on competitive gap analysis.
+
+---
+
+# 7. Competitive Landscape (2026 Snapshot)
+
+Only active ecosystems with public activity in the last 12 months are included.
+
+---
+
+## Tier 1 — High Momentum / Strategic Watchlist
+
+### ClawHub  
+URL: https://clawhub.ai  
+
+- npm-style versioning
+- Large skill base
+- Developer-heavy ecosystem
+- Security controversies reported
+
+---
+
+### skills.sh (Vercel ecosystem)  
+URL: https://skills.sh  
+
+- 50k+ skills
+- CLI-based install (`npx skills add`)
+- Leaderboard & security signals
+- Positioned as safer ecosystem
+
+---
+
+### SkillsMP  
+URL: https://skillsmp.com  
+
+- 270k+ skills indexed
+- SKILL.md standard
+- Search & categorization focus
+
+---
+
+### Smithery.ai (Skills)  
+URL: https://smithery.ai/skills  
+
+- MCP-focused ecosystem
+- Fast install
+- Developer tools orientation
+
+---
+
+### Skly.ai  
+URL: https://skly.ai  
+
+- Monetized skill store
+- Stripe integration
+- Early-stage traction (HN launch 2026)
+
+---
+
+## Tier 2 — Strong Watchlist / Niche Depth
+
+### SkillsLLM  
+URL: https://skillsllm.com  
+
+- Curated open-source skills
+- Automation & workflow focus
+
+---
+
+### MCPMarket  
+URL: https://mcpmarket.com/tools/skills  
+
+- 50k+ skills directory
+- Multi-model support
+
+---
+
+### AISkillsMarket  
+URL: https://aiskillsmarket.com  
+
+- Open marketplace
+- Rating & sharing model
+
+---
+
+### Manus Agent Skills Marketplace  
+URL: https://manus.im/features/agent-skills  
+
+- Built-in execution sandbox
+- Platform-native skills
+
+---
+
+### Gen Agent Trust Hub  
+URL: https://ai.gendigital.com/agent-trust-hub  
+
+- Security-vetted skills
+- Governance focus
+
+---
+
+### atcyrus Skills  
+URL: https://atcyrus.com/skills  
+
+- Curated Claude Code skills
+- DevOps & documentation niche
+
+---
+
+## Tier 3 — Related / Indirect Models
+
+### PromptShop  
+URL: https://promptshop.co  
+
+- Prompt + agent hybrid marketplace
+
+---
+
+### SkillMarket.space ($SKILL on Solana)  
+
+- Agent-to-agent pay-per-run model
+
+---
+
+### Pokee.ai  
+URL: https://pokee.ai  
+
+- Credit-based pay-per-run
+- Beta launch 2026
+
+---
+
+### Poe Creators  
+URL: https://poe.com/creators  
+
+- Monetized bots
+- Per-message revenue model
+
+---
+
+### OpenAI GPT Store  
+URL: https://chatgpt.com/gpts  
+
+- Custom GPT distribution layer
+- Closed ecosystem
+
+---
+
+## Enterprise Agent Marketplaces
+
+- Oracle AI Agent Marketplace
+- ServiceNow AI Marketplace
+- Salesforce AI Agent Marketplace
+
+Focus:
+Enterprise governance, compliance, and ecosystem control.
+
+---
+
+# 8. Research Objectives
+
+This document supports:
+
+- Ecosystem maturity mapping
+- Structural weakness identification
+- Security model comparison
+- Monetization model analysis
+- Skill standard evaluation (SKILL.md, MCP, etc.)
+- Positioning gap detection
+- Moat potential assessment
+
+---
+
+# 9. Strategic Open Questions
+
+1. Is this market fragmenting or consolidating?
+2. Will skills trend toward open infrastructure or closed monetized ecosystems?
+3. Does security become the primary competitive moat?
+4. Is discoverability the real bottleneck?
+5. What creates sustainable creator incentives?
+6. Does monetization require platform-native execution?
+
+---
+
+# 10. Current Status
+
+- Not launched
+- No public roadmap
+- No funding announced
+- Research & strategic validation phase only
