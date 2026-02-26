@@ -103,6 +103,34 @@ All metrics standardized: USD for money, monthly for traffic, daily average for 
 
 ---
 
+## 2.5. Web Traffic Analysis
+
+> Sources: SimilarWeb [B], Semrush [B], Cryip [B] | Method: Google-indexed SimilarWeb/Semrush public pages
+> ⚠️ SimilarWeb detailed data is paywalled. Only pump.fun and Moonshot (via dexscreener.com parent domain) have publicly available traffic metrics. Smaller/newer domains (bonk.fun, sunpump.meme, four.meme, believe.app) are not indexed by SimilarWeb.
+
+| Metric | pump.fun | LetsBonk (bonk.fun) | Moonshot (dexscreener.com\*) | SunPump (sunpump.meme) | Four.meme | Believe (believe.app) |
+|--------|----------|---------------------|---------------------------|------------------------|-----------|----------------------|
+| **Total visits (monthly)** | 🟢 4.86M (Oct'25, -35.45% MoM) · ~3.29M est. Jan'26 | Unknown | 🟢 8.96M (Dec'25, -21.23% MoM) | Unknown | Unknown | Unknown |
+| **Bounce Rate** | 42.04% | Unknown | 🟢 25.66% | Unknown | Unknown | Unknown |
+| **Pages/Visit** | 6.01 | Unknown | 🟢 8.78 | Unknown | Unknown | Unknown |
+| **Avg Visit Duration** | 06:42 | Unknown | 🟢 11:30 | Unknown | Unknown | Unknown |
+| **Audience (M / F)** | 74.08% / 25.92% | Unknown | 73.24% / 26.76% | Unknown | Unknown | Unknown |
+| **Largest Age Group** | 25-34 | Unknown | 25-34 | Unknown | Unknown | Unknown |
+| **Top Country** | 🇺🇸 US (32.49%), 🇵🇭 PH (8.04%), 🇩🇪 DE (4.58%) | Unknown | 🇺🇸 US (top), 🇮🇩 ID, 🇦🇺 AU | Unknown | Unknown | Unknown |
+| **Top Referring** | Direct (78.83%), Organic Search (2nd) | Unknown | Direct (82.16%), Search (11.78%) | Unknown | Unknown | Unknown |
+| **Social Traffic** | X (Twitter) #1, YouTube #2, Instagram #3 | Unknown | Unknown | Unknown | Unknown | Unknown |
+
+\*Moonshot traffic uses **dexscreener.com** as proxy — includes all DEX Screener activity (token screener + Moonshot launchpad), not Moonshot alone. Actual Moonshot-only traffic is a subset.
+
+**Key insights:**
+- **pump.fun traffic is declining**: From ~19.5M peak to ~4.86M (Oct'25) to ~3.29M (Jan'26), tracking the platform's revenue decline
+- **Moonshot parent (DEX Screener) has 2× pump.fun's traffic** at 8.96M/mo, but includes the core DEX screener product — Moonshot alone is likely a fraction
+- **Engagement quality**: DEX Screener shows significantly better engagement (25.66% bounce, 8.78 pages/visit, 11:30 duration) vs pump.fun (42.04% bounce, 6.01 pages/visit, 06:42 duration)
+- **Audience composition identical**: Both platforms ~74% male, 25-34 age group, US-dominant — confirming they compete for the same user base
+- **Data gap**: 4 of 6 competitors have zero public traffic data. SimilarWeb Pro subscription required for bonk.fun, sunpump.meme, four.meme, believe.app
+
+---
+
 ## 3. Deep Dive: Positioning vs Execution
 
 ### 3.1 LetsBonk.fun (Score: 94/100)
@@ -501,6 +529,10 @@ TRON's 2.35M daily wallets and near-zero creation costs give SunPump structural 
 | S-34 | X profile — @sunpumpmeme | x.com/sunpumpmeme | Feb 2026 | [A] | <1 mo |
 | S-35 | X profile — @four_meme_ | x.com/four_meme_ | Feb 2026 | [A] | <1 mo |
 | S-36 | X profile — @believeapp | x.com/believeapp | Feb 2026 | [A] | <1 mo |
+| S-37 | SimilarWeb — pump.fun traffic | similarweb.com/website/pump.fun | Nov 2025 | [B] | 3 mo |
+| S-38 | Semrush — pump.fun analytics | semrush.com/website/pump.fun | Oct 2025 | [B] | ⚠️ 4 mo |
+| S-39 | SimilarWeb — dexscreener.com traffic | similarweb.com/website/dexscreener.com | Aug 2025 | [B] | ⚠️ 6 mo |
+| S-40 | Semrush — dexscreener.com analytics | semrush.com/website/dexscreener.com | Dec 2025 | [B] | 2 mo |
 
 ### Confidence by Section
 
@@ -530,12 +562,12 @@ TRON's 2.35M daily wallets and near-zero creation costs give SunPump structural 
 
 | Dimension | Score | Justification |
 |-----------|-------|--------------|
-| Evidence Quality | 16/20 | 28 sources, mix of [A] (7) and [B] (17) and [C] (4). Some competitor data relies on older sources. |
+| Evidence Quality | 17/20 | 40 sources, mix of [A] (7) and [B] (21) and [C] (4). Web traffic section adds SimilarWeb/Semrush data. Some competitor data relies on older sources. |
 | Comparability | 17/20 | Standardized across matrix (USD, same metrics). Some gaps where data unavailable (marked "Unknown"). |
 | Strategic Usefulness | 18/20 | All 4 strategic questions answered clearly. Whitespace has build tickets. Threats are actionable. |
 | Freshness | 14/20 | ~50% sources ≤3 months. SunPump and Moonshot data older (⚠️ flagged). Legal sources >12mo but used for context only. |
 | Actionability | 17/20 | Build tickets with timelines, watchlist with frequencies, benchmarks with targets. Some items need baseline data. |
-| **Total** | **82/100** | |
+| **Total** | **83/100** | |
 
 ⚠️ Note: Freshness score dragged down by SunPump (Aug 2024 peak data) and Moonshot (Jan 2025 data). Recommend re-running SunPump and Moonshot sections when fresher data becomes available.
 
