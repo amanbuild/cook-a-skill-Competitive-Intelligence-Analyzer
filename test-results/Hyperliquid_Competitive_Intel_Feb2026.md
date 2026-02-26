@@ -95,7 +95,7 @@ All metrics standardized: USD for money, daily average for volume. Sources: Defi
 | **Token utility** | 🟢 HYPE: governance, staking, fees, buybacks | 🟡 ASTER: staking Q2 2026 | 🟡 DYDX: staking, governance, 8.8% APR | 🟡 GMX: fee-sharing (30% V1 / 27% V2) | 🟡 LIT: buybacks, governance | 🟡 DRIFT: governance, insurance fund |
 | **UX / Mobile** | 🟢 CEX-like, one-click, no approvals | 🟡 Clean UI, multi-chain | 🟡 Pro interface, TWAP/scaled orders | 🟡 Simple swap-like UX | 🟡 Clean, institutional-grade | 🟡 Good UI, sub-accounts |
 | **Composability / Dev tools** | 🟢 HyperEVM + HyperCore, full composability | 🟡 BNB EVM, planned own chain | 🟡 Cosmos SDK, permissionless markets | 🟡 Arbitrum EVM, vault integrations | 🟡 Ethereum settlement, ZK stack | 🟡 Solana programs, Drift Earn |
-| **Web traffic (monthly)** | 🟢 3.4M (+10.7% MoM) | 🔴 0 (not indexed) | 🔴 42K (+29.9% MoM) | 🟡 251K (+4.0% MoM) | 🟢 1.6M (-25.3% MoM) | 🟡 130K (-28.2% MoM) |
+| **Web traffic (monthly)** | 🟢 3.4M (+10.7% MoM) | 🟡 1.0M (-21.3% MoM) | 🔴 42K (+29.9% MoM) | 🟡 251K (+4.0% MoM) | 🟢 1.6M (-25.3% MoM) | 🟡 130K (-28.2% MoM) |
 | **X followers** | 🟢 359.2K (@HyperliquidX) | 🟡 276.2K (@Aster_DEX) | 🟢 296K (@dYdX) | 🟡 225.3K (@GMX_IO) | 🔴 103.2K (@Lighter_xyz) | 🟡 130.1K (@DriftProtocol) |
 | **Overall Threat Level** | — | 🔴 **High** | 🟡 Medium | 🟡 Medium | 🟡 Medium-High | 🟡 Medium |
 
@@ -103,38 +103,39 @@ All metrics standardized: USD for money, daily average for volume. Sources: Defi
 
 ## 2.5. Web Traffic Analysis
 
-> Sources: SimilarWeb API [A] via RapidAPI `similarweb-api1 /v1/visitsInfo` | Fetched: Feb 26, 2026 | Run ID: `hyperliquid_v33_2026-02`
+> Sources: SimilarWeb API [A] via RapidAPI `similarweb-api1 /v1/visitsInfo` | Fetched: Feb 26, 2026 | Run ID: `hyperliquid_v33_2026-02` (5 domains) + `hyperliquid_aster_fix_2026-02` (asterdex.com correction)
 > Method: Deterministic 4-step pipeline (`scripts/fetch_similarweb.py`) — Fetch Raw → Normalize → Store → Generate Table. No AI inference in data processing.
+> ⚠️ **Domain correction**: Initial run used `aster.finance` (wrong, not indexed). Corrected to `asterdex.com` (official app URL per asterdex.com).
 
-| Metric | hyperliquid.xyz | lighter.xyz | gmx.io | drift.trade | dydx.exchange | aster.finance |
+| Metric | hyperliquid.xyz | lighter.xyz | gmx.io | drift.trade | dydx.exchange | asterdex.com |
 |--------|:----------:|:----------:|:----------:|:----------:|:----------:|:----------:|
-| Monthly Visits | **3.4M** (+10.7% MoM) | **1.6M** (-25.3% MoM) | **251K** (+4.0% MoM) | **130K** (-28.2% MoM) | **42K** (+29.9% MoM) | **0** |
-| Bounce Rate | 42.8% | 37.9% | 44.3% | 39.4% | 41.9% | 0.0% |
-| Pages / Visit | 5.21 | 6.36 | 3.11 | 2.67 | 1.95 | 0.00 |
-| Avg Visit Duration | 6:57 | 7:51 | 1:57 | 1:13 | 0:11 | 0:00 |
+| Monthly Visits | **3.4M** (+10.7% MoM) | **1.6M** (-25.3% MoM) | **251K** (+4.0% MoM) | **130K** (-28.2% MoM) | **42K** (+29.9% MoM) | **1.0M** (-21.3% MoM) |
+| Bounce Rate | 42.8% | 37.9% | 44.3% | 39.4% | 41.9% | 45.5% |
+| Pages / Visit | 5.21 | 6.36 | 3.11 | 2.67 | 1.95 | 4.33 |
+| Avg Visit Duration | 6:57 | 7:51 | 1:57 | 1:13 | 0:11 | 4:55 |
 | Audience (M/F) | Unknown | Unknown | Unknown | Unknown | Unknown | Unknown |
 | Largest Age Group | Unknown | Unknown | Unknown | Unknown | Unknown | Unknown |
-| Top Country | US (15%) | KR (12%) | US (23%) | US (20%) | US (21%) | Unknown |
-| Traffic Mix (D/S/R) | Direct 77% / Search 11% / Ref 11% | Direct 73% / Search 15% / Ref 4% | Direct 65% / Search 26% / Ref 7% | Direct 56% / Search 32% / Ref 8% | Direct 43% / Search 39% / Ref 12% | Direct 0% / Search 0% / Ref 0% |
-| Social Traffic | 1.2% | 7.0% | 1.2% | 2.2% | 3.7% | 0.0% |
-| Global Rank | #17,548 | #32,774 | #169,977 | #293,782 | #757,291 | Unknown |
-| Category Rank | #38 Investing | #30 Investing | #1256 Investing | #1999 Investing | #126 Crypto Trading And Wallets | Unknown |
+| Top Country | US (15%) | KR (12%) | US (23%) | US (20%) | US (21%) | US (19%) |
+| Traffic Mix (D/S/R) | Direct 77% / Search 11% / Ref 11% | Direct 73% / Search 15% / Ref 4% | Direct 65% / Search 26% / Ref 7% | Direct 56% / Search 32% / Ref 8% | Direct 43% / Search 39% / Ref 12% | Direct 56% / Search 16% / Ref 23% |
+| Social Traffic | 1.2% | 7.0% | 1.2% | 2.2% | 3.7% | 4.8% |
+| Global Rank | #17,548 | #32,774 | #169,977 | #293,782 | #757,291 | #49,314 |
+| Category Rank | #38 Investing | #30 Investing | #1256 Investing | #1999 Investing | #126 Crypto Trading And Wallets | #157 Investing |
 
 > **Data Availability Notes:**
 > - `Audience (M/F)` and `Largest Age Group`: not returned by `/v1/visitsInfo` endpoint. Use SimilarWeb.com manually for demographics.
 > - `Traffic Mix` = Direct / Search / Referrals (paid referrals excluded from display).
 > - `MoM` = month-over-month % change vs prior month (requires >= 2 months in history).
-> - `aster.finance` returned 0 visits — domain not indexed by SimilarWeb (FM-15).
-> - Snapshot Date: 2026-01-01 (latest complete month at time of fetch).
+> - Snapshot Date: 2026-01-01 (latest complete month at time of fetch). All 6 domains indexed.
 
 **Key insights:**
 - **Hyperliquid dominates web traffic**: 3.4M/mo is **81× dYdX's** 42K and **13.5× GMX's** 251K — reflecting the massive market share gap in trading volume
-- **Lighter is the surprise #2**: 1.6M monthly visits with the **best engagement** (7:51 avg duration, 6.36 pages/visit, 37.9% bounce) — post-airdrop interest driving significant traffic despite -25.3% MoM decline
+- **Lighter leads #2 in traffic but declining**: 1.6M monthly visits with the **best engagement** (7:51 avg duration, 6.36 pages/visit, 37.9% bounce) — post-airdrop interest still driving traffic, but -25.3% MoM signals fading hype
+- **Aster is #3 at 1.0M — genuine web presence**: `asterdex.com` logs 1.0M visits/mo (corrected from initial wrong domain `aster.finance`). Strong engagement: 4:55 avg duration, 4.33 pages/visit, #157 category rank Investing. US 19% top country. However -21.3% MoM suggests post-merger attention is cooling
+- **Aster referral traffic unusually high (23%)**: vs 4-12% for peers — indicates active affiliate/referral program or heavy social link-sharing. Partnership-driven growth strategy confirmed
 - **dYdX traffic is critically low**: 42K monthly visits, but +29.9% MoM suggests a small recovery. Average visit duration of just 11 seconds indicates most visitors leave immediately
 - **Drift shows declining interest**: 130K visits with -28.2% MoM decline. Moderate engagement (1:13 duration) suggests Solana perp traders are migrating elsewhere
 - **GMX holds steady**: 251K visits with +4.0% MoM, moderate engagement. Direct traffic at 65% indicates loyal user base
-- **Aster not indexed**: aster.finance returns 0 visits in SimilarWeb. The protocol likely uses aster.trade or app subdomain not tracked by SimilarWeb
-- **Traffic ≠ volume**: Lighter (#2 traffic) has far less trading volume than Aster (#0 traffic), showing that web visits don't directly correlate with on-chain activity
+- **Traffic ≠ volume (revised)**: Aster (#3 traffic, 1.0M) has massive on-chain volume ($32B/day pk), reinforcing strong brand-to-product conversion. Lighter (#2 traffic, 1.6M) has lower volume, indicating airdrop-driven speculative visitors rather than active traders
 
 ---
 
@@ -601,7 +602,7 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 | S-41 | SimilarWeb API — gmx.io traffic | RapidAPI `similarweb-api1 /v1/visitsInfo` | Feb 26, 2026 | [A] | Live |
 | S-42 | SimilarWeb API — drift.trade traffic | RapidAPI `similarweb-api1 /v1/visitsInfo` | Feb 26, 2026 | [A] | Live |
 | S-43 | SimilarWeb API — dydx.exchange traffic | RapidAPI `similarweb-api1 /v1/visitsInfo` | Feb 26, 2026 | [A] | Live |
-| S-44 | SimilarWeb API — aster.finance traffic | RapidAPI `similarweb-api1 /v1/visitsInfo` | Feb 26, 2026 | [A] | Live (0 visits — not indexed) |
+| S-44 | SimilarWeb API — asterdex.com traffic (corrected from aster.finance) | RapidAPI `similarweb-api1 /v1/visitsInfo` run_id: `hyperliquid_aster_fix_2026-02` | Feb 26, 2026 | [A] | Live (1.0M visits) |
 | S-45 | CoinGecko API — HYPE, ASTER, DYDX, GMX, LIT, DRIFT | api.coingecko.com/api/v3/coins/markets | Feb 26, 2026 | [A] | Live |
 | S-46 | DefiLlama API — Hyperliquid TVL (bridge+HLP+spot) | api.llama.fi/protocols | Feb 26, 2026 | [A] | Live |
 | S-47 | DefiLlama API — Hyperliquid fees | api.llama.fi/summary/fees/hyperliquid-perps | Feb 26, 2026 | [A] | Live |
@@ -627,7 +628,7 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 | Whitespace | ⭐⭐⭐⭐ High | Evidence-based, actionable tickets, validated by existing proof-of-concept (RWA, Ripple Prime) |
 | Threats | ⭐⭐⭐⭐ High | Well-documented: JELLY exploit, token unlocks, revenue data all verifiable |
 | Action Items | ⭐⭐⭐ Medium-High | Strategic direction clear, some items need market validation |
-| §2.5 Web Traffic | ⭐⭐⭐⭐⭐ Highest | SimilarWeb API [A] live data for all 6 competitors (Feb 26, 2026). Full metrics: visits, bounce rate, pages/visit, duration, rank, traffic mix. Only aster.finance not indexed (FM-15). |
+| §2.5 Web Traffic | ⭐⭐⭐⭐⭐ Highest | SimilarWeb API [A] live data for all 6 competitors (Feb 26, 2026). Full metrics: visits, bounce rate, pages/visit, duration, rank, traffic mix. All 6 domains indexed. Domain corrected: asterdex.com (was aster.finance — not indexed). |
 | §2.6 Live Market Data | ⭐⭐⭐⭐⭐ Highest | CoinGecko + DefiLlama API live call Feb 26, 2026. All 6 tokens priced, all 6 protocols have TVL + 30d fees. DefiLlama authoritative for on-chain per Conflict Resolution Rule. Lighter TVL corrected: $1.78B (2 slugs). Drift fees corrected: $26.6M ann. |
 
 ### Limitations
@@ -638,7 +639,7 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 - **GMX daily volume estimates**: Based on fee extrapolation ($140K/day at ~0.05% fees ≈ $280M/day), not direct volume reporting. Actual figure may differ.
 - **Hyperliquid revenue decline**: Weekly revenue dropping 55% is a significant trend that may continue. Report metrics reflect a platform in revenue transition.
 - **Wash trading disclaimer**: All DEX volume figures industry-wide are affected by wash trading. Organic volume for all platforms is likely 30-70% of reported figures.
-- **Web traffic demographics unavailable**: SimilarWeb API does not return gender/age breakdowns (requires manual SimilarWeb Pro access). Traffic volume and engagement metrics are complete for 5 of 6 competitors. aster.finance is not indexed by SimilarWeb (FM-15).
+- **Web traffic demographics unavailable**: SimilarWeb API does not return gender/age breakdowns (requires manual SimilarWeb Pro access). Traffic volume and engagement metrics are now complete for all 6 competitors. Note: initial run used wrong domain `aster.finance` (not indexed); corrected to `asterdex.com` in supplemental run `hyperliquid_aster_fix_2026-02`.
 - **X follower counts**: Scraped from Google-indexed X profile snippets (Feb 2026). Counts are approximate and may fluctuate daily.
 
 ---

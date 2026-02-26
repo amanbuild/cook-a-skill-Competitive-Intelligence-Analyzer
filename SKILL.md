@@ -1,6 +1,6 @@
 ---
 name: competitive-intelligence
-version: "3.2"
+version: "3.3"
 description: "Analyze competitors around the user's product and produce a decision-oriented report answering: Who are we competing with? Why are they winning? Where's the whitespace? What should we do?"
 triggers:
   - "analyze my competitors"
@@ -247,6 +247,8 @@ python3 scripts/fetch_similarweb.py \
   --output  "section_2_5.md"
 ```
 
+> ⚠️ `--domains` must be **comma-separated with no spaces**: `"a.com,b.com,c.com"`. Space-separated values (`"a.com b.com"`) cause an `"unrecognized arguments"` error — the script treats each space-separated token as a positional arg.
+
 ### Metrics Extracted (9 categories)
 
 | # | Field | Source in API Response | Notes |
@@ -287,10 +289,11 @@ python3 scripts/fetch_similarweb.py \
 
 ---
 
-## Step D.5: Live Market Data 🔗 (Crypto branch only)
+## Step D.5: Live Market Data 🔗 / Ecosystem Metrics 🏢
 
-> **Skip entirely for Non-Crypto products.** For 🔗 Crypto branch: run this step after Step D, before Step E.
-> **Goal**: Enrich each competitor profile with real-time token price, market cap, TVL, protocol fees — fetched live from APIs, not from web articles.
+> **Both branches run this step** — with different methods. Execute after Step D, before Step E.
+> **🔗 Crypto**: Fetch live token price, market cap, TVL, protocol fees from CoinGecko + DefiLlama APIs.
+> **🏢 Non-Crypto**: Fetch GitHub traction, funding stage, skill/server counts, pricing, security benchmarks — see Non-Crypto subsection at end of this step.
 
 ### Universal Flow — Name → Market Data + TVL + Fees
 
@@ -365,6 +368,56 @@ Key development (30d): {1 sentence}
 - Fees = N/A if not indexed on DefiLlama fees
 - API fails → write `[API error: {slug}]` and continue
 - Do NOT fabricate. No source → "Unknown"
+- **Multi-slug TVL**: Many protocols have multiple DefiLlama slugs (e.g., `lighter` + `lighter-bridge`). Sum ALL relevant slugs → label breakdown `"Bridge $X + Pool $Y = $Z total"`. Never use only 1 slug if multiples exist.
+
+---
+
+### 🏢 Non-Crypto Branch — Ecosystem Metrics
+
+For non-crypto products, §2.6 replaces token/TVL/fees tables with developer & business ecosystem signals.
+
+**Fetch for each competitor:**
+
+| Signal | Source | How to Fetch |
+|--------|--------|-------------|
+| GitHub Stars + Forks | GitHub API [A] | `https://api.github.com/repos/{owner}/{repo}` → `stargazers_count`, `forks_count` |
+| Skill / Server Count | Official website [A] | Product homepage / "Browse" / "Explore" page |
+| Funding Stage | Crunchbase / official blog [B] | Web search `"{company} funding 2026"` |
+| Pricing Tiers | Official pricing page [A] | Free / Freemium / Paid tiers |
+| Security Benchmarks | Snyk [A] / CVE databases | Web search `"{company} security snyk 2026"` |
+| Revenue Model | Official docs [A] | Transaction fee / SaaS / Ads / None |
+| Recent 30d Developments | Web search [B] | `"{competitor}" 2026 launch update` |
+
+**Output per competitor (paste into §2.6):**
+
+```
+Skills/Servers: {count}
+GitHub Stars: {count}       | Forks: {count}
+Funding: {stage}            | Investors: {names or "Unknown"}
+Monthly Traffic: {X}/mo     (from §2.5)
+Monetization: {model}       | Pricing: {tier}
+Security: {score or "Not benchmarked"}
+Key development (30d): {1 sentence}
+```
+
+**§2.6 section header template (non-crypto):**
+
+```
+> Sources: GitHub API [A] + official websites [A] + Crunchbase [B]
+> Note: Non-crypto product. §2.6 tracks developer ecosystem metrics instead of TVL/token price.
+> Conflict Resolution: Official documentation [A] authoritative for pricing/features.
+```
+
+**Additional tables** — add as available for the domain:
+- **Security Benchmarks table** — if Snyk or equivalent data available (see SkillMarket AI report for example)
+- **Funding & Stage table** — one row per competitor; include Stage, Funding amount if known, Key Investors, Revenue Model
+- **Recent 30-Day Developments** — narrative paragraph per HIGH/MEDIUM-HIGH threat competitor
+
+**Rules (Non-Crypto):**
+- GitHub API public endpoint — no auth required for public repos
+- If repo not found → `"Unknown"` (do NOT fabricate star count)
+- Skill count = official count from website, not estimated; if unavailable → `"Unknown"`
+- Security data: only cite if from authoritative source (Snyk, CVE, official security report)
 
 ---
 
@@ -426,7 +479,7 @@ Every insight must produce "so what?":
 | 1 | **Battlefield Map** | Visual structure: direct/indirect/emerging/substitutes. Not just a list — show relationships, dynamics. | No |
 | 2 | **Standardized Comparison Matrix** | User product col 1, standardized units, 🟢🟡🔴 + text, threat levels. Include Web traffic row + X followers row. | No |
 | 2.5 | **Web Traffic Analysis** | Dedicated traffic table: rows = metrics (visits, bounce, top country, traffic mix, social, global rank, category rank), columns = competitors. **Method: Run `scripts/fetch_similarweb.py` (Step D.3) → paste output. API source = SimilarWeb RapidAPI [A].** Gender/age always "Unknown" (not in API). Mark "Unknown" if domain not indexed, don't fabricate. | No |
-| 2.6 | **Live Market Data** 🔗 | Token prices, FDV, ATH, TVL, fees 24h/7d/30d, annualized revenue, MC/TVL, MC/Rev, FDV/Rev, recent 30-day developments per competitor. Source: CoinGecko API [A] + DefiLlama API [A]. | 🔗 **Crypto only** |
+| 2.6 | **Live Market Data** 🔗 / **Ecosystem Metrics** 🏢 | 🔗 Crypto: Token prices, FDV, ATH, TVL, fees 24h/7d/30d, annualized revenue, MC/TVL, MC/Rev, FDV/Rev, recent 30d developments. Source: CoinGecko [A] + DefiLlama [A]. / 🏢 Non-Crypto: GitHub stars/forks, funding stage, skill/server counts, pricing, security benchmarks, revenue model. Source: GitHub API [A] + official docs [A] + Crunchbase [B]. | **Both branches** (different content) |
 | 3 | **Deep Dive: Positioning vs Execution** | Per competitor: Layer A (say) + Layer B (do) + multi-source evidence + strengths/weaknesses from external sources. | No |
 | 4 | **Who's Winning & Why** | Per top competitor: winning factor (distribution/product/pricing/trust/speed) + evidence. | No |
 | 5 | **Strategic Whitespace** | ≥2 actionable gaps: underserved segments, commoditized features, winnable differentiations. | No |
@@ -535,6 +588,10 @@ trade-off. If BNB/Base meme volume exceeds Solana → reassess.
 | FM-9 | .docx generation fails | Deliver .md. Notify error. |
 | FM-10 | On-chain data for non-crypto | Skip on-chain source. Don't force it. |
 | FM-11 | Only stale sources (>3mo) for metric | Try ≥2 query variations with date filter. Still stale → fallback ≤12mo + flag. No ≤12mo → "Unknown". |
+| FM-12 | DefiLlama: protocol has multiple slugs | Sum ALL relevant slugs → label breakdown `"Bridge $X + Pool $Y = $Z total"`. Never use only 1 slug if multiples exist. Verify via `/protocols` list. |
+| FM-13 | CoinGecko: multiple tokens match same name | Fetch `/simple/price` for each match → pick highest market cap. Log discarded as `"(discarded — lower MC)"`. |
+| FM-14 | SimilarWeb: snapshot date > 3 months old | Note actual snapshot date + flag ⚠️ Older. Use most recent complete month available, do not fabricate. |
+| FM-15 | SimilarWeb: domain returns 0 visits | Domain not indexed. Render as `"0"` + note `"(not indexed — FM-15)"`. Do NOT fabricate traffic estimate. |
 
 ---
 
@@ -577,9 +634,17 @@ All must be true:
 
 ### Live Market Data (🔗 Crypto only)
 - [ ] Section 2.6 present with token prices from CoinGecko API (not web-scraped)
-- [ ] TVL sourced from DefiLlama API, aggregated across all relevant sub-slugs
+- [ ] TVL sourced from DefiLlama API, aggregated across ALL relevant sub-slugs (FM-12)
 - [ ] Fees 30d + annualized revenue computed for each indexed protocol
 - [ ] MC/TVL and MC/Revenue ratios calculated where data available
 - [ ] Recent 30-day developments for HIGH/MEDIUM-HIGH threat competitors
 - [ ] API errors documented as `[API error: {slug}]`, not silently dropped
 - [ ] No-token protocols correctly marked "N/A" (not "Unknown" — different meaning)
+
+### Ecosystem Metrics (🏢 Non-Crypto only)
+- [ ] Section 2.6 present with GitHub stars, funding stage, skill/server counts
+- [ ] Security benchmarks included if Snyk or equivalent data available
+- [ ] Funding stage documented for all competitors (even if "Unknown")
+- [ ] Monetization / pricing model documented for each competitor
+- [ ] Non-crypto nature explicitly noted in §2.6 section header
+- [ ] SimilarWeb 0-visit domains noted as "(not indexed — FM-15)", not fabricated
