@@ -1,7 +1,7 @@
 # Hyperliquid — Competitive Intelligence Report
 
 > **Product**: Hyperliquid | **Industry**: 🔗 Crypto — Decentralized Perpetual Futures DEX | **Date**: February 2026
-> **Version**: v3.1 | **Language**: English
+> **Version**: v3.2 | **Language**: English
 
 ---
 
@@ -133,16 +133,16 @@ All metrics standardized: USD for money, daily average for volume. Sources: Defi
 
 > **Sources**: CoinGecko API v3 [A] | DefiLlama API [A] | WebSearch [B/C]
 > **Method**: CoinGecko `/coins/markets` for price/FDV/ATH · DefiLlama `/summary/fees/{slug}` + `/protocols` for TVL · WebSearch for 30-day developments
-> **Last fetched**: February 26, 2026 (real-time API calls)
+> **Last fetched**: February 26, 2026 (real-time API calls — SKILL.md v3.2 Step D.5 Universal Flow)
 
 ### Token & Market Overview
 
 | Metric | Hyperliquid (HYPE) | Aster (ASTER) | dYdX (DYDX) | GMX (GMX) | Lighter (LIT) | Drift (DRIFT) |
 |--------|-------------------|---------------|-------------|-----------|---------------|---------------|
-| **Price** | $28.03 | $0.703 | $0.101 | $6.90 | $1.46 | $0.085 |
-| **Market Cap** | $6.68B | $1.73B | $83.5M | $71.7M | $365.5M | $47.5M |
-| **FDV** | $26.96B | $5.50B | $97.2M | $71.7M | $1.46B | $85.5M |
-| **24h Change** | +3.34% | +0.51% | +7.29% | +5.50% | +2.13% | +1.19% |
+| **Price** | $28.04 | $0.703 | $0.101 | $6.91 | $1.47 | $0.0854 |
+| **Market Cap** | $6.685B | $1.729B | $83.1M | $71.9M | $366.2M | $47.5M |
+| **FDV** | $26.984B | $5.510B | $96.7M | $71.9M | $1.465B | $85.4M |
+| **24h Change** | +3.63% | +0.47% | +7.93% | +5.79% | +3.29% | +1.29% |
 | **ATH** | $59.30 | $2.41 | $4.52 | $91.07 | $7.86 | $2.60 |
 | **vs ATH** | 🟡 -52.7% | 🟡 -70.8% | 🔴 -97.8% | 🔴 -92.4% | 🔴 -81.4% | 🔴 -96.7% |
 
@@ -150,20 +150,20 @@ All metrics standardized: USD for money, daily average for volume. Sources: Defi
 
 | Metric | Hyperliquid | Aster | dYdX | GMX | Lighter | Drift |
 |--------|-------------|-------|------|-----|---------|-------|
-| **TVL (total)** | **$4.62B** | $993M | $173M | $261M | $891M | $540M |
-| **TVL breakdown** | Bridge $4.07B + HLP $387M + Spot $160M | Bridge $677M + asBNB $167M + USDF $148M | V4 $133M + V3 $39M | V2 $257M + V1 $3M | Bridge $891M | Trade $337M + Staked SOL $204M |
-| **Fees 24h** | $2.46M | $509K | $7.5K | $134K | $425K | $27K |
-| **Fees 7d** | $11.9M | $2.49M | $49K | $550K | $1.14M | $183K |
-| **Fees 30d** | $81.9M | $21.4M | $391K | $2.36M | $5.96M | $1.39M |
-| **Annualized Rev** | **~$983M** | ~$257M | ~$4.7M | ~$28.3M | ~$71.5M | ~$16.6M |
+| **TVL (total)** | **$4.623B** | $991M | $134M | $257M | $891M | $540M |
+| **TVL breakdown** | Bridge $4.071B + HLP $387M + Spot $166M | Bridge $676.5M + asBNB $166.6M + USDF $147.9M | V4 $133.5M | V2 $257.3M | Bridge $891.2M | Trade $336.4M + Staked SOL $203.7M |
+| **Fees 24h** | $2.461M | $593.9K | $7.5K | $134.7K | $425.4K | $27.3K |
+| **Fees 7d** | $11.914M | $2.494M | $49.1K | $550.1K | $1.139M | $183.0K |
+| **Fees 30d** | $81.92M | $21.40M | $391K | $2.36M | $5.96M | $1.39M |
+| **Annualized Rev** | **~$983.0M** | ~$256.8M | ~$4.7M | ~$28.3M | ~$71.5M | ~$16.6M |
 
 ### Derived Metrics
 
 | Metric | Hyperliquid | Aster | dYdX | GMX | Lighter | Drift |
 |--------|-------------|-------|------|-----|---------|-------|
-| **MC / TVL** | 1.45× | 1.74× | 0.48× | 0.27× | 0.41× | 0.09× |
+| **MC / TVL** | 1.45× | 1.74× | 0.62× | 0.28× | 0.41× | 0.09× |
 | **MC / Ann. Revenue** | **6.8×** | 6.7× | 17.7× | 2.5× | 5.1× | 2.9× |
-| **FDV / Ann. Revenue** | 27.4× | 21.4× | 20.7× | 2.5× | 20.4× | 5.2× |
+| **FDV / Ann. Revenue** | 27.5× | 21.5× | 20.6× | 2.5× | 20.5× | 5.1× |
 
 > 🔑 **Key valuation signals:**
 > - **GMX & Drift**: MC/TVL < 0.30× → deep discount to assets under management; market pricing in decline risk
@@ -198,11 +198,12 @@ All metrics standardized: USD for money, daily average for volume. Sources: Defi
 |--------|-------|--------|-------|
 | 24h volume (peak) | $32.4B (2nd highest perp DEX ever) | DefiLlama [A] | Feb 24, 2026 |
 | 24h volume (avg, Sep 2025) | ~$1B | Token Metrics [B] | Sep 2025 |
-| TVL | $10.4B (reported); $413M (Sep 2025 verified) | DefiLlama [A] / Messari [B] | Feb 2026 / Sep 2025 |
+| TVL (live, API) | $991M (Bridge $676.5M + asBNB $166.6M + USDF $147.9M) | DefiLlama API [A] | Feb 26, 2026 |
+| TVL (reported, likely inflated) | $10.4B (reported) | DefiLlama [A] | Feb 2026 |
 | Open interest | $18B (reported) | DefiLlama [A] | Feb 2026 |
 | Market share | ~10% of perp DEX (Sep 2025) → surging | Artemis [A] | Sep 2025 |
-| Annualized fees | $118M | CoinGecko [A] | Feb 2026 |
-| Token (ASTER) market cap | $1.71B | CoinGecko [A] | Feb 2026 |
+| Annualized fees (live) | **$256.8M** ($21.4M/30d × 12) | DefiLlama API [A] | Feb 26, 2026 |
+| Token (ASTER) market cap | $1.729B | CoinGecko API [A] | Feb 26, 2026 |
 | Cumulative volume | $408B+ (incl. APX history) | Coin Bureau [B] | 2026 |
 | Backing | YZi Labs (Binance incubator) | Official [A] | 2024 |
 
@@ -595,10 +596,10 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 | S-44 | CoinGecko API — HYPE, ASTER, DYDX, GMX, LIT, DRIFT | api.coingecko.com/api/v3/coins/markets | Feb 26, 2026 | [A] | Live |
 | S-45 | DefiLlama API — Hyperliquid TVL (bridge+HLP+spot) | api.llama.fi/protocols | Feb 26, 2026 | [A] | Live |
 | S-46 | DefiLlama API — Hyperliquid fees | api.llama.fi/summary/fees/hyperliquid | Feb 26, 2026 | [A] | Live |
-| S-47 | DefiLlama API — Aster fees + TVL | api.llama.fi/summary/fees/aster | Feb 26, 2026 | [A] | Live |
+| S-47 | DefiLlama API — Aster perps fees + TVL slugs | api.llama.fi/summary/fees/aster-perps + /tvl/aster-bridge + /tvl/aster-asbnb + /tvl/aster-usdf | Feb 26, 2026 | [A] | Live |
 | S-48 | DefiLlama API — GMX v2 fees + TVL | api.llama.fi/summary/fees/gmx-v2-perps | Feb 26, 2026 | [A] | Live |
 | S-49 | DefiLlama API — dYdX v4 fees + TVL | api.llama.fi/summary/fees/dydx-v4 | Feb 26, 2026 | [A] | Live |
-| S-50 | DefiLlama API — Lighter perps + spot fees | api.llama.fi/summary/fees/lighter-perps | Feb 26, 2026 | [A] | Live |
+| S-50 | DefiLlama API — Lighter fees + TVL | api.llama.fi/summary/fees/lighter + /tvl/lighter-bridge | Feb 26, 2026 | [A] | Live |
 | S-51 | DefiLlama API — Drift fees + TVL | api.llama.fi/summary/fees/drift-trade | Feb 26, 2026 | [A] | Live |
 | S-52 | AInvest — Aster Chain L1 March 2026 | ainvest.com | Feb 26, 2026 | [C] | Live |
 | S-53 | MEXC Blog — Aster Chain launch details | blog.mexc.com | Feb 2026 | [B] | <1 mo |
@@ -614,10 +615,12 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 | Whitespace | ⭐⭐⭐⭐ High | Evidence-based, actionable tickets, validated by existing proof-of-concept (RWA, Ripple Prime) |
 | Threats | ⭐⭐⭐⭐ High | Well-documented: JELLY exploit, token unlocks, revenue data all verifiable |
 | Action Items | ⭐⭐⭐ Medium-High | Strategic direction clear, some items need market validation |
+| §2.5 Web Traffic | ⭐⭐⭐ Medium | Hyperliquid 3.29M verified; dYdX ⚠️ 8mo old; GMX ⚠️ >12mo; Aster/Lighter/Drift not indexed. Data gap is unavoidable — SimilarWeb paywalled. |
+| §2.6 Live Market Data | ⭐⭐⭐⭐⭐ Highest | CoinGecko + DefiLlama API live call Feb 26, 2026. All 6 tokens priced, all 6 protocols have TVL, all 6 have 30d fee data. Aster fee data corrected: $256.8M ann. (vs $118M estimate). |
 
 ### Limitations
 
-- **Aster volume inflation**: Reported TVL ($10.4B) and volume ($32.4B) may be inflated by incentive programs. September 2025 verified TVL was $413M — a 25× discrepancy. Treat Aster metrics with caution.
+- **Aster TVL discrepancy**: Reported TVL ($10.4B) may include inflated/double-counted positions. Live DefiLlama API (Feb 26, 2026) shows $991M across all verified sub-slugs (Bridge + asBNB + USDF). Difference likely due to synthetic rehypothecation and incentive-driven deposits. Use $991M as conservative "real TVL."
 - **Lighter post-airdrop data**: Volume dropped significantly after Dec 30 airdrop. Current organic volume level is uncertain.
 - **Drift data aging**: Market share figure (28.4%) is from Q3 2025. Jupiter Perps has since grown significantly, likely reducing Drift's share.
 - **GMX daily volume estimates**: Based on fee extrapolation ($140K/day at ~0.05% fees ≈ $280M/day), not direct volume reporting. Actual figure may differ.
@@ -632,15 +635,19 @@ Lighter's zero-fee model is the most disruptive pricing strategy in the market. 
 
 | Dimension | Score | Justification |
 |-----------|-------|--------------|
-| Evidence Quality | 19/20 | 53 sources, 20 [A]-tier (CoinGecko+DefiLlama APIs), 24 [B]-tier, 4 [C]-tier. Live API data adds real-time token prices, TVL, and fee revenue. |
-| Comparability | 18/20 | Standardized across matrix (USD, same metrics). Minor gaps in Lighter/Drift recent volume. |
+| Evidence Quality | 19/20 | 53 sources, 20 [A]-tier (CoinGecko+DefiLlama APIs), 24 [B]-tier, 4 [C]-tier. Live API re-run Feb 26 confirms all market data current. |
+| Comparability | 18/20 | Standardized across matrix (USD, same metrics, same API fetch date). Minor gaps in Lighter/Drift recent volume. |
 | Strategic Usefulness | 19/20 | All 4 strategic questions answered with evidence. Whitespace backed by proof-of-concept (RWA, Ripple). |
-| Freshness | 16/20 | ~70% sources ≤3 months. Drift and GMX data partially older (⚠️ flagged). Blockchain Capital source >12mo (context only). |
+| Freshness | 16/20 | ~70% sources ≤3 months. Drift and GMX data partially older (⚠️ flagged). Blockchain Capital source >12mo (context only). API data is live. |
 | Actionability | 17/20 | Build tickets with timelines, watchlist with frequencies, benchmarks with targets. Institutional items need partnership execution. |
-| **Total** | **91/100** | |
+| **Total** | **89/100** | |
+
+⚠️ Freshness score limited by some older GMX/Drift metrics. Live API data (§2.6) is real-time as of Feb 26, 2026.
+
+**SKILL.md compliance**: v3.2 ✅ — Step D.5 Universal Flow executed, §2.5 Web Traffic + §2.6 Live Market Data present, HR-18 source tiers, HR-19 freshness, HR-20 rubric scores all compliant.
 
 **User override**: ___/100 — Reasoning: ___
 
 ---
 
-*Report generated: February 25, 2026 | Skill version: v3.1 | Product: Hyperliquid*
+*Report generated: February 26, 2026 | Skill version: v3.2 | Product: Hyperliquid | Live data fetched: Feb 26, 2026 (CoinGecko API + DefiLlama API)*
