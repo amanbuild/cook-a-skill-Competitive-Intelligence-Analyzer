@@ -78,11 +78,11 @@ cook-a-skill-Competitive-Intelligence-Analyzer/
 ├── scripts/                                ← Data pipeline tools (Step D.3)
 │   ├── fetch_similarweb.py                 ← SimilarWeb API fetcher (POST /v1/visitsInfo)
 │   ├── traffic.db                          ← SQLite: all SimilarWeb API run history
-│   ├── section_2_5_pumpfun.md              ← Generated §2.5 output (pump.fun v3.2)
-│   ├── section_2_5_pumpfun_v33.md          ← Generated §2.5 output (pump.fun v3.3)
-│   ├── section_2_5_hyperliquid_v33.md      ← Generated §2.5 output (Hyperliquid v3.3)
-│   ├── section_2_5_skillmarket_v33.md      ← Generated §2.5 output (SkillMarket AI v3.3)
-│   └── section_2_5_aster_fix.md            ← Generated §2.5 output (Aster domain fix)
+│   ├── section_2_5_pumpfun.md              
+│   ├── section_2_5_pumpfun_v33.md          
+│   ├── section_2_5_hyperliquid_v33.md     
+│   ├── section_2_5_skillmarket_v33.md      
+│   └── section_2_5_aster_fix.md            
 │
 └── test-results/                           ← Reports from test runs
     ├── pumpfun_Competitive_Intel_Feb2026.md        ← 🔗 Crypto · Score: 89/100
