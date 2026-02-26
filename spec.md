@@ -96,7 +96,7 @@ Sections are designed to answer strategic questions, not to collect data categor
 |---|---------|-------------------|----------|-----------|
 | 1 | **Battlefield Map** | Who are we competing with, and what's the market structure? | 🔴 Must | P6 |
 | 2 | **Standardized Comparison Matrix** | Apple-to-apple comparison on same criteria? | 🔴 Must | P2 |
-| 2.5 | **Web Traffic Analysis** | How much web presence does each competitor have? | 🔴 Must | P2, P3 |
+| 2.5 | **Web Traffic Analysis** | How much web presence does each competitor have? (API-sourced via Step D.3) | 🔴 Must | P2, P3 |
 | 2.6 | **Live Market Data** 🔗 | Real-time token price, TVL, fees, revenue — from APIs? | 🔴 Must (Crypto) | P3, P4 |
 | 3 | **Deep Dive: Positioning vs Execution** | What they say vs what they actually do? | 🔴 Must | P5, P3, P4 |
 | 4 | **Who's Winning & Why** | Who's winning — by distribution/product/pricing/trust/speed? | 🔴 Must | P1 |
@@ -166,6 +166,31 @@ Output language = input language.
 
 - **⚠️ Pitfall**: No data → "Unknown". Community bias negative → note, balance with expert + metrics
 - **⚠️ Pitfall**: On-chain only for crypto → skip if not relevant
+
+### Step D.3: Web Traffic Enrichment (SimilarWeb API) — All branches
+- **Input**: Competitor domain list from Step D
+- **Run for all branches** (Crypto and Non-Crypto). Execute after Step D, before Step D.5/E.
+- **Process**: Run `scripts/fetch_similarweb.py` for all competitor domains:
+
+  | Step | Action | Output |
+  |------|--------|--------|
+  | 1 | `POST /v1/visitsInfo` per domain | `traffic_data_raw` (immutable audit) |
+  | 2 | Normalize 9 metric categories | Deterministic — never infer/estimate |
+  | 3 | Store normalized | `traffic_metrics` table in `scripts/traffic.db` |
+  | 4 | AI generates §2.5 table | Reads `traffic_metrics` only — never `raw_json` |
+
+  ```bash
+  python3 scripts/fetch_similarweb.py \
+    --domains "comp1.com,comp2.com,comp3.com" \
+    --run-id  "reportname_YYYY-MM"
+  ```
+
+- **Available metrics**: Monthly visits + MoM%, bounce rate, pages/visit, avg duration, top country, traffic mix (Direct/Search/Referrals/Social), global rank, category rank
+- **Not available** in API: Audience gender, age groups, specific referrer domains → always `"Unknown"`
+- **Output**: `scripts/section_2_5.md` → paste into §2.5
+
+- **⚠️ Pitfall**: HTTP 403 → add `"User-Agent": "curl/8.4.0"` header (Cloudflare bypass)
+- **⚠️ Pitfall**: AI must never read `raw_json` — only `traffic_metrics` table
 
 ### Step D.5: Live Market Data 🔗 (Crypto branch only)
 - **Input**: Competitor list from Step D
@@ -276,7 +301,7 @@ Per metric type, always attempt the highest-priority source first. Fall through 
 
 | Metric Type | P1 (best) | P2 | P3 | Fallback |
 |------------|-----------|----|----|----------|
-| Traffic | SimilarWeb | Semrush | Ahrefs | "Unknown" |
+| Traffic | SimilarWeb API [A] (`scripts/fetch_similarweb.py`) | SimilarWeb.com (manual) | Semrush | "Unknown" |
 | Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
 | On-chain TVL (crypto) | DefiLlama API `/tvl/{slug}` [A] | Dune | Protocol docs | Media recap |
 | Token price / FDV | CoinGecko API v3 `/coins/markets` [A] | CoinMarketCap | Exchange data | "Unknown" |
@@ -411,8 +436,15 @@ Every report ends with a self-assessment. 5 dimensions × 20 points = 100 max.
 - [ ] Naming convention correct
 - [ ] Language matches input
 
+### Web Traffic Analysis (all branches)
+- [ ] §2.5 Web Traffic Analysis present — run `scripts/fetch_similarweb.py`, paste output
+- [ ] `run_id` documented in §2.5 Appendix (format: `reportname_YYYY-MM`)
+- [ ] `Audience (M/F)` and `Largest Age Group` shown as `"Unknown"` (not in API — do not fabricate)
+- [ ] MoM % change shown where ≥ 2 months of history available; NULL shown as blank
+- [ ] `traffic_metrics` DB is read-only for AI — raw_json never accessed during report generation
+- [ ] API errors documented in §2.5 Notes, not silently dropped
+
 ### Live Market Data (🔗 Crypto branch only)
-- [ ] §2.5 Web Traffic Analysis present — SimilarWeb/Semrush method, "Unknown" where not indexed
 - [ ] §2.6 Live Market Data present — token prices from CoinGecko API (not web-scraped)
 - [ ] TVL sourced from DefiLlama API, aggregated across all relevant sub-slugs with breakdown shown
 - [ ] Fees 30d + annualized revenue computed for each indexed protocol
@@ -441,6 +473,8 @@ Every report ends with a self-assessment. 5 dimensions × 20 points = 100 max.
 | FM-11 | **Search only returns stale sources (>3 months) for a metric** | Try ≥2 query variations with date filter. Still stale → fallback to best ≤12 month source + flag "⚠️ Older — [X] months". No ≤12 month source → write "Unknown". (P4, HR-19) |
 | FM-12 | **CoinGecko / DefiLlama API returns error or empty** | Write `[API error: {slug}]` in §2.6, note in limitations, continue with remaining protocols. Do NOT fabricate. Do NOT use web article prices as substitute for API data. |
 | FM-13 | **Reported TVL differs massively from sub-slug sum** | Flag discrepancy explicitly (e.g. "$10.4B reported vs $991M verified"). Use sub-slug sum as conservative figure. Explain likely cause (rehypothecation, double-counting, incentive inflation). |
+| FM-14 | **SimilarWeb API returns HTTP 403 / Cloudflare block** | Ensure `"User-Agent": "curl/8.4.0"` header is set in request. If still blocked, fall back to SimilarWeb.com manual lookup, mark source as [B]. |
+| FM-15 | **Domain not indexed in SimilarWeb** | Render all metrics as `"Unknown"` for that domain. Note "not indexed in SimilarWeb" in §2.5 footer. Do NOT fabricate traffic estimates. |
 
 ---
 
@@ -532,7 +566,7 @@ Keep reports dense and scannable. Avoid padding.
 |---------|-------------|--------------|
 | Battlefield Map | 300–500 words + tables + diagram | ASCII diagram preferred |
 | Comparison Matrix | Table only | No prose between rows. Include Web traffic row + X followers row. |
-| §2.5 Web Traffic Analysis | Table only + 3–5 key insight bullets | rows = metrics, columns = competitors. Mark "Unknown" if not indexed — do not fabricate. |
+| §2.5 Web Traffic Analysis | Table only + 3–5 key insight bullets | Output from `scripts/fetch_similarweb.py --run-id`. Gender/age always "Unknown" (not in API). Mark "Unknown" if domain not indexed. |
 | §2.6 Live Market Data | 3 tables (token overview, revenue/TVL, derived metrics) + recent developments table | Crypto-only. API-sourced only. Label API errors explicitly. |
 | Deep Dive (per competitor) | 400–600 words | Layer A ~100w, Layer B ~200w + table, Evidence ~100–200w, Threat ~50–100w |
 | Who's Winning (per factor) | 150–250 words | Lead with factor + evidence, end with "So what?" |

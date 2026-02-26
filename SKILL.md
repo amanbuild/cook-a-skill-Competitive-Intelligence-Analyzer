@@ -177,7 +177,7 @@ Rank by total score → deep dive top 3–5 → show scores in Battlefield Map.
 
 | Metric Type | P1 (best) | P2 | P3 | Fallback |
 |------------|-----------|----|----|----------|
-| Traffic | SimilarWeb | Semrush | Ahrefs | "Unknown" |
+| Traffic | SimilarWeb API [A] (`scripts/fetch_similarweb.py`) | SimilarWeb.com (manual) | Semrush | "Unknown" |
 | Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
 | On-chain (crypto) | DefiLlama API [A] | Dune | Protocol docs | Media recap |
 | Token price / FDV | CoinGecko API v3 [A] | CoinMarketCap | Exchange data | "Unknown" |
@@ -218,6 +218,69 @@ Rank by total score → deep dive top 3–5 → show scores in Battlefield Map.
 ```
 
 **Output**: Enriched profiles with positioning + execution layers, multi-source evidence.
+
+---
+
+## Step D.3: Web Traffic Enrichment (SimilarWeb API)
+
+> **Run for ALL branches** (Crypto and Non-Crypto). Execute after Step D, before Step D.5/E.
+> **Goal**: Fetch real-time web traffic metrics for every competitor domain via SimilarWeb API — deterministic, auditable, no hallucination.
+
+### 4-Layer Pipeline
+
+```
+Step 1  POST /v1/visitsInfo for each domain  →  traffic_data_raw   (immutable audit)
+Step 2  Normalize 9 metrics (deterministic)  →  traffic_metrics     (AI read-only)
+Step 3  Store normalized layer               →  scripts/traffic.db
+Step 4  AI reads traffic_metrics             →  §2.5 markdown table
+```
+
+### Execution Command
+
+```bash
+python3 scripts/fetch_similarweb.py \
+  --domains "competitor1.com,competitor2.com,competitor3.com" \
+  --run-id  "reportname_YYYY-MM" \
+  --output  "section_2_5.md"
+```
+
+### Metrics Extracted (9 categories)
+
+| # | Field | Source in API Response | Notes |
+|---|-------|----------------------|-------|
+| 1 | Monthly Visits (latest) | `EstimatedMonthlyVisits` max(date) | INT |
+| 2 | MoM Change % | `EstimatedMonthlyVisits` prev month | NULL if < 2 months |
+| 3 | Bounce Rate | `Engagments.BounceRate` | string → float |
+| 4 | Pages / Visit | `Engagments.PagePerVisit` | string → float |
+| 5 | Avg Visit Duration | `Engagments.TimeOnSite` | seconds → MM:SS |
+| 6 | Global Rank | `GlobalRank.Rank` | INT |
+| 7 | Top Country | `TopCountryShares[0]` | code + % share |
+| 8 | Traffic Sources | `TrafficSources` | Direct/Search/Social/Referrals |
+| 9 | Category Rank | `CategoryRank.Rank + .Category` | INT + name |
+
+> **Fields NOT available** in `/v1/visitsInfo`: Audience gender, age groups, specific referrer domains.
+> → Always render as `"Unknown"` — **never estimate or fabricate**.
+
+### API Config
+
+| Parameter | Value |
+|-----------|-------|
+| Endpoint | `POST https://similarweb-api1.p.rapidapi.com/v1/visitsInfo` |
+| Body | `{"q": "domain.com"}` |
+| Key header | `x-rapidapi-key: <SIMILARWEB_API_KEY>` |
+| Host header | `x-rapidapi-host: similarweb-api1.p.rapidapi.com` |
+| Rate limit | ~1.2s between calls |
+| Key env var | `SIMILARWEB_API_KEY` (or hardcoded in script) |
+
+### AI Report Rules (Step 4)
+
+1. AI reads ONLY `traffic_metrics` table — **never raw_json**
+2. `NULL` field → render as `"Unknown"` — **no inference**
+3. No external API calls during report generation
+4. All numbers must exist in normalized table
+5. Each `run_id` is immutable — re-run = new `run_id`
+
+**Output**: `scripts/section_2_5.md` → paste into §2.5 of report.
 
 ---
 
@@ -359,7 +422,7 @@ Every insight must produce "so what?":
 |---|---------|---------|-------------|
 | 1 | **Battlefield Map** | Visual structure: direct/indirect/emerging/substitutes. Not just a list — show relationships, dynamics. | No |
 | 2 | **Standardized Comparison Matrix** | User product col 1, standardized units, 🟢🟡🔴 + text, threat levels. Include Web traffic row + X followers row. | No |
-| 2.5 | **Web Traffic Analysis** | Dedicated traffic table: rows = metrics (visits, bounce, gender, age, top country, referrers, social), columns = competitors. Method: Google-indexed SimilarWeb/Semrush pages. Mark "Unknown" if not indexed, don't fabricate. | No |
+| 2.5 | **Web Traffic Analysis** | Dedicated traffic table: rows = metrics (visits, bounce, top country, traffic mix, social, global rank, category rank), columns = competitors. **Method: Run `scripts/fetch_similarweb.py` (Step D.3) → paste output. API source = SimilarWeb RapidAPI [A].** Gender/age always "Unknown" (not in API). Mark "Unknown" if domain not indexed, don't fabricate. | No |
 | 2.6 | **Live Market Data** 🔗 | Token prices, FDV, ATH, TVL, fees 24h/7d/30d, annualized revenue, MC/TVL, MC/Rev, FDV/Rev, recent 30-day developments per competitor. Source: CoinGecko API [A] + DefiLlama API [A]. | 🔗 **Crypto only** |
 | 3 | **Deep Dive: Positioning vs Execution** | Per competitor: Layer A (say) + Layer B (do) + multi-source evidence + strengths/weaknesses from external sources. | No |
 | 4 | **Who's Winning & Why** | Per top competitor: winning factor (distribution/product/pricing/trust/speed) + evidence. | No |
