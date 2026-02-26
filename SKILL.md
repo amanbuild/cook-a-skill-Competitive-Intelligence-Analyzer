@@ -1,6 +1,6 @@
 ---
 name: competitive-intelligence
-version: "3.1"
+version: "3.2"
 description: "Analyze competitors around the user's product and produce a decision-oriented report answering: Who are we competing with? Why are they winning? Where's the whitespace? What should we do?"
 triggers:
   - "analyze my competitors"
@@ -179,7 +179,9 @@ Rank by total score → deep dive top 3–5 → show scores in Battlefield Map.
 |------------|-----------|----|----|----------|
 | Traffic | SimilarWeb | Semrush | Ahrefs | "Unknown" |
 | Funding | Official announcement | Crunchbase | Media report | "Not publicly disclosed" |
-| On-chain (crypto) | DefiLlama | Dune | Protocol docs | Media recap |
+| On-chain (crypto) | DefiLlama API [A] | Dune | Protocol docs | Media recap |
+| Token price / FDV | CoinGecko API v3 [A] | CoinMarketCap | Exchange data | "Unknown" |
+| Protocol fees / revenue | DefiLlama `/summary/fees` [A] | Token Terminal | Media estimate | "Unknown" |
 | Reviews (non-crypto) | G2 | Capterra | TrustRadius | "No review data" |
 | Social metrics | Platform native (X, Discord) | Social Blade | Media mentions | "Unknown" |
 
@@ -216,6 +218,87 @@ Rank by total score → deep dive top 3–5 → show scores in Battlefield Map.
 ```
 
 **Output**: Enriched profiles with positioning + execution layers, multi-source evidence.
+
+---
+
+## Step D.5: Live Market Data 🔗 (Crypto branch only)
+
+> **Skip entirely for Non-Crypto products.** For 🔗 Crypto branch: run this step after Step D, before Step E.
+> **Goal**: Enrich each competitor profile with real-time token price, market cap, TVL, protocol fees — fetched live from APIs, not from web articles.
+
+### Universal Flow — Name → Market Data + TVL + Fees
+
+**For EACH competitor (including user's product), execute this flow:**
+
+#### Step 1 — Resolve CoinGecko ID
+```
+https://api.coingecko.com/api/v3/coins/list
+```
+Match order: 1) Exact name (case-insensitive) → 2) Symbol match → 3) Contains match.
+- 1 match → use that ID
+- Multiple matches → fetch `/simple/price` for each, pick highest market cap
+- No match / uncertain → `Unknown` (do NOT guess)
+
+#### Step 2 — Fetch Price + Market Cap
+```
+https://api.coingecko.com/api/v3/simple/price?ids={id}&vs_currencies=usd&include_market_cap=true&include_24hr_change=true
+```
+Extract: `usd` (price), `usd_market_cap` (MC), `usd_24h_change` (24h %)
+
+#### Step 3 — Fetch FDV + ATH
+```
+https://api.coingecko.com/api/v3/coins/markets?ids={id}&vs_currency=usd
+```
+Extract: `fully_diluted_valuation`, `ath`, `ath_change_percentage`
+
+#### Step 4 — Resolve DefiLlama Slug
+```
+https://api.llama.fi/protocols
+```
+Match by name (same logic as Step 1). Multiple matches → pick TVL > 0, then chain if known.
+No match → `TVL = N/A (not DeFi / not indexed)`
+
+#### Step 5 — Fetch TVL (aggregate all sub-slugs)
+```
+https://api.llama.fi/tvl/{slug}
+```
+Many protocols have multiple slugs (e.g., `hyperliquid-bridge`, `hyperliquid-hlp`, `hyperliquid-spot-orderbook`). Sum all relevant slugs → total TVL. Label breakdown: `Bridge $X + Pool $Y = $Z`
+
+#### Step 6 — Fetch Protocol Fees
+```
+https://api.llama.fi/summary/fees/{slug}
+```
+Extract: `total24h`, `total7d`, `total30d`. Compute: `annualized = total30d × 12`.
+
+#### Step 7 — Derived Metrics
+If both MC and TVL available: `MC/TVL = market_cap / tvl`
+If both MC and annualized revenue: `Price-to-Revenue = market_cap / annualized_revenue`
+If both FDV and annualized revenue: `FDV/Revenue = fdv / annualized_revenue`
+
+#### Step 8 — Recent Developments (30-day)
+For each HIGH / MEDIUM-HIGH threat competitor, search:
+```
+"{competitor name}" 2026 news update (last 30 days)
+```
+Extract: major product launches, token unlocks, exchange listings, exploit/incident, partnership, funding.
+
+#### Step 9 — Output per competitor
+```
+Token: {symbol}
+Price: ${X}         | Market Cap: ${X}    | FDV: ${X}
+24h: {X}%           | vs ATH: {X}%
+TVL: ${X} ({breakdown})
+Fees 24h: ${X}      | Fees 30d: ${X}      | Annualized Rev: ${X}
+MC/TVL: {X}×        | MC/Rev: {X}×        | FDV/Rev: {X}×
+Key development (30d): {1 sentence}
+```
+
+**Rules:**
+- No token → `Token = N/A` (not error)
+- TVL = N/A if not DeFi (AI tokens, L1 chains, infra)
+- Fees = N/A if not indexed on DefiLlama fees
+- API fails → write `[API error: {slug}]` and continue
+- Do NOT fabricate. No source → "Unknown"
 
 ---
 
@@ -272,17 +355,19 @@ Every insight must produce "so what?":
 
 8.5 sections, each answers a strategic question:
 
-| # | Section | Content |
-|---|---------|---------|
-| 1 | **Battlefield Map** | Visual structure: direct/indirect/emerging/substitutes. Not just a list — show relationships, dynamics. |
-| 2 | **Standardized Comparison Matrix** | User product col 1, standardized units, 🟢🟡🔴 + text, threat levels. |
-| 3 | **Deep Dive: Positioning vs Execution** | Per competitor: Layer A (say) + Layer B (do) + multi-source evidence + strengths/weaknesses from external sources. |
-| 4 | **Who's Winning & Why** | Per top competitor: winning factor (distribution/product/pricing/trust/speed) + evidence. |
-| 5 | **Strategic Whitespace** | ≥2 actionable gaps: underserved segments, commoditized features, winnable differentiations. |
-| 6 | **Threats & Risk Signals** | Threat table: severity 🔴🟡🟢 + source + mitigation. ≥1 Critical. |
-| 7 | **Action Items & Watchlist** | Build / Message / Target / Watch / Benchmark — specific enough to create tickets. |
-| 8 | **Sources, Freshness & Confidence** | All URLs + dates + tier [A]-[D] + age in months. Confidence rating per section. Limitations paragraph. |
-| 8.5 | **Self-Assessment Score** | 5 dimensions × 20 points (see below). |
+| # | Section | Content | Crypto only? |
+|---|---------|---------|-------------|
+| 1 | **Battlefield Map** | Visual structure: direct/indirect/emerging/substitutes. Not just a list — show relationships, dynamics. | No |
+| 2 | **Standardized Comparison Matrix** | User product col 1, standardized units, 🟢🟡🔴 + text, threat levels. Include Web traffic row + X followers row. | No |
+| 2.5 | **Web Traffic Analysis** | Dedicated traffic table: rows = metrics (visits, bounce, gender, age, top country, referrers, social), columns = competitors. Method: Google-indexed SimilarWeb/Semrush pages. Mark "Unknown" if not indexed, don't fabricate. | No |
+| 2.6 | **Live Market Data** 🔗 | Token prices, FDV, ATH, TVL, fees 24h/7d/30d, annualized revenue, MC/TVL, MC/Rev, FDV/Rev, recent 30-day developments per competitor. Source: CoinGecko API [A] + DefiLlama API [A]. | 🔗 **Crypto only** |
+| 3 | **Deep Dive: Positioning vs Execution** | Per competitor: Layer A (say) + Layer B (do) + multi-source evidence + strengths/weaknesses from external sources. | No |
+| 4 | **Who's Winning & Why** | Per top competitor: winning factor (distribution/product/pricing/trust/speed) + evidence. | No |
+| 5 | **Strategic Whitespace** | ≥2 actionable gaps: underserved segments, commoditized features, winnable differentiations. | No |
+| 6 | **Threats & Risk Signals** | Threat table: severity 🔴🟡🟢 + source + mitigation. ≥1 Critical. | No |
+| 7 | **Action Items & Watchlist** | Build / Message / Target / Watch / Benchmark — specific enough to create tickets. | No |
+| 8 | **Sources, Freshness & Confidence** | All URLs + dates + tier [A]-[D] + age in months. Confidence rating per section. Limitations paragraph. | No |
+| 8.5 | **Self-Assessment Score** | 5 dimensions × 20 points (see below). | No |
 
 **Output density targets:**
 
@@ -423,3 +508,12 @@ All must be true:
 - [ ] .md delivered (+ .docx if available, or error noted)
 - [ ] Naming convention correct
 - [ ] Language matches input
+
+### Live Market Data (🔗 Crypto only)
+- [ ] Section 2.6 present with token prices from CoinGecko API (not web-scraped)
+- [ ] TVL sourced from DefiLlama API, aggregated across all relevant sub-slugs
+- [ ] Fees 30d + annualized revenue computed for each indexed protocol
+- [ ] MC/TVL and MC/Revenue ratios calculated where data available
+- [ ] Recent 30-day developments for HIGH/MEDIUM-HIGH threat competitors
+- [ ] API errors documented as `[API error: {slug}]`, not silently dropped
+- [ ] No-token protocols correctly marked "N/A" (not "Unknown" — different meaning)
