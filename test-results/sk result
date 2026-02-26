@@ -1,0 +1,651 @@
+# COMPETITIVE INTELLIGENCE REPORT: AI SKILL MARKETPLACE COMPETITORS
+**Prepared for:** SkillMarket AI Product Research  
+**Date:** February 26, 2026  
+**Focus:** Six Primary Competitors + Ecosystem Analysis
+---
+## EXECUTIVE SUMMARY
+The AI skills marketplace space is rapidly maturing with six major platforms competing on ecosystem size, security posture, creator economics, and developer experience. ClawHub leads in community scale (5,705 skills) but faces critical security issues. Vercel's skills.sh emphasizes security through Snyk partnerships and has achieved rapid adoption. SkillsMP dominates by indexing breadth (96,000+ verified skills). Smithery.ai differentiates through MCP-specific focus, while monetization-first platforms like Skly.ai and SkillsLLM remain early-stage. The core pain points across all platforms are security validation, creator economics, and skill discoverability.
+---
+## COMPETITOR PROFILES
+### 1. CLAWHUB (clawhub.ai)
+**Funding Status:** Bootstrapped / Unknown  
+**Founded:** ~2024 (as part of OpenClaw ecosystem)  
+**Stage:** Growth (Large community, Security-challenged)
+#### Core Value Proposition
+"The npm for AI Agents" - centralized skill registry for OpenClaw with semantic (vector-based) search and npm-style versioning. Positioned as the distribution hub for modular agent capabilities.
+**Target ICP:** OpenClaw users, AI agent developers, automation enthusiasts
+#### Scale & Metrics
+- **Skill Count:** 5,705 community-contributed skills (as of Feb 7, 2026)
+- Earlier sources reported 3,286 skills
+- **Installation Base:** Unknown, but community-driven
+- **GitHub Stars (clawhub):** 2,842 stars | 613 forks
+- **Parent Project (OpenClaw):** 220,000+ GitHub stars
+#### Key Features
+- Full Semantic Versioning support (semver, changelogs, tags)
+- Vector/embeddings-based semantic search
+- Community ratings, stars, comments
+- Seamless CLI integration with OpenClaw
+- Markdown-based skill format for easy review/modification
+- Direct skill discovery via skills.sh telemetry integration
+#### Monetization Model
+- **Free/Open:** Skills are published free; no marketplace revenue model disclosed
+- **For OpenClaw:** Bootstrapped or VC-funded (OpenClaw's parent org unclear)
+- No creator payment/revenue-sharing mechanisms identified
+#### Differentiators
+- **Largest active community ecosystem** for OpenClaw-specific skills
+- **Vector search** for semantic skill discovery (superior to keyword search)
+- **Early-mover advantage** in agent skill standardization
+#### Security & Validation Approach
+- **CRITICAL WEAKNESS:** OpenClaw/ClawHub experienced major 2025-2026 security crisis
+  - **341 malicious skills initially discovered** (12% of registry) → Updated to 800+ (~20%)
+  - **Snyk study found:** 1,467 skills (36.82%) had security flaws; 534 (13.4%) critical-level
+  - **Confirmed malicious:** 76 malicious payloads verified
+- **High-severity CVEs in rapid succession** (Jan-Feb 2026):
+  - CVE-2026-25253: One-click RCE via token exfiltration (CVSS 8.8)
+  - CVE-2026-26322: SSRF (CVSS 7.6)
+  - CVE-2026-26319: Missing webhook authentication (CVSS 7.5)
+  - CVE-2026-26329: Path traversal
+  - 6+ new vulnerabilities revealed in Feb 2026
+- **30,000+ internet-exposed instances** identified (many without authentication)
+- **Minimal vetting:** Basic community voting, no centralized security review
+#### Creator Tools & Analytics
+- Basic community features (stars, comments)
+- Version management via Git/semver
+- Direct repo integration (Markdown files)
+- No analytics dashboard identified
+#### API/SDK Availability
+- GitHub-based: Repos serve as distribution mechanism
+- CLI-first integration via OpenClaw
+- No dedicated API documented
+#### Strengths
+1. **Large, active community** building diverse skills
+2. **Semantic search** outperforms keyword-only systems
+3. **Tight integration** with popular OpenClaw agent framework
+4. **Developer-friendly** Markdown format
+5. **Version control** built-in
+#### Weaknesses
+1. **Severe security crisis** (36-40% of skills have flaws; 20% potentially malicious)
+2. **Supply chain compromise** through ClawHavoc campaign
+3. **No centralized security validation** before publication
+4. **High false-negative rate** on malware detection
+5. **Rapid vulnerability disclosure** eroding trust
+6. **No creator economics** - free skills only, no monetization
+7. **Enterprise adoption risks** due to security posture
+#### Recent News/Updates
+- **ClawHavoc campaign (Jan-Feb 2026):** 341+ malicious skills poisoning registry
+- **Snyk ToxicSkills study (Feb 2026):** 36.82% of skills have security flaws
+- **Rapid CVE releases (Jan-Feb 2026):** 6+ vulnerabilities patched
+- **Competing on security:** Announced SecureClaw hardening tool
+**Sources:**
+- [ClawHub Official](https://claw-hub.net/)
+- [ClawHub Skills Registry Guide](https://help.apiyi.com/en/clawhub-ai-openclaw-skills-registry-guide-en.html)
+- [Snyk ToxicSkills Study](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
+- [ClawHub Security Issues Report](https://www.securityweek.com/openclaw-security-issues-continue-as-secureclaw-open-source-tool-debuts/)
+---
+### 2. SKILLS.SH (skills.sh)
+**Funding Status:** Vercel-backed (Series C+ company; skills.sh is product line)  
+**Founded:** January 2026 (public launch)  
+**Stage:** Early hypergrowth (owned/backed by Vercel)
+#### Core Value Proposition
+Open agent skills ecosystem with CLI-based installation (`npx skills add`), leaderboard ranking, and Snyk-integrated security scanning. Positioned as the "safer" alternative to ClawHub with emphasis on transparency and security signals.
+**Target ICP:** Security-conscious developers, enterprise teams evaluating agent skills, ChatGPT/Claude/Codex users
+#### Scale & Metrics
+- **Skill Count:** 50,000-62,000 indexed/verified skills (various sources report 50k-62k)
+- **Installation Growth:** 20,900 installs reported within hours of launch
+- **Adoption:** Tens of thousands of installs in first weeks (Jan 2026)
+- **GitHub Stars (vercel-labs/skills):** 6,800 stars
+- **Leadership:** Vercel executive backing with community-driven approach
+#### Key Features
+- **CLI-first design:** `npx skills add <package>` for installation
+- **Open leaderboard:** Ranked by anonymous telemetry (24-hour trending + all-time)
+- **Snyk security scanning:** Integrated malware detection with 90-100% recall on malicious skills
+- **Anonymized telemetry:** Skill name, files, timestamp only (no PII)
+- **Telemetry optout:** Environment variable to disable telemetry
+- **CI environment detection:** Auto-disables telemetry in CI
+- **GitHub integration:** Direct Git URLs, owner/repo shorthand, GitLab support
+- **SKILL.md standard:** Compatible with Claude Code, Codex, ChatGPT
+#### Monetization Model
+- **Free:** Open-source, community-driven ecosystem
+- **No creator payment model** identified or documented
+- **Vercel-funded:** Part of Vercel's product strategy (no direct revenue model)
+#### Differentiators
+- **Snyk partnership** for security scanning (only platform with this)
+- **90-100% malware detection accuracy** with 0% false positive rate
+- **Privacy-first telemetry** (no personal data collected)
+- **Rapid adoption:** 20k+ installs in first day
+- **Enterprise-ready:** Security posture appeals to large organizations
+- **Open by default:** No gatekeeping, community-driven publishing
+#### Security & Validation Approach
+- **Snyk-integrated scanning:** Checks for prompt injection, malicious code, suspicious downloads
+- **Detection accuracy:** 90-100% recall on confirmed malicious skills; 0% FP rate
+- **Behavioral analysis:** Multi-model analysis for prompt injection patterns
+- **Limitations:** Cannot guarantee zero false negatives; relies on Snyk's scanning
+- **Transparent:** Shows security results to developers
+#### Creator Tools & Analytics
+- **Leaderboard visibility** (24-hour trending + all-time installs)
+- **Installation telemetry** (aggregated, anonymized)
+- **Weekly install counts** (per skill, per agent platform breakdown)
+- No dashboard identified (telemetry visible on skill pages)
+#### API/SDK Availability
+- CLI tool: `npx skills`
+- npm package: `skills` (on npmjs.com)
+- GitHub-based distribution (any Git URL supported)
+- No documented REST API
+#### Strengths
+1. **Security-first approach** with Snyk partnership
+2. **Rapid adoption** indicating strong product-market fit
+3. **Privacy-respecting** telemetry and no PII collection
+4. **Open ecosystem** (no approval process)
+5. **Enterprise credibility** (Vercel backing)
+6. **Transparent leaderboard** ranking by actual usage
+7. **Multi-platform support** (Claude, Codex, ChatGPT, etc.)
+#### Weaknesses
+1. **No monetization for creators** (free-only model)
+2. **No curation** - relies entirely on security scanning (may miss novel attacks)
+3. **Smaller ecosystem** than ClawHub/SkillsMP (50-62k vs 270k+)
+4. **Limited creator tools** (no dashboard, limited analytics)
+5. **Dependent on Snyk** for security - single point of validation
+#### Recent News/Updates
+- **Jan 20, 2026:** Official Vercel launch announcement
+- **Jan 21, 2026:** Rapid adoption (20k+ installs in first hours)
+- **Feb 2026:** Snyk security audits published, showing ecosystem wide vulnerabilities
+- **Feb 5, 2026:** ToxicSkills research findings (Snyk)
+- **Skills Night event:** "62,000 ways agents are getting smarter" (Vercel)
+**Sources:**
+- [Vercel Skills Announcement](https://vercel.com/changelog/introducing-skills-the-open-agent-skills-ecosystem)
+- [Skills.sh Documentation](https://skills.sh/docs)
+- [Snyk Security Partnership](https://snyk.io/blog/snyk-vercel-securing-agent-skill-ecosystem/)
+- [Snyk ToxicSkills Study](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
+- [InfoQ: Vercel Skills Launch](https://www.infoq.com/news/2026/02/vercel-agent-skills/)
+---
+### 3. SKILLSMP (skillsmp.com)
+**Funding Status:** Unknown (appears bootstrapped/community-driven)  
+**Founded:** ~2025  
+**Stage:** Rapid growth (largest indexed ecosystem)
+#### Core Value Proposition
+Largest indexed marketplace for agent skills with search and categorization focus. Aggregates skills from GitHub repositories using SKILL.md standard; positions as comprehensive discovery platform across Claude, Codex, ChatGPT, and other agents.
+**Target ICP:** Developers seeking broad skill discovery, teams standardizing on SKILL.md format, cross-platform agent users
+#### Scale & Metrics
+- **Advertised skill count:** 270,000+ agent skills
+- **Verified skill count:** 96,751+ (Medium article, Jan 2026) → 87,427+ (Jan 23) → 66,541+ (various sources)
+- **Variance explanation:** Advertised figure includes all indexed GitHub repos; verified counts represent actively maintained/quality-checked skills
+- **No GitHub stats:** SkillsMP appears to be web-only (no public repo identified)
+- **Installation base:** Unknown
+#### Key Features
+- **Broad SKILL.md indexing** (Claude, Codex, ChatGPT, Gemini, etc.)
+- **Search and categorization** by domain (development, productivity, AI, etc.)
+- **Skill timeline** showing historical skill growth
+- **Category browsing** for skill discovery
+- **Standards-based:** Open SKILL.md format with Anthropic adoption
+#### Monetization Model
+- **Free:** Skill discovery and browsing
+- **No disclosed monetization** for platform or creators
+- **Appears bootstrapped**
+#### Differentiators
+- **Largest indexing breadth** (270k+ skills across GitHub)
+- **Multi-platform support** (not OpenClaw-specific like ClawHub)
+- **Professional curation** (verified skill count < advertised)
+- **Open standard adoption:** SKILL.md standard backed by Anthropic, OpenAI, Microsoft
+#### Security & Validation Approach
+- **Caveat emptor:** Explicitly recommends users audit skills before use
+- **GitHub source verification:** Skills linked to GitHub repositories
+- **No active scanning** identified (unlike skills.sh/Snyk)
+- **Community feedback** but minimal gatekeeping
+#### Creator Tools & Analytics
+- **GitHub integration:** Direct link to source repos
+- **No analytics dashboard** identified
+- **Community ratings/reviews** not visible in search results
+#### API/SDK Availability
+- Web-based UI only
+- No API documented
+#### Strengths
+1. **Largest indexed marketplace** by far (270k skills)
+2. **Multi-platform support** (not OpenClaw-locked)
+3. **Standards-based** (SKILL.md adopted by Anthropic, OpenAI)
+4. **Dedicated categorization** for discovery
+5. **Curation approach** (verified count smaller than indexed)
+#### Weaknesses
+1. **Discrepancy between advertised (270k) and verified (87-96k) skills** erodes trust
+2. **No security scanning** (unlike skills.sh)
+3. **No creator monetization** 
+4. **No creator analytics** or tools
+5. **No direct contact/attribution** to creators (indirect via GitHub)
+6. **Single point of failure** for indexing (no public repo/backup)
+#### Recent News/Updates
+- **Jan 2026:** Reported crossing 87,427+ skills
+- **Jan 2026:** 96,751+ skills reported in separate article
+- **Ongoing growth:** Skills directory expanding weekly
+- **No major announcements** beyond scale metrics
+**Sources:**
+- [SkillsMP Official](https://skillsmp.com)
+- [SkillsMP Medium Article (96,751)](https://medium.com/@julio.pessan.pessan/skillsmp-this-96-751-claude-code-skills-directory-7dec2eabc338)
+- [SkillsMP Complete Guide 2026](https://smartscope.blog/en/blog/skillsmp-marketplace-guide/)
+- [Agent Skills SKILL.md Specification](https://agentskills.io/specification)
+---
+### 4. SMITHERY.AI (smithery.ai/skills)
+**Funding Status:** Seed-funded (South Park Commons investor confirmed, undisclosed amount)  
+**Founded:** 2025  
+**Stage:** Early (Heavy VC backing, infrastructure-focused)
+#### Core Value Proposition
+Largest open marketplace of Model Context Protocol (MCP) servers enabling LLMs to access databases, search web, and integrate external services. Focused on MCP-native skills rather than SKILL.md standard; positions as infrastructure for agentic AI.
+**Target ICP:** MCP-compatible agent developers, teams building on Claude, Anthropic ecosystem integrators
+#### Scale & Metrics
+- **MCP Servers:** 200+ servers in registry (growing)
+- **GitHub Organization:** smithery-ai with 939 repositories
+- **CLI stars:** 461 stars | 67 forks
+- **SDK stars:** 296 stars | 45 forks
+- **Seed Funding:** From South Park Commons (amount undisclosed)
+- **Team:** Anirudh Kamath, Henry Mao (co-founders)
+#### Key Features
+- **MCP server registry** for discovering servers compatible with Anthropic Claude
+- **FastMCP framework** (Python) and MCP SDK (Node/TypeScript)
+- **Built-in infrastructure** for server discovery and integration
+- **Skill guides** for MCP integration and configuration
+- **Multi-language support** (Python, Node/TypeScript, Kotlin, etc.)
+- **Community contributions** enabled via GitHub
+#### Monetization Model
+- **Free registry** and infrastructure
+- **Seed-funded (not revenue-generating):** South Park Commons backing
+- **Potential future:** SaaS hosting/management (not yet launched)
+#### Differentiators
+- **MCP-focused ecosystem** (not SKILL.md)
+- **Developer tools orientation** (SDKs, frameworks, documentation)
+- **Infrastructure-first approach** (vs. marketplace-first like ClawHub)
+- **VC-backed** (more sustainable than bootstrapped alternatives)
+- **Early-mover in MCP standardization**
+#### Security & Validation Approach
+- **Minimal vetting identified:** Community contributions enabled
+- **No active scanning** mentioned (infrastructure focus)
+- **Relies on GitHub security (code review):** Servers are published via GitHub
+#### Creator Tools & Analytics
+- **Developer documentation** (MCP integration guides)
+- **Reference servers** (example implementations)
+- **CLI tools** for testing/managing servers
+- **No analytics dashboard** identified
+#### API/SDK Availability
+- **CLI:** `smithery` command-line tool
+- **Python SDK:** FastMCP framework
+- **Node/TypeScript SDK:** MCP SDK
+- **REST/GraphQL:** Not documented
+#### Strengths
+1. **MCP-native focus** (more modern/flexible than SKILL.md)
+2. **VC-backed infrastructure** (sustainable, funded for growth)
+3. **Strong developer tools** (SDKs, frameworks, documentation)
+4. **Growing MCP adoption** industry-wide (Anthropic standard)
+5. **Open contribution model** (community-driven growth)
+#### Weaknesses
+1. **Smaller ecosystem** than ClawHub/SkillsMP (200+ vs 5k-270k)
+2. **Early stage** (founded 2025, seed-stage)
+3. **No monetization** for creators (free-only)
+4. **No security scanning** visible
+5. **MCP vs. SKILL.md fragmentation** (different standards)
+6. **Limited creator visibility** (developer-heavy, not user-friendly)
+#### Recent News/Updates
+- **2025:** Founded and publicly launched
+- **2025:** South Park Commons seed investment announced
+- **2026:** Growing MCP adoption industry-wide
+- **2026:** Expanding server catalog
+**Sources:**
+- [Smithery Official](https://smithery.ai/)
+- [Smithery Funding - Tracxn](https://tracxn.com/d/companies/smithery/)
+- [Smithery Blog - WorkOS](https://workos.com/blog/smithery-ai)
+- [MCP Introduction - Anthropic](https://www.anthropic.com/news/model-context-protocol)
+- [What is MCP - modelcontextprotocol.io](https://modelcontextprotocol.io/)
+---
+### 5. SKLY.AI (skly.ai)
+**Funding Status:** Bootstrapped or early angel (undisclosed)  
+**Founded:** ~2025-2026  
+**Stage:** Early MVP / Pre-launch traction
+#### Core Value Proposition
+Monetized skill marketplace where developers can browse, share, and **sell** AI agent skills with integrated Stripe payments. Positioned as the first creator-economy-focused skills platform for Claude, Cursor, ChatGPT, and more.
+**Target ICP:** Creators monetizing AI expertise, skill developers seeking revenue share, premium skill seekers
+#### Scale & Metrics
+- **Skill count:** Unknown (early stage)
+- **Users/creators:** Unknown
+- **Hacker News:** Mentioned in discussions (HN ID 46961474)
+- **Tech stack:** Next.js, Supabase, Stripe
+- **Launch status:** Live (early traction phase)
+#### Key Features
+- **Skill marketplace** with Stripe payment integration
+- **Creator approval process** (skills reviewed before listing)
+- **Skill updates** (minor updates bypass re-approval)
+- **Dashboard access** for creators (implied)
+- **SKILL.md standard** compatibility
+- **Multi-platform support** (Claude, Cursor, ChatGPT, etc.)
+#### Monetization Model
+- **Freemium with paid skills:** Buyers pay creators for premium skills
+- **Payment processing:** Stripe integration (standard 2.2-3.2% + $0.30 per transaction)
+- **Revenue sharing:** Terms not publicly disclosed (likely 70/30 or 80/20)
+- **Creator earnings:** Implied monthly payouts via Stripe
+#### Differentiators
+- **Only monetized platform** in the competitive set (beyond Vercel/Smithery scale)
+- **Stripe integration** (credible payment processing)
+- **Approval-based curation** (quality gate vs. open-all models)
+- **Creator-first positioning** (vs. developer/enterprise focus)
+- **Early-mover in creator economics**
+#### Security & Validation Approach
+- **Approval-based vetting:** Skills reviewed before publication
+- **No third-party scanning** mentioned
+- **Manual review process** (resource-intensive but higher quality control)
+#### Creator Tools & Analytics
+- **Creator dashboard** (implied, not detailed)
+- **Payment dashboard** (via Stripe)
+- **Skill analytics** (not confirmed)
+- **Update management** (re-approval process documented)
+#### API/SDK Availability
+- Web-based only (no API documented)
+#### Strengths
+1. **First platform with creator monetization** (solves major pain point)
+2. **Legitimate payment processing** (Stripe credibility)
+3. **Approval-based curation** (higher quality than open models)
+4. **Early-stage momentum** (HN discussion, Vercel community feature)
+5. **Multi-platform compatibility** (not locked to single agent)
+#### Weaknesses
+1. **Very early stage** (minimal public info; bootstrapped/angel-funded)
+2. **Unknown skill count** (likely <1,000)
+3. **Unknown user base** (no adoption metrics)
+4. **Centralized curation** (slower growth than open models)
+5. **Limited creator visibility** (new platform, small audience)
+6. **No transparency** on revenue sharing terms
+7. **Uncertain sustainability** (no VC funding identified)
+#### Recent News/Updates
+- **2026:** Mentioned in Vercel community showcase
+- **2026:** Hacker News discussion showing early interest
+- **2026:** Featured in Stripe AI monetization resources
+**Sources:**
+- [Skly Official](https://skly.ai/)
+- [Skly Vercel Community Feature](https://community.vercel.com/t/skly-an-ai-skills-marketplace-is-built-with-next-js-and-supabase/33827)
+- [Skly on Hacker News](https://news.ycombinator.com/item?id=46961474)
+- [Skly Documentation](https://skly.ai/docs/skills)
+---
+### 6. SKILLSLLM (skillsllm.com)
+**Funding Status:** Unknown (appears bootstrapped)  
+**Founded:** ~2025  
+**Stage:** Early MVP
+#### Core Value Proposition
+Fair-code workflow automation platform with native AI capabilities, combining visual building with custom code. Described as having 400+ integrations and open-source-focused skill discovery for automation and workflow orchestration.
+**Target ICP:** Enterprise automation teams, workflow automation users, LLM-powered process automation
+#### Scale & Metrics
+- **Skill count:** Unknown (not prominently advertised)
+- **Users:** Unknown
+- **Integrations:** 400+
+- **Public presence:** Limited (less visible than competitors)
+#### Key Features
+- **Visual workflow builder** combined with code
+- **Fair-code model** (open source with commercial hosting)
+- **400+ integrations** (presumably with business apps, APIs, etc.)
+- **Self-hosted or cloud deployment** options
+- **LLM-native capabilities** for AI-driven automation
+- **Agent skills** discoverable in marketplace
+#### Monetization Model
+- **Fair-code:** Open-source core; cloud hosting as service
+- **Unknown revenue model** (no pricing page identified)
+- **Likely:** Self-hosted free, cloud hosting paid (SaaS model)
+#### Differentiators
+- **Visual workflow builder** (lower barrier to entry than code-first)
+- **Fair-code philosophy** (community + commercial balance)
+- **Workflow automation focus** (vs. agent skills focus)
+- **400+ integrations** (enables broad use cases)
+#### Security & Validation Approach
+- Not documented (workflow automation focus may have different security model)
+#### Creator Tools & Analytics
+- **Workflow sharing** (implied)
+- No dashboard/analytics details found
+#### API/SDK Availability
+- No documented API
+#### Strengths
+1. **Fair-code philosophy** appeals to open-source users
+2. **Visual builder** makes it accessible to non-coders
+3. **Broad integrations** (400+) enable many use cases
+4. **Self-hosted option** for privacy-conscious users
+5. **LLM-native** capabilities (aligned with AI trend)
+#### Weaknesses
+1. **Minimal public information** (weak marketing/positioning)
+2. **Unclear differentiation** from competitors (e.g., n8n, Zapier)
+3. **Unknown user base** (no adoption metrics)
+4. **Unknown skill ecosystem size** (if any)
+5. **Uncertain sustainability** (no VC funding, unclear monetization)
+6. **Less visibility** than competitors (hard to assess maturity)
+#### Recent News/Updates
+- Limited information available (low-profile project)
+**Sources:**
+- [SkillsLLM Official](https://skillsllm.com/)
+---
+## TECHNOLOGY STANDARDS & ECOSYSTEMS
+### SKILL.MD STANDARD
+**What it is:** Open specification for AI agent skills, now adopted by Anthropic, OpenAI, Microsoft, and others.
+**Format:** 
+- YAML frontmatter (name, description, metadata, license)
+- Markdown body (skill instructions)
+- Optional: scripts/, references/, assets/ directories
+- Supported languages: Python, Bash, JavaScript (implementation-dependent)
+**Progressive disclosure:** Skills load metadata first, full instructions only when needed (efficient context usage)
+**Adoption:**
+- **Anthropic:** Claude Code, Claude API
+- **OpenAI:** GitHub Copilot, GitHub Copilot CLI, Codex
+- **Microsoft:** GitHub Copilot in VS Code
+- **Others:** Atlassian, Figma, Cursor, GitHub
+- **Cross-platform:** VS Code, GitHub Copilot CLI, GitHub Copilot coding agent, Cursor, Windsurf, Cline, Roo Code, Aide, Augment, OpenCode
+**Advantages:**
+- Simple, human-readable format
+- Version control-friendly
+- Works with any LLM (not proprietary)
+- Scalable context management
+**Platforms using SKILL.md:** SkillsMP, Skly.ai, skills.sh, ClawHub (uses markdown variant)
+**Sources:**
+- [Agent Skills Specification](https://agentskills.io/specification)
+- [Mintlify Blog on SKILL.md](https://www.mintlify.com/blog/skill-md)
+---
+### MODEL CONTEXT PROTOCOL (MCP)
+**What it is:** Open-source framework by Anthropic (Nov 2024) for standardizing how LLMs integrate with external tools, systems, and data sources.
+**Purpose:** Solves data isolation problem - enables AI agents to plug-and-play with tools rather than requiring custom integrations for each data source.
+**Key benefits:**
+- **Standardization:** One protocol for all tool integration
+- **Scalability:** New tools don't require custom code
+- **Data access:** Agents can access on-prem databases, cloud systems, distributed tools
+- **Plug-and-play:** Server-based architecture (not embedded code)
+**Industry adoption:**
+- **Supported by:** Anthropic, OpenAI, Google DeepMind, Zed, Sourcegraph, more emerging
+- **Implementations:** 200+ MCP servers available (Smithery)
+- **Ecosystem:** Growing rapidly (new servers launched weekly)
+**Differences from SKILL.md:**
+- **SKILL.md:** Embedded instructions + optional scripts (data + code together)
+- **MCP:** External servers with defined tools/resources (decoupled architecture)
+- **Use case:** SKILL.md for agent instructions; MCP for external system integration
+- **Both can coexist:** Skills can use MCP servers as resources
+**Why it matters for skill marketplaces:**
+- Future-proofs platforms (MCP becoming industry standard)
+- Enables richer integrations (external API access vs. local execution)
+- Expands skill capabilities (web search, databases, etc.)
+**Sources:**
+- [Anthropic MCP Introduction](https://www.anthropic.com/news/model-context-protocol)
+- [What is MCP - modelcontextprotocol.io](https://modelcontextprotocol.io/)
+- [BCG: MCP for AI](https://www.bcg.com/publications/2025/put-ai-to-work-faster-using-model-context-protocol)
+---
+## PAIN POINTS & ECOSYSTEM CHALLENGES
+### Core Issues Across All Platforms
+#### 1. **Supply Chain Security Crisis**
+- **Magnitude:** 20-40% of skills contain security flaws; 1-13% confirmed malicious
+- **Attack vectors:** Prompt injection (91% of malicious samples), silent exfiltration, reverse shells, credential theft
+- **Detection gap:** Traditional security scanners miss prompt injection attacks
+- **Root cause:** Low barrier to entry → minimal vetting before publication
+- **Platforms affected:** ClawHub (hardest hit), skills.sh (mitigated with Snyk), others (unknown)
+**Impact on SkillMarket AI:**
+- Enterprise adoption blocked until security model proven
+- Regulatory pressure (data protection, IP theft)
+- Need for transparent security scanning (Snyk partnership valuable)
+**Sources:**
+- [Snyk ToxicSkills Study](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
+- [Prompt Injection Attacks - Systematic Analysis](https://arxiv.org/html/2601.17548v1)
+---
+#### 2. **Lack of Creator Economics**
+- **Problem:** Most platforms are free-only; no monetization for creators
+- **Consequence:** Low incentive for quality skills; brain drain to proprietary platforms
+- **Current state:** Only Skly.ai offers paid skills (early stage)
+- **Market gap:** Creator-first platforms (e.g., Gumroad for skills) don't exist yet
+**Impact on SkillMarket AI:**
+- Opportunity to differentiate with revenue-sharing model
+- Attract top creators from OpenClaw/GitHub
+- Enable sustainable skill development (not side projects)
+**Sources:**
+- Verified across all competitors' websites (no monetization disclosed)
+---
+#### 3. **Discoverability & Curation Challenges**
+- **Problem:** 270k+ indexed skills; 87-96k verified; which are good?
+- **Solutions attempted:**
+  - **Leaderboard ranking** (skills.sh by usage)
+  - **Search/categorization** (SkillsMP)
+  - **AI-based evaluation** (SkillHub: S-rank/A-rank by AI)
+  - **Community voting** (stars, comments)
+- **Gap:** No unified trust signal across platforms
+**Impact on SkillMarket AI:**
+- Opportunity: AI-based quality scoring (beyond SkillHub's approach)
+- Unified metadata (creator reputation, quality metrics)
+- Cross-platform reviews/ratings
+---
+#### 4. **Creator Analytics & Growth Tools**
+- **Lack of:** No platform offers comprehensive creator dashboard
+- **Available:** 
+  - skills.sh: Install counts (per-skill, per-platform)
+  - Others: Minimal analytics
+- **Needed:** Download trends, geographic data, upgrade paths, audience insights
+**Impact on SkillMarket AI:**
+- Creator retention opportunity
+- Aggregate analytics (anonymized) valuable for ecosystem health
+---
+#### 5. **Standard Fragmentation (SKILL.md vs. MCP)**
+- **Problem:** Two incompatible standards emerging
+- **SKILL.md:** Agent instructions + embedded scripts (Anthropic/OpenAI standard)
+- **MCP:** External servers for tool integration (Anthropic standard)
+- **Result:** Marketplace fragmentation; skills not portable across platforms
+**Impact on SkillMarket AI:**
+- Choose standard wisely (recommend SKILL.md for MVP, MCP support roadmap)
+- Position as multi-standard marketplace
+---
+#### 6. **Trust & Quality Control**
+- **Models:**
+  - **Open:** ClawHub, skills.sh (anyone can publish)
+  - **Curated:** Skly.ai (approval-based)
+  - **Indexed:** SkillsMP (pulls from GitHub)
+- **Tradeoff:** Open = growth but low quality; curated = slow but trustworthy
+**Impact on SkillMarket AI:**
+- Hybrid model recommended: open publishing + community review + security scanning
+- Transparent approval criteria
+---
+### Emerging Opportunities
+1. **Security as a feature** (not afterthought)
+   - Snyk partnership or in-house scanning
+   - Transparency about validation methods
+   
+2. **Creator monetization** (proven business model)
+   - Revenue-sharing platform (Skly.ai approach at scale)
+   - Subscription for premium creators
+   
+3. **AI-powered discovery** (better than search)
+   - Recommendations based on use case
+   - Skill quality scoring (automated)
+   
+4. **Enterprise governance** (B2B segment)
+   - Approval workflows
+   - Audit logging
+   - Team collaboration tools
+   
+5. **Skills as-a-service** (outsourced skill building)
+   - Commission professional developers
+   - White-label for enterprises
+---
+## ADDITIONAL NOTABLE COMPETITORS
+### SkillHub (skillhub.club)
+- **Skills:** 7,000+ AI-evaluated
+- **Differentiation:** AI evaluation on 5 dimensions (S/A ranking system)
+- **Focus:** Claude Code-specific
+- **No monetization:** Free discovery
+### MCP Market (mcpmarket.com) & Cursor Marketplace
+- **MCP servers:** 31,000+ (mcpmarket.com cross-indexes)
+- **Focus:** Infrastructure / tool integration (not skills)
+- **Cursor Marketplace:** Official Cursor AI IDE integration
+### LobeHub & MCP Servers Registry
+- **Approach:** MCP server aggregation and management UI
+- **Focus:** Developer tools and automation
+### Larger "Agent" Marketplaces (Different Segment)
+- **MuleRun:** Largest agent marketplace (pre-built autonomous agents, not reusable skills)
+- **Agent.ai:** Professional network for hiring agents
+- **Nexus:** Agent builder with 1000+ pre-built agents
+- **Kore.ai:** Enterprise agent platform (300+ pre-built agents)
+*Note: These are full-agent marketplaces, not skill/workflow marketplaces - different ICP and use case.*
+**Sources:**
+- [SkillHub Official](https://www.skillhub.club/)
+- [MCP Market](https://mcpmarket.com/)
+- [Agent Marketplaces Comparison](https://slashdot.org/software/ai-agent-marketplaces/)
+---
+## COMPETITIVE POSITIONING MATRIX
+| **Dimension** | **ClawHub** | **skills.sh** | **SkillsMP** | **Smithery** | **Skly.ai** | **SkillsLLM** |
+|---|---|---|---|---|---|---|
+| **Skill Count** | 5.7k | 50-62k | 87-96k | 200+ MCP | Unknown | Unknown |
+| **Security** | ❌ Major crisis | ✅ Snyk partnership | ⚠️ No scanning | ⚠️ Basic | ⚠️ Manual review | Unknown |
+| **Monetization** | ❌ None | ❌ None | ❌ None | ❌ None | ✅ Paid skills | ❌ Fair-code |
+| **Standard** | SKILL.md variant | SKILL.md | SKILL.md | MCP | SKILL.md | Unclear |
+| **Creator Tools** | Minimal | Leaderboard only | Basic | Documentation | Dashboard (implied) | Visual builder |
+| **Funding** | Unknown | Vercel-backed | Bootstrapped | Seed (SPC) | Bootstrapped | Bootstrapped |
+| **Stage** | Mature (damaged) | Hypergrowth | Growth | Early | MVP | Early |
+| **ICP** | OpenClaw users | Enterprises (security) | Broad developers | MCP developers | Creators | Enterprise automation |
+---
+## STRATEGIC RECOMMENDATIONS FOR SKILLMARKET AI
+### Differentiation Opportunities
+1. **Security-First + Transparency**
+   - Implement Snyk partnership (or equivalent)
+   - Publish monthly security audit reports
+   - Show detection methodology openly
+2. **Creator Monetization Model** (Primary Differentiator)
+   - Revenue sharing (60/40 or 70/30 split suggested)
+   - Subscription tiers for creators
+   - Analytics dashboard
+   - Payout dashboard (Stripe integration)
+   - **Position as:** "The only skills marketplace where creators earn"
+3. **Hybrid Curation + Open Publishing**
+   - Auto-publish via GitHub/Git
+   - Community review + flagging
+   - Snyk security scanning
+   - Creator reputation scoring
+   - Approval optional (transparency key)
+4. **Multi-Standard Support**
+   - SKILL.md for MVP (widest adoption)
+   - MCP server support roadmap
+   - Import/export between standards
+   - Position as "platform-agnostic"
+5. **Enterprise Features** (B2B upsell)
+   - Approval workflows
+   - Audit logging
+   - Team/org features
+   - Private skills
+   - RBAC (role-based access control)
+6. **AI-Powered Discovery**
+   - Recommendation engine (beyond search)
+   - Skill quality scoring (automated + community)
+   - Use case matching
+   - Creator profiling
+### Go-to-Market Strategy
+**Phase 1 (MVP):** 
+- SKILL.md standard + Snyk security
+- Free discovery + community review
+- Target: Developers moving from ClawHub (security escapes) or skills.sh (want monetization)
+**Phase 2 (Series A):** 
+- Creator monetization (60/40 split)
+- Analytics dashboard
+- Target: Professional skill developers, agencies
+**Phase 3:** 
+- Enterprise features (team approval, RBAC, audit logs)
+- MCP support
+- Target: Large enterprises (Slack, Figma, Adobe plugin-style model)
+---
+## CONCLUSION
+The AI skills marketplace space is rapidly maturing with clear market winners and losers emerging:
+- **ClawHub:** Lost market leadership due to supply chain compromise (security crisis)
+- **skills.sh:** Emerging leader (security + adoption momentum)
+- **SkillsMP:** Largest indexed ecosystem (but discoverability challenges)
+- **Smithery.ai:** Differentiated (MCP focus + VC-backed infrastructure)
+- **Skly.ai:** First-mover in monetization (too early to validate)
+- **SkillsLLM:** Unclear positioning (low visibility)
+**SkillMarket AI's opportunity:** Combine skills.sh's security rigor with Skly.ai's monetization model, add AI-powered discovery and enterprise features. Position as "secure, creator-friendly, enterprise-ready" marketplace.
+**Timeline:** Market is moving fast (skills.sh launch: Jan 2026; security crisis: Jan-Feb 2026). First-mover advantage in creator monetization + security could capture significant market share within 6 months.
+---
